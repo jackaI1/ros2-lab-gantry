@@ -1,0 +1,20 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    gantry_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+gantry_controller:
+  ros__parameters:
+    joints: [x_joint, y_joint, z_joint]
+    command_interfaces: [position]
+    state_interfaces: [position, velocity]
+    state_publish_rate: 50.0
+    action_monitor_rate: 50.0
+    constraints:
+      goal_time: 3.0
+      stopped_velocity_tolerance: 0.02
+      x_joint: {trajectory: 0.015, goal: 0.002}
+      y_joint: {trajectory: 0.015, goal: 0.002}
+      z_joint: {trajectory: 0.015, goal: 0.002}

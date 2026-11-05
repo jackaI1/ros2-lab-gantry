@@ -1,0 +1,9 @@
+/build/
+/install/
+/log/
+/logs/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+/test-results/
