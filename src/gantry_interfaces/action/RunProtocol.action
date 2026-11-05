@@ -1,0 +1,12 @@
+# A dispense-only protocol on a 96-well plate. Liquid is an event, not fluid physics.
+string[] wells
+float64 volume_ul
+---
+bool success
+uint32 completed_wells
+string message
+string log_path
+---
+string well
+string phase
+uint32 completed_wells

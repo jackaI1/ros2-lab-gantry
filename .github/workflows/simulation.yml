@@ -1,0 +1,17 @@
+name: Simulation
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  gazebo:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build ROS packages in Docker
+        run: docker build -t lab-gantry .
+      - name: Run unit and real Gazebo launch tests
+        run: docker run --name gantry-ci --rm lab-gantry /ws/tools/test.sh
+      - name: Clean up owned container on failure
+        if: always()
+        run: docker rm -f gantry-ci 2>/dev/null || true
