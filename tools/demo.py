@@ -30,7 +30,11 @@ def stop(process):
 
 def main():
     simulator = client = None
-    signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
+    def interrupted(signum, frame):
+        raise KeyboardInterrupt()
+
+    signal.signal(signal.SIGINT, interrupted)
+    signal.signal(signal.SIGTERM, interrupted)
     try:
         simulator = subprocess.Popen(['ros2', 'launch', 'gantry_control',
             'simulation.launch.py', 'log_dir:=/logs'], start_new_session=True)
@@ -44,8 +48,10 @@ def main():
         print('Demo timed out', file=sys.stderr)
         return 1
     finally:
-        stop(client)
-        stop(simulator)
+        try:
+            stop(client)
+        finally:
+            stop(simulator)
 
 
 if __name__ == '__main__':
