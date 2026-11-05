@@ -20,5 +20,5 @@
 <xacro:macro name="controlled" params="name upper initial"><joint name="${name}"><command_interface name="position"><param name="min">0</param><param name="max">${upper}</param></command_interface><state_interface name="position"><param name="initial_value">${initial}</param></state_interface><state_interface name="velocity"/></joint></xacro:macro>
 <xacro:controlled name="x_joint" upper="0.22" initial="0.02"/><xacro:controlled name="y_joint" upper="0.16" initial="0.02"/><xacro:controlled name="z_joint" upper="0.08" initial="0.01"/>
 </ros2_control>
-<gazebo><plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin"><parameters>$(arg controllers)</parameters><position_proportional_gain>10.0</position_proportional_gain></plugin></gazebo>
+<gazebo><plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin"><parameters>$(arg controllers)</parameters><position_proportional_gain>0.5</position_proportional_gain></plugin></gazebo>
 </robot>

@@ -76,4 +76,4 @@ docker run --rm --name gantry-test lab-gantry /ws/tools/test.sh
 
 The test suite builds and runs the real Gazebo model. Unit tests check plate geometry, safe move ordering, invalid inputs, and all axis limits. Launch tests bring up the full system and check a two-well run, measured motion and tracking CSVs, cancellation, overlapping goals, emergency stop, injected and position-derived limit trips, recovery, and paused-simulator feedback loss.
 
-GitHub Actions builds the Docker image and runs the same tests on Linux for pull requests and commits to `main`. I keep the container headless so the tests need neither a display nor a GPU. The image also runs on Apple Silicon through a Linux Docker engine. The detailed test count and measured tracking results are recorded in [validation](docs/validation.md).
+GitHub Actions builds the Docker image and runs the same tests on Linux for pull requests and commits to `main`. I keep the container headless so the tests need neither a display nor a GPU. The detailed test count and measured tracking results are recorded in [validation](docs/validation.md).

@@ -24,7 +24,7 @@ Only a dispense schedule is modelled. There is no aspiration, pump, tip exchange
 
 Plate coordinates are fixed, not camera-derived. X = 0.040 + 0.009(column - 1), Y = 0.035 + 0.009(row - A), in metres. Each well uses lift, travel, lower, retract. Only the travel segment changes X/Y, and that segment runs at the raised Z. Initial simulated positions are X/Y = 0.020 m and Z = 0.010 m, away from switches. This is a known simulation starting state, not a physical homing routine.
 
-The trajectory duration is at least 0.8 seconds or maximum axis displacement / 0.04 m/s. Zero endpoint velocities give smooth controller interpolation. Position commands are converted into simulator joint motion by the Gazebo plugin's proportional position behavior; this is not a tuned motor/drive model. The URDF supplies masses, inertia, collisions, damping and travel limits. Simulation tracking error should not be interpreted as expected hardware precision.
+The trajectory duration is at least 0.8 seconds or maximum axis displacement / 0.04 m/s. Zero endpoint velocities give smooth controller interpolation. Position commands are converted into simulator joint motion by the Gazebo plugin's proportional position behavior. I use a gain of 0.5 at 100 Hz, below the plugin's documented no-oscillation bound of 1. This is not a tuned motor/drive model. The URDF supplies masses, inertia, collisions, damping and travel limits. Simulation tracking error should not be interpreted as expected hardware precision.
 
 ## Fault state and cancellation
 
