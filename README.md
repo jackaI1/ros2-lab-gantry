@@ -95,7 +95,7 @@ ros2 run gantry_control pendant status
 exit
 ```
 
-The program waits for digital input 0 (a simulated on/off sensor), visits the approach and dispense points, turns digital output 1 on, retracts, then turns it off. Outputs are simulated on/off signals, not a pump or a physical controller. I can leave input 0 false to see the program wait, then change it from another terminal. Ctrl-C cancels a running program. The emergency-stop and reset commands above work in both modes, including during an input wait; faults turn all outputs off. Clearing the stop never resumes motion.
+The program waits for digital input 0 (a simulated on/off sensor), visits the approach and dispense points, turns digital output 1 on, retracts, then turns it off. Outputs are simulated on/off signals, not a pump or a physical controller. I can leave input 0 false to see the program wait, then change it from another terminal. Ctrl-C cancels a running program and leaves output values at their last programmed settings; normal cancellation does not need a fault reset. The emergency-stop and reset commands above work in both modes, including during an input wait. An emergency stop or a latched fault turns all outputs off and requires an explicit reset after I clear the input. Clearing the stop never resumes motion.
 
 Points stay in the running server until it stops. Duplicate names are rejected; `pendant delete dispense` removes a point so I can teach it again. Point offsets use the frame chosen when recording. A move can add another offset in that same frame. I keep the JSON instruction file separately so the sequence is repeatable after teaching.
 
