@@ -1,0 +1,6 @@
+# Configuration and simulated digital inputs. Motion uses RunProgram for cancellation.
+string json
+---
+bool success
+string message
+string state_json

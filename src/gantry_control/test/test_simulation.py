@@ -204,3 +204,176 @@ class TestSimulation(unittest.TestCase):
         self.assertIn('stale', result.result.message)
         self.pump(.2)
         self.assertTrue(self.service('reset_fault').success)
+
+    def pendant(self, command):
+        import json
+        from gantry_interfaces.srv import PendantCommand
+        client = self.node.create_client(PendantCommand, '/gantry/pendant/command')
+        try:
+            self.assertTrue(client.wait_for_service(timeout_sec=5))
+            response = self.wait(client.call_async(PendantCommand.Request(json=json.dumps(command))), 5)
+            return response, json.loads(response.state_json)
+        finally:
+            self.node.destroy_client(client)
+
+    def program(self, instructions, step=0):
+        import json
+        from gantry_interfaces.action import RunProgram
+        client = ActionClient(self.node, RunProgram, '/gantry/pendant/run')
+        self.addCleanup(client.destroy)
+        self.assertTrue(client.wait_for_server(timeout_sec=5))
+        return self.wait(client.send_goal_async(RunProgram.Goal(
+            instructions_json=json.dumps(instructions), step=step)), 5)
+
+    def test_07_teach_measured_frames_points_and_auto_io(self):
+        self.assertTrue(self.service('reset_fault').success)
+        self.assertTrue(self.pendant({'op':'mode', 'mode':'teach'})[0].success)
+        self.pump(.2)
+        before = self.position
+        for frame in ('joint', 'world', 'tool'):
+            goal = self.program([{'op':'jog','frame':frame,'delta':[.002,.002,.002]}])
+            self.assertTrue(goal.accepted)
+            result = self.wait(goal.get_result_async(), 10)
+            self.assertTrue(result.result.success, result.result.message)
+            self.pump(.2)
+            self.assertTrue(self.pendant({'op':'record', 'name':frame, 'frame':frame,
+                                         'offset':[.001,0,0]})[0].success)
+        # Joint: +++; world: ++-; tool: +-+. Values come from measured motion.
+        for actual, expected in zip(self.position,
+                                    (before[0]+.006, before[1]+.002, before[2]+.002)):
+            self.assertAlmostEqual(actual, expected, delta=.001)
+        instructions = [
+            {'op':'wait_di','channel':0,'value':True,'timeout':5},
+            {'op':'move','point':'joint'}, {'op':'move','point':'world'},
+            {'op':'move','point':'tool','offset':[.001,0,0]},
+            {'op':'set_do','channel':1,'value':True}]
+        # Teach runs only the selected instruction. The preceding unsatisfied wait is skipped.
+        goal = self.program(instructions, step=4)
+        self.assertTrue(self.wait(goal.get_result_async()).result.success)
+        self.assertTrue(self.pendant({'op':'status'})[1]['do'][1])
+        off = self.program([{'op':'set_do','channel':1,'value':False}])
+        self.assertTrue(self.wait(off.get_result_async()).result.success)
+        self.assertFalse(self.pendant({'op':'status'})[1]['do'][1])
+        self.pendant({'op':'mode','mode':'auto'})
+        self.assertFalse(self.program([{'op':'jog','frame':'joint','delta':[.001,0,0]}]).accepted)
+        goal = self.program(instructions)
+        self.assertTrue(goal.accepted)
+        self.pump(.2)
+        self.assertFalse(self.send().accepted)  # The plate runner shares the same motion slot.
+        self.assertFalse(self.pendant({'op':'mode','mode':'teach'})[0].success)
+        self.assertFalse(self.pendant({'op':'record','name':'race','frame':'joint'})[0].success)
+        self.pendant({'op':'di','channel':0,'value':True})
+        result = self.wait(goal.get_result_async(), 30)
+        self.assertTrue(result.result.success, result.result.message)
+        self.assertEqual(result.result.completed, 5)
+        self.pump(.2)
+        state = self.pendant({'op':'status'})[1]
+        self.assertTrue(state['do'][1], 'Auto must execute the programmed output change')
+        expected = state['points']['tool']['joint']
+        self.assertAlmostEqual(self.position[0], expected[0]+.002, delta=.001)
+        self.assertAlmostEqual(self.position[1], expected[1], delta=.001)
+        self.assertAlmostEqual(self.position[2], expected[2], delta=.001)
+
+    def test_08_pendant_estop_both_modes_and_wait_timeout(self):
+        for mode in ('teach','auto'):
+            self.assertTrue(self.pendant({'op':'mode','mode':'teach'})[0].success)
+            # Move far enough to still be moving when the stop arrives.
+            self.assertTrue(self.pendant({'op':'record','name':'stop_'+mode,
+                'frame':'joint','offset':[.03,0,0]})[0].success)
+            self.assertTrue(self.pendant({'op':'mode','mode':mode})[0].success)
+            goal = self.program([{'op':'move','point':'stop_'+mode}])
+            self.assertTrue(goal.accepted)
+            self.pump(.25)
+            self.service('emergency_stop',True)
+            result = self.wait(goal.get_result_async(), 10)
+            self.assertEqual(result.status, GoalStatus.STATUS_ABORTED)
+            self.assertIn('emergency_stop', result.result.message)
+            self.assertFalse(self.program([{'op':'move','point':'stop_'+mode}]).accepted)
+            self.assertFalse(self.service('reset_fault').success)
+            self.service('emergency_stop',False)
+            self.assertFalse(self.program([{'op':'move','point':'stop_'+mode}]).accepted)
+            self.pump(.2)
+            before = self.position
+            self.pump(.4)
+            self.assertLess(max(abs(a-b) for a,b in zip(before,self.position)), .001)
+            self.assertFalse(any(self.pendant({'op':'status'})[1]['do']))
+            self.assertTrue(self.service('reset_fault').success)
+        self.pendant({'op':'di','channel':2,'value':False})
+        goal = self.program([{'op':'wait_di','channel':2,'value':True,'timeout':.3},
+                             {'op':'set_do','channel':2,'value':True}])
+        result = self.wait(goal.get_result_async(), 5)
+        self.assertFalse(result.result.success)
+        self.assertEqual(result.result.completed,0)
+        self.assertFalse(self.pendant({'op':'status'})[1]['do'][2])
+        self.assertTrue(self.service('reset_fault').success)
+        goal = self.program([{'op':'wait_di','channel':2,'value':True,'timeout':5}])
+        self.pump(.1)
+        self.service('emergency_stop',True)
+        self.assertEqual(self.wait(goal.get_result_async(),5).status, GoalStatus.STATUS_ABORTED)
+        self.service('emergency_stop',False)
+        self.assertTrue(self.service('reset_fault').success)
+        goal = self.program([{'op':'wait_di','channel':2,'value':True,'timeout':5}])
+        self.wait(goal.cancel_goal_async())
+        self.assertEqual(self.wait(goal.get_result_async(),5).status, GoalStatus.STATUS_CANCELED)
+
+    def test_09_zone_preflight_and_malformed_commands(self):
+        # Teach a raised point above the physical fixture, then request an unsafe lower offset.
+        self.pendant({'op':'mode','mode':'teach'})
+        state = self.pendant({'op':'status'})[1]
+        p = state['position']
+        offset = [.18-p[0], .125-p[1], .01-p[2]]
+        self.assertTrue(self.pendant({'op':'record','name':'fixture','frame':'joint','offset':offset})[0].success)
+        self.pendant({'op':'mode','mode':'auto'})
+        before = self.position
+        goal = self.program([{'op':'set_do','channel':3,'value':True},
+            {'op':'move','point':'fixture','offset':[0,0,.04]}])
+        self.assertFalse(goal.accepted)
+        self.pump(.2)
+        self.assertFalse(self.pendant({'op':'status'})[1]['do'][3])
+        self.assertLess(max(abs(a-b) for a,b in zip(before,self.position)),.001)
+        for command in ({'op':'di','channel':True,'value':True}, {'op':'mode','mode':'fast'},
+                        {'op':'di','channel':0,'value':1}, {'op':'nonsense'}, []):
+            self.assertFalse(self.pendant(command)[0].success)
+
+        self.pendant({'op':'mode','mode':'teach'})
+        self.assertFalse(self.pendant({'op':'record','name':'huge','offset':[10**400,0,0]})[0].success)
+        self.assertFalse(self.program([{'op':'jog','frame':'joint','delta':[10**400,0,0]}]).accepted)
+        self.assertFalse(self.program([{'op':'wait_di','channel':0,'value':True,'timeout':10**400}]).accepted)
+        self.assertTrue(self.pendant({'op':'status'})[0].success)
+
+    def test_10_cli_interrupt_cancels_before_exiting(self):
+        import os
+        import signal
+        import subprocess
+        from ament_index_python.packages import get_package_prefix
+        self.pendant({'op':'mode','mode':'auto'})
+        self.pendant({'op':'di','channel':7,'value':False})
+        with tempfile.TemporaryDirectory(prefix='gantry-cli-') as directory:
+            path = Path(directory)/'wait.json'
+            path.write_text('[{"op":"wait_di","channel":7,"value":true,"timeout":20}]')
+            executable = Path(get_package_prefix('gantry_control'))/'lib/gantry_control/pendant'
+            with (Path(directory)/'client.log').open('w+') as output:
+                process = subprocess.Popen([str(executable),'run',str(path)],
+                    stdout=output, stderr=subprocess.STDOUT, start_new_session=True)
+                print(f'CLI test owns PID/PGID {process.pid}, start={time.time()}, no ports; cleanup=SIGINT then wait', flush=True)
+                try:
+                    deadline = time.monotonic()+10
+                    while not self.pendant({'op':'status'})[1]['busy']:
+                        self.assertIsNone(process.poll(), 'CLI exited before starting program')
+                        self.assertLess(time.monotonic(), deadline, 'CLI never started program')
+                        self.pump(.1)
+                    os.killpg(process.pid, signal.SIGINT)
+                    self.assertEqual(process.wait(timeout=10), 130)
+                    self.pump(.2)
+                    state = self.pendant({'op':'status'})[1]
+                    self.assertFalse(state['busy'])
+                    self.assertFalse(state['fault'], 'Cancellation should leave the server ready')
+                finally:
+                    if process.poll() is None:
+                        os.killpg(process.pid, signal.SIGTERM)
+                        try:
+                            process.wait(timeout=5)
+                        except subprocess.TimeoutExpired:
+                            os.killpg(process.pid, signal.SIGKILL)
+                            process.wait(timeout=5)
+                    self.assertIsNotNone(process.returncode)

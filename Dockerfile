@@ -9,6 +9,7 @@ WORKDIR /ws
 COPY src src
 RUN source /opt/ros/jazzy/setup.bash && colcon build --event-handlers console_direct+
 COPY tools /ws/tools
+COPY examples /ws/examples
 ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 ENTRYPOINT ["/ws/tools/entrypoint.sh"]
 CMD ["ros2", "launch", "gantry_control", "simulation.launch.py"]

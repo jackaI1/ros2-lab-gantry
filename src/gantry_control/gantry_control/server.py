@@ -1,6 +1,7 @@
 """Protocol action server. Wall-clock watchdogs remain live if Gazebo is paused."""
 import csv
 import math
+import json
 from pathlib import Path
 import threading
 import time
@@ -15,11 +16,15 @@ from action_msgs.msg import GoalStatus
 from builtin_interfaces.msg import Duration
 from control_msgs.action import FollowJointTrajectory
 from control_msgs.msg import JointTrajectoryControllerState
-from gantry_interfaces.action import RunProtocol
+from gantry_interfaces.action import RunProtocol, RunProgram
+from gantry_interfaces.srv import PendantCommand
 from std_msgs.msg import String
 from std_srvs.srv import SetBool, Trigger
 from trajectory_msgs.msg import JointTrajectoryPoint
 from gantry_control.protocol import JOINTS, limit_fault, validate, waypoints
+from gantry_control.pendant import Pendant, channel, check_path
+from gantry_control.trajectory import trapezoid
+from gantry_control.motion import StopBarrier, wait_acceptance
 
 
 class ProtocolServer(Node):
@@ -27,8 +32,13 @@ class ProtocolServer(Node):
         super().__init__('protocol_server')
         self.group = ReentrantCallbackGroup()
         self.lock = threading.RLock()
+        self.pendant = Pendant()
+        self.prepared = []
+        self.program_speed = .01
         self.busy = False
         self.fault = ''
+        self.stop_barrier = StopBarrier(self.lock, self.latch,
+            {GoalStatus.STATUS_SUCCEEDED, GoalStatus.STATUS_CANCELED})
         self.inputs = {'emergency_stop': False, 'limit_switch': False}
         self.position = None
         self.last_state = 0.0
@@ -50,6 +60,12 @@ class ProtocolServer(Node):
                                 callback_group=self.group)
         self.create_service(Trigger, '/gantry/reset_fault', self.reset, callback_group=self.group)
         self.create_timer(0.05, self.watchdog, callback_group=self.group)
+        self.pendant_status = self.create_publisher(String, '/gantry/pendant/state', 10)
+        self.create_service(PendantCommand, '/gantry/pendant/command', self.pendant_command,
+                            callback_group=self.group)
+        self.program_server = ActionServer(self, RunProgram, '/gantry/pendant/run',
+            execute_callback=self.execute_program, goal_callback=self.program_goal,
+            cancel_callback=lambda _: CancelResponse.ACCEPT, callback_group=self.group)
         self.server = ActionServer(self, RunProtocol, '/gantry/run_protocol',
                                    execute_callback=self.execute, goal_callback=self.goal,
                                    cancel_callback=lambda _: CancelResponse.ACCEPT,
@@ -59,6 +75,7 @@ class ProtocolServer(Node):
         with self.lock:
             if not self.fault:
                 self.fault = reason
+                self.pendant.do = [False]*8
                 self.get_logger().error(reason)
 
     def state(self, msg):
@@ -99,6 +116,7 @@ class ProtocolServer(Node):
             if self.busy and time.monotonic() - self.last_state > 1.0:
                 self.latch('controller feedback stale for 1 s')
             self.status.publish(String(data=self.fault or 'OK'))
+            self.pendant_status.publish(String(data=json.dumps(self.pendant_state())))
 
     def set_input(self, key, req, res):
         with self.lock:
@@ -111,7 +129,7 @@ class ProtocolServer(Node):
 
     def reset(self, req, res):
         with self.lock:
-            reason = (self.busy or any(self.inputs.values()) or self.position is None
+            reason = (self.busy or self.stop_barrier.pending or any(self.inputs.values()) or self.position is None
                       or time.monotonic() - self.last_state > 1.0 or limit_fault(self.position))
             res.success = not bool(reason)
             res.message = 'clear inputs, stop protocol and restore healthy feedback first' if reason else 'reset'
@@ -148,23 +166,28 @@ class ProtocolServer(Node):
                 return self.fault
         return 'canceled by client' if handle.is_cancel_requested else ''
 
-    def move(self, target, handle):
+    def move(self, target, handle, speed=.04):
         with self.lock:
             current = self.position
-        duration = max(0.8, max(abs(a-b) for a, b in zip(target, current)) / 0.04)
+        check_path(current, target)
+        reason = self.interrupted(handle)
+        if reason:
+            raise RuntimeError(reason)
+        samples = trapezoid(current, target, speed)
+        duration = samples[-1][0]
         goal = FollowJointTrajectory.Goal()
         goal.trajectory.joint_names = JOINTS
-        point = JointTrajectoryPoint(positions=list(target), velocities=[0.0]*3,
-                                     time_from_start=Duration(sec=int(duration),
-                                         nanosec=int((duration % 1)*1e9)))
-        goal.trajectory.points = [point]
+        for stamp, positions, velocities in samples:
+            nanos = round(stamp*1e9)
+            goal.trajectory.points.append(JointTrajectoryPoint(
+                positions=list(positions), velocities=list(velocities),
+                time_from_start=Duration(sec=nanos//10**9, nanosec=nanos%10**9)))
         pending = self.client.send_goal_async(goal)
         try:
-            child = self.wait(pending, 5)
-        except RuntimeError:
-            pending.add_done_callback(lambda future: future.result().cancel_goal_async()
-                                      if future.result().accepted else None)
-            self.latch('controller goal response timed out; stop unconfirmed')
+            child = wait_acceptance(pending, lambda: self.interrupted(handle))
+        except RuntimeError as exc:
+            self.stop_barrier.arm(pending)
+            self.latch(str(exc))
             raise
         if not child.accepted:
             raise RuntimeError('controller rejected trajectory')
@@ -189,6 +212,114 @@ class ProtocolServer(Node):
             raise RuntimeError('trajectory failed: ' + response.result.error_string)
         if self.interrupted(handle):
             raise RuntimeError(self.interrupted(handle))
+
+    def pendant_state(self):
+        return {'mode': self.pendant.mode, 'position': self.position,
+                'points': self.pendant.points, 'di': self.pendant.di, 'do': self.pendant.do,
+                'busy': self.busy, 'fault': self.fault,
+                'stop_unconfirmed': bool(self.stop_barrier.pending)}
+
+    def pendant_command(self, req, res):
+        with self.lock:
+            try:
+                command = json.loads(req.json)
+                if not isinstance(command, dict):
+                    raise ValueError('Command must be an object')
+                op = command.get('op')
+                if op == 'status':
+                    pass
+                elif op == 'di':
+                    index = channel(command.get('channel'))
+                    if type(command.get('value')) is not bool:
+                        raise ValueError('Digital value must be true or false')
+                    self.pendant.di[index] = command['value']
+                else:
+                    if self.busy:
+                        raise ValueError('Stop the active run before changing pendant configuration')
+                    if op == 'mode':
+                        mode = command.get('mode')
+                        if mode not in ('teach', 'auto'):
+                            raise ValueError('Mode must be teach or auto')
+                        self.pendant.mode = mode
+                    elif op == 'record':
+                        if self.pendant.mode != 'teach' or self.fault or self.position is None or time.monotonic()-self.last_state > 1:
+                            raise ValueError('Recording requires healthy idle teach mode')
+                        self.pendant.record(command.get('name'), self.position,
+                            command.get('frame', 'joint'), command.get('offset', [0,0,0]))
+                    elif op == 'delete':
+                        name = command.get('name')
+                        if not isinstance(name, str) or name not in self.pendant.points:
+                            raise ValueError('Unknown point')
+                        del self.pendant.points[name]
+                    else:
+                        raise ValueError('Unknown pendant command')
+                res.success, res.message = True, 'OK'
+            except (ValueError, TypeError) as exc:
+                res.success, res.message = False, str(exc)
+            res.state_json = json.dumps(self.pendant_state())
+            return res
+
+    def program_goal(self, request):
+        with self.lock:
+            if (self.busy or self.fault or self.position is None or
+                    time.monotonic()-self.last_state > 1 or not self.client.server_is_ready()):
+                return GoalResponse.REJECT
+            try:
+                self.prepared = self.pendant.prepare(json.loads(request.instructions_json),
+                                                      self.position, request.step)
+            except (ValueError, TypeError) as exc:
+                self.get_logger().warning(str(exc))
+                return GoalResponse.REJECT
+            self.program_speed = .01 if self.pendant.mode == 'teach' else .04
+            self.busy = True
+            return GoalResponse.ACCEPT
+
+    def execute_program(self, handle):
+        result = RunProgram.Result()
+        try:
+            for index, item in self.prepared:
+                reason = self.interrupted(handle)
+                if reason:
+                    raise RuntimeError(reason)
+                op = item['op']
+                handle.publish_feedback(RunProgram.Feedback(index=index, instruction=op))
+                if op in ('move', 'jog'):
+                    self.move(item['target'], handle, self.program_speed)
+                elif op == 'set_do':
+                    with self.lock:
+                        reason = self.interrupted(handle)
+                        if reason:
+                            raise RuntimeError(reason)
+                        self.pendant.do[item['channel']] = item['value']
+                elif op == 'wait_di':
+                    deadline = time.monotonic()+item['timeout']
+                    while True:
+                        with self.lock:
+                            reason = self.interrupted(handle)
+                            ready = self.pendant.di[item['channel']] == item['value']
+                        if reason:
+                            raise RuntimeError(reason)
+                        if ready:
+                            break
+                        if time.monotonic() > deadline:
+                            raise RuntimeError('Digital input wait timed out')
+                        time.sleep(.01)
+                result.completed += 1
+            if self.interrupted(handle):
+                raise RuntimeError(self.interrupted(handle))
+            result.success, result.message = True, 'Program complete'
+            handle.succeed()
+        except Exception as exc:
+            result.message = str(exc)
+            if handle.is_cancel_requested and not self.fault:
+                handle.canceled()
+            else:
+                self.latch(str(exc))
+                handle.abort()
+        finally:
+            with self.lock:
+                self.busy = False
+        return result
 
     def execute(self, handle):
         result = RunProtocol.Result()
