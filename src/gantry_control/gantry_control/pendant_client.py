@@ -40,7 +40,7 @@ def main():
 
     previous = {sig: signal.signal(sig, interrupt) for sig in (signal.SIGINT, signal.SIGTERM)}
     node = rclpy.create_node('pendant_client')
-    client = goal = None
+    client = goal = pending = None
 
     def wait(future, timeout):
         rclpy.spin_until_future_complete(node, future, timeout_sec=timeout)
@@ -55,10 +55,11 @@ def main():
             client = ActionClient(node, RunProgram, '/gantry/pendant/run')
             if not client.wait_for_server(timeout_sec=15):
                 raise RuntimeError('Start the simulator first')
-            goal = wait(client.send_goal_async(RunProgram.Goal(
+            pending = client.send_goal_async(RunProgram.Goal(
                 instructions_json=json.dumps(instructions), step=getattr(args,'step',0)),
                 feedback_callback=lambda msg: print(
-                    f'{msg.feedback.index}: {msg.feedback.instruction}', flush=True)), 10)
+                    f'{msg.feedback.index}: {msg.feedback.instruction}', flush=True))
+            goal = wait(pending, 10)
             if not goal.accepted:
                 raise RuntimeError('Program rejected; inspect pendant status and server output')
             future = goal.get_result_async()
@@ -80,6 +81,8 @@ def main():
             if not response.success:
                 raise RuntimeError(response.message)
     except KeyboardInterrupt:
+        if goal is None and pending is not None:
+            goal = wait(pending, 10)
         if goal is not None and goal.accepted:
             wait(goal.cancel_goal_async(), 5)
             wait(goal.get_result_async(), 8)

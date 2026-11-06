@@ -24,6 +24,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 from gantry_control.protocol import JOINTS, limit_fault, validate, waypoints
 from gantry_control.pendant import Pendant, channel, check_path
 from gantry_control.trajectory import trapezoid
+from gantry_control.motion import StopBarrier, wait_acceptance
 
 
 class ProtocolServer(Node):
@@ -36,6 +37,8 @@ class ProtocolServer(Node):
         self.program_speed = .01
         self.busy = False
         self.fault = ''
+        self.stop_barrier = StopBarrier(self.lock, self.latch,
+            {GoalStatus.STATUS_SUCCEEDED, GoalStatus.STATUS_CANCELED})
         self.inputs = {'emergency_stop': False, 'limit_switch': False}
         self.position = None
         self.last_state = 0.0
@@ -126,7 +129,7 @@ class ProtocolServer(Node):
 
     def reset(self, req, res):
         with self.lock:
-            reason = (self.busy or any(self.inputs.values()) or self.position is None
+            reason = (self.busy or self.stop_barrier.pending or any(self.inputs.values()) or self.position is None
                       or time.monotonic() - self.last_state > 1.0 or limit_fault(self.position))
             res.success = not bool(reason)
             res.message = 'clear inputs, stop protocol and restore healthy feedback first' if reason else 'reset'
@@ -181,11 +184,10 @@ class ProtocolServer(Node):
                 time_from_start=Duration(sec=nanos//10**9, nanosec=nanos%10**9)))
         pending = self.client.send_goal_async(goal)
         try:
-            child = self.wait(pending, 5)
-        except RuntimeError:
-            pending.add_done_callback(lambda future: future.result().cancel_goal_async()
-                                      if future.result().accepted else None)
-            self.latch('controller goal response timed out; stop unconfirmed')
+            child = wait_acceptance(pending, lambda: self.interrupted(handle))
+        except RuntimeError as exc:
+            self.stop_barrier.arm(pending)
+            self.latch(str(exc))
             raise
         if not child.accepted:
             raise RuntimeError('controller rejected trajectory')
@@ -214,7 +216,8 @@ class ProtocolServer(Node):
     def pendant_state(self):
         return {'mode': self.pendant.mode, 'position': self.position,
                 'points': self.pendant.points, 'di': self.pendant.di, 'do': self.pendant.do,
-                'busy': self.busy, 'fault': self.fault}
+                'busy': self.busy, 'fault': self.fault,
+                'stop_unconfirmed': bool(self.stop_barrier.pending)}
 
     def pendant_command(self, req, res):
         with self.lock:
