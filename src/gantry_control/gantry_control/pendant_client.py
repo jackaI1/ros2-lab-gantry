@@ -1,9 +1,11 @@
 """Command-line teach pendant; all motion goes through the cancellable server."""
 import argparse
 import json
+import signal
 from pathlib import Path
 import rclpy
 from rclpy.action import ActionClient
+from rclpy.signals import SignalHandlerOptions
 from gantry_interfaces.action import RunProgram
 from gantry_interfaces.srv import PendantCommand
 
@@ -30,7 +32,13 @@ def main():
     run.add_argument('file', type=Path)
     run.add_argument('--step', type=int, default=0)
     args = parser.parse_args()
-    rclpy.init()
+    # Keep ROS alive long enough to cancel and confirm the active action on Ctrl-C.
+    rclpy.init(signal_handler_options=SignalHandlerOptions.NO)
+
+    def interrupt(signum, frame):
+        raise KeyboardInterrupt()
+
+    previous = {sig: signal.signal(sig, interrupt) for sig in (signal.SIGINT, signal.SIGTERM)}
     node = rclpy.create_node('pendant_client')
     client = goal = None
 
@@ -86,3 +94,5 @@ def main():
         node.destroy_node()
         if rclpy.ok():
             rclpy.shutdown()
+        for sig, handler in previous.items():
+            signal.signal(sig, handler)

@@ -40,7 +40,7 @@ def test_raised_path_clears_fixed_tooling():
     check_path((.15,.125,.01), (.215,.125,.01))
 
 
-@pytest.mark.parametrize('bad', [[0, 0], [0, 0, math.nan], [True, 0, 0], [0, 0, '1']])
+@pytest.mark.parametrize('bad', [[0, 0], [0, 0, math.nan], [True, 0, 0], [0, 0, '1'], [10**400, 0, 0]])
 def test_invalid_vectors(bad):
     with pytest.raises(ValueError):
         delta_joint(bad, 'joint')
@@ -66,7 +66,7 @@ def test_profile_continuous_velocity_and_bounded_acceleration(end, speed):
 @pytest.mark.parametrize('program', [[{'op':'set_do','channel':0,'value':1}],
     [{'op':'wait_di','channel':8,'value':True,'timeout':1}],
     [{'op':'wait_di','channel':0,'value':True,'timeout':0}],
-    [{'op':'move','point':'missing'}], [{'op':'unknown'}], [],
+    [{'op':'move','point':'missing'}], [{'op':'unknown'}], [{'op':'wait_di','channel':0,'value':True,'timeout':10**400}], [],
     [{'op':'jog','frame':'world','delta':[0,0,.001]}]])
 def test_program_preflight_rejects_bad_instructions(program):
     p = Pendant()

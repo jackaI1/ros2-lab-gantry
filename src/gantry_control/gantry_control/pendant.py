@@ -13,8 +13,8 @@ TOOLING = ((.164, .104, .024), (.206, .146, .0795))
 
 def vector(value):
     if (not isinstance(value, (list, tuple)) or len(value) != 3 or
-            any(type(v) not in (int, float) or not math.isfinite(v) for v in value)):
-        raise ValueError('Expected three finite numbers in metres')
+            any(type(v) not in (int, float) or abs(v) > 1 or not math.isfinite(v) for v in value)):
+        raise ValueError('Expected three finite numbers within +/-1 metre')
     return tuple(value)
 
 
@@ -113,7 +113,7 @@ class Pendant:
                     raise ValueError('Digital value must be true or false')
                 if op == 'wait_di':
                     timeout = item.get('timeout')
-                    if type(timeout) not in (int,float) or not math.isfinite(timeout) or not 0 < timeout <= 300:
+                    if type(timeout) not in (int,float) or not 0 < timeout <= 300 or not math.isfinite(timeout):
                         raise ValueError('Input wait needs a timeout above 0 and at most 300 seconds')
             else:
                 raise ValueError('Unknown instruction')

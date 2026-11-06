@@ -272,9 +272,11 @@ class TestSimulation(unittest.TestCase):
 
     def test_08_pendant_estop_both_modes_and_wait_timeout(self):
         for mode in ('teach','auto'):
-            self.pendant({'op':'mode','mode':mode})
+            self.assertTrue(self.pendant({'op':'mode','mode':'teach'})[0].success)
             # Move far enough to still be moving when the stop arrives.
-            self.pendant({'op':'record','name':'stop_'+mode,'frame':'joint','offset':[.03,0,0]})
+            self.assertTrue(self.pendant({'op':'record','name':'stop_'+mode,
+                'frame':'joint','offset':[.03,0,0]})[0].success)
+            self.assertTrue(self.pendant({'op':'mode','mode':mode})[0].success)
             goal = self.program([{'op':'move','point':'stop_'+mode}])
             self.assertTrue(goal.accepted)
             self.pump(.25)
@@ -328,3 +330,46 @@ class TestSimulation(unittest.TestCase):
         for command in ({'op':'di','channel':True,'value':True}, {'op':'mode','mode':'fast'},
                         {'op':'di','channel':0,'value':1}, {'op':'nonsense'}, []):
             self.assertFalse(self.pendant(command)[0].success)
+
+        self.pendant({'op':'mode','mode':'teach'})
+        self.assertFalse(self.pendant({'op':'record','name':'huge','offset':[10**400,0,0]})[0].success)
+        self.assertFalse(self.program([{'op':'jog','frame':'joint','delta':[10**400,0,0]}]).accepted)
+        self.assertFalse(self.program([{'op':'wait_di','channel':0,'value':True,'timeout':10**400}]).accepted)
+        self.assertTrue(self.pendant({'op':'status'})[0].success)
+
+    def test_10_cli_interrupt_cancels_before_exiting(self):
+        import os
+        import signal
+        import subprocess
+        from ament_index_python.packages import get_package_prefix
+        self.pendant({'op':'mode','mode':'auto'})
+        self.pendant({'op':'di','channel':7,'value':False})
+        with tempfile.TemporaryDirectory(prefix='gantry-cli-') as directory:
+            path = Path(directory)/'wait.json'
+            path.write_text('[{"op":"wait_di","channel":7,"value":true,"timeout":20}]')
+            executable = Path(get_package_prefix('gantry_control'))/'lib/gantry_control/pendant'
+            with (Path(directory)/'client.log').open('w+') as output:
+                process = subprocess.Popen([str(executable),'run',str(path)],
+                    stdout=output, stderr=subprocess.STDOUT, start_new_session=True)
+                print(f'CLI test owns PID/PGID {process.pid}, start={time.time()}, no ports; cleanup=SIGINT then wait', flush=True)
+                try:
+                    deadline = time.monotonic()+10
+                    while not self.pendant({'op':'status'})[1]['busy']:
+                        self.assertIsNone(process.poll(), 'CLI exited before starting program')
+                        self.assertLess(time.monotonic(), deadline, 'CLI never started program')
+                        self.pump(.1)
+                    os.killpg(process.pid, signal.SIGINT)
+                    self.assertEqual(process.wait(timeout=10), 130)
+                    self.pump(.2)
+                    state = self.pendant({'op':'status'})[1]
+                    self.assertFalse(state['busy'])
+                    self.assertFalse(state['fault'], 'Cancellation should leave the server ready')
+                finally:
+                    if process.poll() is None:
+                        os.killpg(process.pid, signal.SIGTERM)
+                        try:
+                            process.wait(timeout=5)
+                        except subprocess.TimeoutExpired:
+                            os.killpg(process.pid, signal.SIGKILL)
+                            process.wait(timeout=5)
+                    self.assertIsNotNone(process.returncode)
