@@ -1,0 +1,10 @@
+# JSON instructions; teach executes step only, auto executes the whole list.
+string instructions_json
+uint32 step
+---
+bool success
+uint32 completed
+string message
+---
+uint32 index
+string instruction

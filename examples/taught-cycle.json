@@ -1,0 +1,8 @@
+[
+  {"op": "wait_di", "channel": 0, "value": true, "timeout": 30},
+  {"op": "move", "point": "approach"},
+  {"op": "move", "point": "dispense", "offset": [0.001, 0, 0]},
+  {"op": "set_do", "channel": 1, "value": true},
+  {"op": "move", "point": "approach"},
+  {"op": "set_do", "channel": 1, "value": false}
+]

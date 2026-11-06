@@ -24,7 +24,7 @@ Only a dispense schedule is modelled. There is no aspiration, pump, tip exchange
 
 Plate coordinates are fixed, not camera-derived. X = 0.040 + 0.009(column - 1), Y = 0.035 + 0.009(row - A), in metres. Each well uses lift, travel, lower, retract. Only the travel segment changes X/Y, and that segment runs at the raised Z. Initial simulated positions are X/Y = 0.020 m and Z = 0.010 m, away from switches. This is a known simulation starting state, not a physical homing routine.
 
-The trajectory duration is at least 0.8 seconds or maximum axis displacement / 0.04 m/s. Zero endpoint velocities give smooth controller interpolation. Position commands are converted into simulator joint motion by the Gazebo plugin's proportional position behavior. I use a gain of 0.5 at 100 Hz, below the plugin's documented no-oscillation bound of 1. This is not a tuned motor/drive model. The URDF supplies masses, inertia, collisions, damping and travel limits. Simulation tracking error should not be interpreted as expected hardware precision.
+The shared trajectory planner uses a synchronized trapezoidal velocity profile with 0.04 m/s maximum axis speed and 0.08 m/s² acceleration. Teach mode limits speed to 0.01 m/s. Short moves are triangular. Position and velocity knots at zero, acceleration end, cruise end and arrival let the controller reproduce each quadratic or linear position segment through cubic interpolation, with continuous velocity. Acceleration changes at the phase boundaries; jerk is not limited. Position commands are converted into simulator joint motion by the Gazebo plugin's proportional position behavior. I use a gain of 0.5 at 100 Hz, below the plugin's documented no-oscillation bound of 1. This is not a tuned motor/drive model. The URDF supplies masses, inertia, collisions, damping and travel limits. Simulation tracking error should not be interpreted as expected hardware precision.
 
 ## Fault state and cancellation
 
@@ -43,3 +43,7 @@ The controller publishes the interpolated position reference and measured positi
 ## Dependencies
 
 The container uses ROS 2 Jazzy on Ubuntu 24.04 and its supported Gazebo Harmonic pairing. I followed the [Gazebo control integration documentation](https://control.ros.org/jazzy/doc/gz_ros2_control/doc/index.html) and the [trajectory controller interface](https://control.ros.org/jazzy/doc/ros2_controllers/joint_trajectory_controller/doc/userdoc.html). Package versions come from the ROS apt repository when the image is built, so the image is not a bit-for-bit locked environment.
+
+## Pendant programs
+
+The [pendant reference](pendant.md) describes the frames, program preflight, simulated I/O, mode handling and fixed tooling geometry. The original plate action and the pendant action share the same server lock, busy reservation, watchdog, fault latch and cancellable controller move function. No second controller client is created for the pendant.
