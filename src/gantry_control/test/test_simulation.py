@@ -251,6 +251,9 @@ class TestSimulation(unittest.TestCase):
         goal = self.program(instructions, step=4)
         self.assertTrue(self.wait(goal.get_result_async()).result.success)
         self.assertTrue(self.pendant({'op':'status'})[1]['do'][1])
+        off = self.program([{'op':'set_do','channel':1,'value':False}])
+        self.assertTrue(self.wait(off.get_result_async()).result.success)
+        self.assertFalse(self.pendant({'op':'status'})[1]['do'][1])
         self.pendant({'op':'mode','mode':'auto'})
         self.assertFalse(self.program([{'op':'jog','frame':'joint','delta':[.001,0,0]}]).accepted)
         goal = self.program(instructions)
@@ -265,6 +268,7 @@ class TestSimulation(unittest.TestCase):
         self.assertEqual(result.result.completed, 5)
         self.pump(.2)
         state = self.pendant({'op':'status'})[1]
+        self.assertTrue(state['do'][1], 'Auto must execute the programmed output change')
         expected = state['points']['tool']['joint']
         self.assertAlmostEqual(self.position[0], expected[0]+.002, delta=.001)
         self.assertAlmostEqual(self.position[1], expected[1], delta=.001)
