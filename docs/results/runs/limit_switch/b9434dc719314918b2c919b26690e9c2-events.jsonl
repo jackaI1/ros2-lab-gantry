@@ -1,0 +1,3 @@
+{"kind": "input", "sim_time_s": 44.039, "elapsed_s": 0.45816097599998784, "name": "limit_switch", "value": true}
+{"kind": "fault", "sim_time_s": 44.039, "elapsed_s": 0.45824866999998903, "reason": "limit_switch", "well": "H12", "phase": "travel"}
+{"kind": "result", "sim_time_s": 44.079, "elapsed_s": 0.4899695530000088, "success": false, "message": "limit_switch"}

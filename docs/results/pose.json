@@ -1,0 +1,2029 @@
+{
+  "dataset": "Blender CPU renders; no real-camera validation",
+  "metric": "ADD: mean corresponding model-point distance after estimated vs true pose",
+  "success_threshold_m": 0.02,
+  "comparison": {
+    "narrow": {
+      "train_count": 512,
+      "heldout_count": 128,
+      "epochs": 80,
+      "training_seed": 23,
+      "loss_history": [
+        0.3641713345423341,
+        0.35487636364996433,
+        0.34317255206406116,
+        0.3385250326246023,
+        0.3364599086344242,
+        0.3361907470971346,
+        0.3358152536675334,
+        0.3337821774184704,
+        0.3311536945402622,
+        0.32889517676085234,
+        0.3240660084411502,
+        0.31776651553809643,
+        0.3081639688462019,
+        0.2828145925886929,
+        0.25103144999593496,
+        0.22170382644981146,
+        0.17930162511765957,
+        0.16063533001579344,
+        0.15722095454111695,
+        0.11904510902240872,
+        0.09769207634963095,
+        0.0886162897804752,
+        0.07945068250410259,
+        0.07703016558662057,
+        0.08233029174152762,
+        0.06363320129457861,
+        0.05709690821822733,
+        0.05512348876800388,
+        0.04887501703342423,
+        0.04750473808962852,
+        0.043436928594019264,
+        0.04594116657972336,
+        0.0463665101560764,
+        0.039072422427125275,
+        0.03629062155960128,
+        0.035398530191741884,
+        0.032715422566980124,
+        0.03731310792500153,
+        0.03461194451665506,
+        0.03279958164785057,
+        0.03320387226995081,
+        0.029186532832682133,
+        0.02837767021264881,
+        0.0323659751447849,
+        0.027548412239411846,
+        0.02602149249287322,
+        0.022554250608664006,
+        0.022856525261886418,
+        0.022039671544916928,
+        0.02248744893586263,
+        0.02402510162210092,
+        0.02072804415365681,
+        0.019194107415387407,
+        0.020793320902157575,
+        0.020076901419088244,
+        0.019425109989242628,
+        0.018549046973930672,
+        0.01824121698155068,
+        0.016551008622627705,
+        0.016671972145559266,
+        0.016753163799876347,
+        0.016090898163383827,
+        0.01611858088290319,
+        0.01567397644976154,
+        0.016445003275293857,
+        0.015599614329403266,
+        0.01402555376989767,
+        0.01402780701755546,
+        0.013781574874883518,
+        0.013325126055860892,
+        0.013614613533718511,
+        0.012570807244628668,
+        0.012677990889642388,
+        0.011764387803850695,
+        0.011825713576399721,
+        0.011027439482859336,
+        0.011206034701899625,
+        0.01068253579433076,
+        0.010045103350421414,
+        0.01080961486150045
+      ],
+      "mean_add_m": 0.07415689601019529,
+      "success_rate": 0.0625,
+      "by_condition": {
+        "lighting:bright": {
+          "count": 64,
+          "mean_add_m": 0.04585357793135031,
+          "failure_rate": 0.875
+        },
+        "lighting:dark": {
+          "count": 64,
+          "mean_add_m": 0.1024602140890403,
+          "failure_rate": 1.0
+        },
+        "occlusion:high": {
+          "count": 43,
+          "mean_add_m": 0.08242677678104884,
+          "failure_rate": 1.0
+        },
+        "occlusion:none": {
+          "count": 85,
+          "mean_add_m": 0.06997330926729292,
+          "failure_rate": 0.9058823529411765
+        }
+      },
+      "trials": [
+        {
+          "seed": 30000,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.10377857867125803,
+          "success": false
+        },
+        {
+          "seed": 30001,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.040769588280063315,
+          "success": false
+        },
+        {
+          "seed": 30002,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08048046759479091,
+          "success": false
+        },
+        {
+          "seed": 30003,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.04560265049920055,
+          "success": false
+        },
+        {
+          "seed": 30004,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08029599042623514,
+          "success": false
+        },
+        {
+          "seed": 30005,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.040829578858532216,
+          "success": false
+        },
+        {
+          "seed": 30006,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.09159004830114809,
+          "success": false
+        },
+        {
+          "seed": 30007,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.07882099777089359,
+          "success": false
+        },
+        {
+          "seed": 30008,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.09476281376918509,
+          "success": false
+        },
+        {
+          "seed": 30009,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.05215608409431057,
+          "success": false
+        },
+        {
+          "seed": 30010,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.10688030587597885,
+          "success": false
+        },
+        {
+          "seed": 30011,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.04058498593681094,
+          "success": false
+        },
+        {
+          "seed": 30012,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.10463151155690587,
+          "success": false
+        },
+        {
+          "seed": 30013,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.024667956984014146,
+          "success": false
+        },
+        {
+          "seed": 30014,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.1271387477877999,
+          "success": false
+        },
+        {
+          "seed": 30015,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.08487041147020007,
+          "success": false
+        },
+        {
+          "seed": 30016,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.12568092178510618,
+          "success": false
+        },
+        {
+          "seed": 30017,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.07724614718553242,
+          "success": false
+        },
+        {
+          "seed": 30018,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.11328098803643301,
+          "success": false
+        },
+        {
+          "seed": 30019,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.026263165862078063,
+          "success": false
+        },
+        {
+          "seed": 30020,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08536029000770232,
+          "success": false
+        },
+        {
+          "seed": 30021,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.05167764339513783,
+          "success": false
+        },
+        {
+          "seed": 30022,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.09037265649247898,
+          "success": false
+        },
+        {
+          "seed": 30023,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.05317123014900529,
+          "success": false
+        },
+        {
+          "seed": 30024,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.0792833524535933,
+          "success": false
+        },
+        {
+          "seed": 30025,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.04011395009148497,
+          "success": false
+        },
+        {
+          "seed": 30026,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.09929156288755266,
+          "success": false
+        },
+        {
+          "seed": 30027,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.024894160641639042,
+          "success": false
+        },
+        {
+          "seed": 30028,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.09749890214254617,
+          "success": false
+        },
+        {
+          "seed": 30029,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.033477760483299666,
+          "success": false
+        },
+        {
+          "seed": 30030,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.1297492836339326,
+          "success": false
+        },
+        {
+          "seed": 30031,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.06313104009114304,
+          "success": false
+        },
+        {
+          "seed": 30032,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.10447861188736388,
+          "success": false
+        },
+        {
+          "seed": 30033,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.028438362957244077,
+          "success": false
+        },
+        {
+          "seed": 30034,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.12021705205931577,
+          "success": false
+        },
+        {
+          "seed": 30035,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.035109716107982955,
+          "success": false
+        },
+        {
+          "seed": 30036,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.12763150521488184,
+          "success": false
+        },
+        {
+          "seed": 30037,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.02170567526424686,
+          "success": false
+        },
+        {
+          "seed": 30038,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.12130246115962713,
+          "success": false
+        },
+        {
+          "seed": 30039,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.08080221768458393,
+          "success": false
+        },
+        {
+          "seed": 30040,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08772577630045986,
+          "success": false
+        },
+        {
+          "seed": 30041,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.02484766153390342,
+          "success": false
+        },
+        {
+          "seed": 30042,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.11616625192213452,
+          "success": false
+        },
+        {
+          "seed": 30043,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.035430457575219676,
+          "success": false
+        },
+        {
+          "seed": 30044,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.13535343077227951,
+          "success": false
+        },
+        {
+          "seed": 30045,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.045414059066746705,
+          "success": false
+        },
+        {
+          "seed": 30046,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.07575737047800568,
+          "success": false
+        },
+        {
+          "seed": 30047,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.028901095670766062,
+          "success": false
+        },
+        {
+          "seed": 30048,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.10193459243256542,
+          "success": false
+        },
+        {
+          "seed": 30049,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.055737217414817165,
+          "success": false
+        },
+        {
+          "seed": 30050,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08303714057917604,
+          "success": false
+        },
+        {
+          "seed": 30051,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.07721897013644415,
+          "success": false
+        },
+        {
+          "seed": 30052,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.10065003251382824,
+          "success": false
+        },
+        {
+          "seed": 30053,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.017272489016993558,
+          "success": true
+        },
+        {
+          "seed": 30054,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.10825207373064136,
+          "success": false
+        },
+        {
+          "seed": 30055,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.0156457184471128,
+          "success": true
+        },
+        {
+          "seed": 30056,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.09328212360982817,
+          "success": false
+        },
+        {
+          "seed": 30057,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.046846936578410714,
+          "success": false
+        },
+        {
+          "seed": 30058,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08312850247426783,
+          "success": false
+        },
+        {
+          "seed": 30059,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.06870115286380443,
+          "success": false
+        },
+        {
+          "seed": 30060,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.0818980524453268,
+          "success": false
+        },
+        {
+          "seed": 30061,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.01354595042766657,
+          "success": true
+        },
+        {
+          "seed": 30062,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.13221229283738653,
+          "success": false
+        },
+        {
+          "seed": 30063,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.08286472555206428,
+          "success": false
+        },
+        {
+          "seed": 30064,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08773761364559125,
+          "success": false
+        },
+        {
+          "seed": 30065,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.02585484899824591,
+          "success": false
+        },
+        {
+          "seed": 30066,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.09528587504789301,
+          "success": false
+        },
+        {
+          "seed": 30067,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.029616046706003946,
+          "success": false
+        },
+        {
+          "seed": 30068,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.09660998306611565,
+          "success": false
+        },
+        {
+          "seed": 30069,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.046525237433602123,
+          "success": false
+        },
+        {
+          "seed": 30070,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.11677670372843818,
+          "success": false
+        },
+        {
+          "seed": 30071,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.013379495750932991,
+          "success": true
+        },
+        {
+          "seed": 30072,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.10595085905988404,
+          "success": false
+        },
+        {
+          "seed": 30073,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.0660243455057111,
+          "success": false
+        },
+        {
+          "seed": 30074,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08895876145502746,
+          "success": false
+        },
+        {
+          "seed": 30075,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.04757624534617891,
+          "success": false
+        },
+        {
+          "seed": 30076,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.0850620472564888,
+          "success": false
+        },
+        {
+          "seed": 30077,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.01656997831203781,
+          "success": true
+        },
+        {
+          "seed": 30078,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.08240670832427964,
+          "success": false
+        },
+        {
+          "seed": 30079,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.016810570427858287,
+          "success": true
+        },
+        {
+          "seed": 30080,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.10150626954468704,
+          "success": false
+        },
+        {
+          "seed": 30081,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.06573620862403426,
+          "success": false
+        },
+        {
+          "seed": 30082,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.10511819367433932,
+          "success": false
+        },
+        {
+          "seed": 30083,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.07444563642652358,
+          "success": false
+        },
+        {
+          "seed": 30084,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.1333341005387003,
+          "success": false
+        },
+        {
+          "seed": 30085,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.027538054696689962,
+          "success": false
+        },
+        {
+          "seed": 30086,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.1388727818528022,
+          "success": false
+        },
+        {
+          "seed": 30087,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.06372945544359475,
+          "success": false
+        },
+        {
+          "seed": 30088,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08136625036617853,
+          "success": false
+        },
+        {
+          "seed": 30089,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.06901887448556579,
+          "success": false
+        },
+        {
+          "seed": 30090,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.055772262048134125,
+          "success": false
+        },
+        {
+          "seed": 30091,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.08449644901480455,
+          "success": false
+        },
+        {
+          "seed": 30092,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.10465522062346859,
+          "success": false
+        },
+        {
+          "seed": 30093,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.0709719897968698,
+          "success": false
+        },
+        {
+          "seed": 30094,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.10490225778925297,
+          "success": false
+        },
+        {
+          "seed": 30095,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.025233694697728116,
+          "success": false
+        },
+        {
+          "seed": 30096,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.096355510532467,
+          "success": false
+        },
+        {
+          "seed": 30097,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.029095565080371387,
+          "success": false
+        },
+        {
+          "seed": 30098,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08958920424338593,
+          "success": false
+        },
+        {
+          "seed": 30099,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.08290500388034254,
+          "success": false
+        },
+        {
+          "seed": 30100,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.09211612330844612,
+          "success": false
+        },
+        {
+          "seed": 30101,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.020229134869200617,
+          "success": false
+        },
+        {
+          "seed": 30102,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.08552293557610686,
+          "success": false
+        },
+        {
+          "seed": 30103,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.029489694841947977,
+          "success": false
+        },
+        {
+          "seed": 30104,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.12368514386801607,
+          "success": false
+        },
+        {
+          "seed": 30105,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.06838283984363017,
+          "success": false
+        },
+        {
+          "seed": 30106,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08519589972874515,
+          "success": false
+        },
+        {
+          "seed": 30107,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.010622355955954422,
+          "success": true
+        },
+        {
+          "seed": 30108,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.13583105218230218,
+          "success": false
+        },
+        {
+          "seed": 30109,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.038851003732831124,
+          "success": false
+        },
+        {
+          "seed": 30110,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.08465170218919013,
+          "success": false
+        },
+        {
+          "seed": 30111,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.04283458578472759,
+          "success": false
+        },
+        {
+          "seed": 30112,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.10440483645134464,
+          "success": false
+        },
+        {
+          "seed": 30113,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.07902682115116158,
+          "success": false
+        },
+        {
+          "seed": 30114,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.10429314841901789,
+          "success": false
+        },
+        {
+          "seed": 30115,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.022735044004738032,
+          "success": false
+        },
+        {
+          "seed": 30116,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.11746476713045047,
+          "success": false
+        },
+        {
+          "seed": 30117,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.08688667918828663,
+          "success": false
+        },
+        {
+          "seed": 30118,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.1084536509600392,
+          "success": false
+        },
+        {
+          "seed": 30119,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.018195890237335064,
+          "success": true
+        },
+        {
+          "seed": 30120,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.14866685174193922,
+          "success": false
+        },
+        {
+          "seed": 30121,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.06147070950310164,
+          "success": false
+        },
+        {
+          "seed": 30122,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.12725204866085776,
+          "success": false
+        },
+        {
+          "seed": 30123,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.02257227531918397,
+          "success": false
+        },
+        {
+          "seed": 30124,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.06272212986613114,
+          "success": false
+        },
+        {
+          "seed": 30125,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.08423654818203288,
+          "success": false
+        },
+        {
+          "seed": 30126,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.1238291169791224,
+          "success": false
+        },
+        {
+          "seed": 30127,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.03680794627383921,
+          "success": false
+        }
+      ]
+    },
+    "wide": {
+      "train_count": 512,
+      "heldout_count": 128,
+      "epochs": 80,
+      "training_seed": 23,
+      "loss_history": [
+        0.3658043844625354,
+        0.36281342431902885,
+        0.36302725691348314,
+        0.3641949240118265,
+        0.3620681678876281,
+        0.3595574926584959,
+        0.34983877558261156,
+        0.3417543787509203,
+        0.33794076554477215,
+        0.3366351621225476,
+        0.3329638075083494,
+        0.3310792502015829,
+        0.33273864910006523,
+        0.3294950369745493,
+        0.32513661682605743,
+        0.3222128516063094,
+        0.316809325478971,
+        0.31584087666124105,
+        0.3126330995000899,
+        0.30394634138792753,
+        0.2927331910468638,
+        0.2818084009923041,
+        0.27574863750487566,
+        0.2715933700092137,
+        0.25766838155686855,
+        0.24465158162638545,
+        0.23904698202386498,
+        0.2264462555758655,
+        0.21967896725982428,
+        0.2124326191842556,
+        0.20281681837514043,
+        0.19001607014797628,
+        0.18459766451269388,
+        0.1744336928240955,
+        0.17227791133336723,
+        0.16379633895121515,
+        0.15648365300148726,
+        0.15509367920458317,
+        0.14581189001910388,
+        0.13372116652317345,
+        0.12353135761804879,
+        0.1240176681894809,
+        0.11932389554567635,
+        0.11089187359903008,
+        0.10770092555321753,
+        0.10478428809437901,
+        0.09954321978148073,
+        0.0964016963262111,
+        0.0945144984871149,
+        0.09069017879664898,
+        0.0904478250304237,
+        0.08397706155665219,
+        0.08236547710839659,
+        0.08226112090051174,
+        0.07853416900616139,
+        0.08639728324487805,
+        0.07910244155209512,
+        0.07393926254007965,
+        0.06935297010932118,
+        0.0643376240041107,
+        0.06136060121934861,
+        0.062429951736703515,
+        0.05955025681760162,
+        0.05935159313958138,
+        0.05744188046082854,
+        0.055456777568906546,
+        0.05320792063139379,
+        0.052305688848719,
+        0.05280058644711971,
+        0.05141501792240888,
+        0.0489865445997566,
+        0.04589577787555754,
+        0.045202926790807396,
+        0.043691896949894726,
+        0.042535988497547805,
+        0.043900211923755705,
+        0.04256481095217168,
+        0.04001519602024928,
+        0.03920967469457537,
+        0.0387964240508154
+      ],
+      "mean_add_m": 0.03106825503584882,
+      "success_rate": 0.4296875,
+      "by_condition": {
+        "lighting:bright": {
+          "count": 64,
+          "mean_add_m": 0.028558060488914412,
+          "failure_rate": 0.484375
+        },
+        "lighting:dark": {
+          "count": 64,
+          "mean_add_m": 0.033578449582783235,
+          "failure_rate": 0.65625
+        },
+        "occlusion:high": {
+          "count": 43,
+          "mean_add_m": 0.04411405418719554,
+          "failure_rate": 0.7441860465116279
+        },
+        "occlusion:none": {
+          "count": 85,
+          "mean_add_m": 0.024468615465167542,
+          "failure_rate": 0.4823529411764706
+        }
+      },
+      "trials": [
+        {
+          "seed": 30000,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.08380183987743044,
+          "success": false
+        },
+        {
+          "seed": 30001,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.026441975115513033,
+          "success": false
+        },
+        {
+          "seed": 30002,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.004641284549940436,
+          "success": true
+        },
+        {
+          "seed": 30003,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.01903483143382608,
+          "success": true
+        },
+        {
+          "seed": 30004,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.011844527616737842,
+          "success": true
+        },
+        {
+          "seed": 30005,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.01730926641305382,
+          "success": true
+        },
+        {
+          "seed": 30006,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.07428615335290076,
+          "success": false
+        },
+        {
+          "seed": 30007,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.0505475864147672,
+          "success": false
+        },
+        {
+          "seed": 30008,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.07255013623821753,
+          "success": false
+        },
+        {
+          "seed": 30009,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.03542121979041583,
+          "success": false
+        },
+        {
+          "seed": 30010,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.010823890269245483,
+          "success": true
+        },
+        {
+          "seed": 30011,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.005483157126996853,
+          "success": true
+        },
+        {
+          "seed": 30012,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.07525886556276137,
+          "success": false
+        },
+        {
+          "seed": 30013,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.023835750826958657,
+          "success": false
+        },
+        {
+          "seed": 30014,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.009060067815861144,
+          "success": true
+        },
+        {
+          "seed": 30015,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.010766508917704769,
+          "success": true
+        },
+        {
+          "seed": 30016,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.01498790791550032,
+          "success": true
+        },
+        {
+          "seed": 30017,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.01254843908332856,
+          "success": true
+        },
+        {
+          "seed": 30018,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.014990570017188601,
+          "success": true
+        },
+        {
+          "seed": 30019,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.022416469680667666,
+          "success": false
+        },
+        {
+          "seed": 30020,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.014038874536350342,
+          "success": true
+        },
+        {
+          "seed": 30021,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.0844291600560102,
+          "success": false
+        },
+        {
+          "seed": 30022,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.015071609681993097,
+          "success": true
+        },
+        {
+          "seed": 30023,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.03486612299226297,
+          "success": false
+        },
+        {
+          "seed": 30024,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.03395566473160052,
+          "success": false
+        },
+        {
+          "seed": 30025,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.015639900871416045,
+          "success": true
+        },
+        {
+          "seed": 30026,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.019050644584782526,
+          "success": true
+        },
+        {
+          "seed": 30027,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.014896128979489803,
+          "success": true
+        },
+        {
+          "seed": 30028,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.029900213648734665,
+          "success": false
+        },
+        {
+          "seed": 30029,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.017495583302119096,
+          "success": true
+        },
+        {
+          "seed": 30030,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.013707779278671884,
+          "success": true
+        },
+        {
+          "seed": 30031,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.01918642576910636,
+          "success": true
+        },
+        {
+          "seed": 30032,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.004045283385097884,
+          "success": true
+        },
+        {
+          "seed": 30033,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.08494315150539904,
+          "success": false
+        },
+        {
+          "seed": 30034,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.031053256919876215,
+          "success": false
+        },
+        {
+          "seed": 30035,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.02911859091780707,
+          "success": false
+        },
+        {
+          "seed": 30036,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.061161777014498445,
+          "success": false
+        },
+        {
+          "seed": 30037,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.012357650939175301,
+          "success": true
+        },
+        {
+          "seed": 30038,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.026877146114399432,
+          "success": false
+        },
+        {
+          "seed": 30039,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.07527197360419566,
+          "success": false
+        },
+        {
+          "seed": 30040,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.02075903990366123,
+          "success": false
+        },
+        {
+          "seed": 30041,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.05839107583716108,
+          "success": false
+        },
+        {
+          "seed": 30042,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.021319427052964607,
+          "success": false
+        },
+        {
+          "seed": 30043,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.01791139116155997,
+          "success": true
+        },
+        {
+          "seed": 30044,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.06872261630583965,
+          "success": false
+        },
+        {
+          "seed": 30045,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.06652565369606449,
+          "success": false
+        },
+        {
+          "seed": 30046,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.01120047966605148,
+          "success": true
+        },
+        {
+          "seed": 30047,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.03752305114629465,
+          "success": false
+        },
+        {
+          "seed": 30048,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.014913692688522254,
+          "success": true
+        },
+        {
+          "seed": 30049,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.015428595003189095,
+          "success": true
+        },
+        {
+          "seed": 30050,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.023550932389585007,
+          "success": false
+        },
+        {
+          "seed": 30051,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.013574497759369192,
+          "success": true
+        },
+        {
+          "seed": 30052,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.01808848411101013,
+          "success": true
+        },
+        {
+          "seed": 30053,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.02265443573428414,
+          "success": false
+        },
+        {
+          "seed": 30054,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.026557879858237377,
+          "success": false
+        },
+        {
+          "seed": 30055,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.02054639137910247,
+          "success": false
+        },
+        {
+          "seed": 30056,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.028152782116838953,
+          "success": false
+        },
+        {
+          "seed": 30057,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.08866981125454085,
+          "success": false
+        },
+        {
+          "seed": 30058,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.0855967089289176,
+          "success": false
+        },
+        {
+          "seed": 30059,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.045984366157999744,
+          "success": false
+        },
+        {
+          "seed": 30060,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.03835149189082311,
+          "success": false
+        },
+        {
+          "seed": 30061,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.007028405545360103,
+          "success": true
+        },
+        {
+          "seed": 30062,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.0323258869401533,
+          "success": false
+        },
+        {
+          "seed": 30063,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.026896204967812226,
+          "success": false
+        },
+        {
+          "seed": 30064,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.010270441526128245,
+          "success": true
+        },
+        {
+          "seed": 30065,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.08188670375283272,
+          "success": false
+        },
+        {
+          "seed": 30066,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.026566693627101144,
+          "success": false
+        },
+        {
+          "seed": 30067,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.012781688043318185,
+          "success": true
+        },
+        {
+          "seed": 30068,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.017551694909049325,
+          "success": true
+        },
+        {
+          "seed": 30069,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.07773846283097893,
+          "success": false
+        },
+        {
+          "seed": 30070,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.024079720148950507,
+          "success": false
+        },
+        {
+          "seed": 30071,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.015681754093700113,
+          "success": true
+        },
+        {
+          "seed": 30072,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.022521475234720718,
+          "success": false
+        },
+        {
+          "seed": 30073,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.009303455989133045,
+          "success": true
+        },
+        {
+          "seed": 30074,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.02577223028121566,
+          "success": false
+        },
+        {
+          "seed": 30075,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.020888535276485553,
+          "success": false
+        },
+        {
+          "seed": 30076,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.03176464621266544,
+          "success": false
+        },
+        {
+          "seed": 30077,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.014797587815980862,
+          "success": true
+        },
+        {
+          "seed": 30078,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.04471625504010519,
+          "success": false
+        },
+        {
+          "seed": 30079,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.013507156372796323,
+          "success": true
+        },
+        {
+          "seed": 30080,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.011030548059880376,
+          "success": true
+        },
+        {
+          "seed": 30081,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.022066071891264482,
+          "success": false
+        },
+        {
+          "seed": 30082,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.022340775191106343,
+          "success": false
+        },
+        {
+          "seed": 30083,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.024770973992615648,
+          "success": false
+        },
+        {
+          "seed": 30084,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.014860035487258682,
+          "success": true
+        },
+        {
+          "seed": 30085,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.012447403846933715,
+          "success": true
+        },
+        {
+          "seed": 30086,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.02350211310765293,
+          "success": false
+        },
+        {
+          "seed": 30087,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.017757511451439077,
+          "success": true
+        },
+        {
+          "seed": 30088,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.031767214393944775,
+          "success": false
+        },
+        {
+          "seed": 30089,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.01961608213552758,
+          "success": true
+        },
+        {
+          "seed": 30090,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.07765197650733993,
+          "success": false
+        },
+        {
+          "seed": 30091,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.02137968576046557,
+          "success": false
+        },
+        {
+          "seed": 30092,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.04280176424856367,
+          "success": false
+        },
+        {
+          "seed": 30093,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.022360984855010504,
+          "success": false
+        },
+        {
+          "seed": 30094,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.025166723303058563,
+          "success": false
+        },
+        {
+          "seed": 30095,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.013989795168655278,
+          "success": true
+        },
+        {
+          "seed": 30096,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.0792942431705113,
+          "success": false
+        },
+        {
+          "seed": 30097,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.01946728752609726,
+          "success": true
+        },
+        {
+          "seed": 30098,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.021849865149624614,
+          "success": false
+        },
+        {
+          "seed": 30099,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.01878185420186043,
+          "success": true
+        },
+        {
+          "seed": 30100,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.06420827651237516,
+          "success": false
+        },
+        {
+          "seed": 30101,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.032514754495546166,
+          "success": false
+        },
+        {
+          "seed": 30102,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.08474950900617462,
+          "success": false
+        },
+        {
+          "seed": 30103,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.006864386927909363,
+          "success": true
+        },
+        {
+          "seed": 30104,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.03220756701785216,
+          "success": false
+        },
+        {
+          "seed": 30105,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.03234949384913823,
+          "success": false
+        },
+        {
+          "seed": 30106,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.03337401066784114,
+          "success": false
+        },
+        {
+          "seed": 30107,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.012330496129460591,
+          "success": true
+        },
+        {
+          "seed": 30108,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.07347200457333747,
+          "success": false
+        },
+        {
+          "seed": 30109,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.033398350754987906,
+          "success": false
+        },
+        {
+          "seed": 30110,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.019700785184019482,
+          "success": true
+        },
+        {
+          "seed": 30111,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.08274660096097883,
+          "success": false
+        },
+        {
+          "seed": 30112,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.009053535597779935,
+          "success": true
+        },
+        {
+          "seed": 30113,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.027594539607180002,
+          "success": false
+        },
+        {
+          "seed": 30114,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.07728444385202846,
+          "success": false
+        },
+        {
+          "seed": 30115,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.014424138164693494,
+          "success": true
+        },
+        {
+          "seed": 30116,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.013187785485063974,
+          "success": true
+        },
+        {
+          "seed": 30117,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.04474805468233596,
+          "success": false
+        },
+        {
+          "seed": 30118,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.04516767543262297,
+          "success": false
+        },
+        {
+          "seed": 30119,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.012822423177284908,
+          "success": true
+        },
+        {
+          "seed": 30120,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.04055677178114221,
+          "success": false
+        },
+        {
+          "seed": 30121,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.018701565459580644,
+          "success": true
+        },
+        {
+          "seed": 30122,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.04665409883327421,
+          "success": false
+        },
+        {
+          "seed": 30123,
+          "lighting": "bright",
+          "occlusion": "high",
+          "add_m": 0.011183394250831641,
+          "success": true
+        },
+        {
+          "seed": 30124,
+          "lighting": "dark",
+          "occlusion": "none",
+          "add_m": 0.019373304562406525,
+          "success": true
+        },
+        {
+          "seed": 30125,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.011132287851281194,
+          "success": true
+        },
+        {
+          "seed": 30126,
+          "lighting": "dark",
+          "occlusion": "high",
+          "add_m": 0.025875674228937405,
+          "success": false
+        },
+        {
+          "seed": 30127,
+          "lighting": "bright",
+          "occlusion": "none",
+          "add_m": 0.014538616591266115,
+          "success": true
+        }
+      ]
+    }
+  },
+  "evidence_run": "https://github.com/jackaI1/ros2-lab-gantry/actions/runs/42326801985",
+  "source_commit": "db220fa"
+}

@@ -7,3 +7,9 @@ __pycache__/
 *.pyc
 
 /test-results/
+.venv/
+*.egg-info/
+/experiments/output/
+/artifacts/
+
+/output/

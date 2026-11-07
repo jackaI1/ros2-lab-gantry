@@ -1,0 +1,277 @@
+{
+  "name": "Lab gantry pendant",
+  "tokens": {
+    "surface": "#edf2f6",
+    "ink": "#21394d",
+    "control": "#186589",
+    "stop": "#b83c30",
+    "white": "#ffffff",
+    "muted": "#617582"
+  },
+  "type": {
+    "family": "Source Sans Pro",
+    "body": 18,
+    "title": 28,
+    "measurement": 32
+  },
+  "screens": [
+    "Jog",
+    "Teach point",
+    "Run program",
+    "Fault recovery"
+  ],
+  "actions": [
+    {
+      "name": "Jog X +5 mm",
+      "screen": "Jog",
+      "kind": "program",
+      "payload": {
+        "op": "jog",
+        "frame": "joint",
+        "delta": [
+          0.005,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "name": "Jog X -5 mm",
+      "screen": "Jog",
+      "kind": "program",
+      "payload": {
+        "op": "jog",
+        "frame": "joint",
+        "delta": [
+          -0.005,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "name": "Jog Y +5 mm",
+      "screen": "Jog",
+      "kind": "program",
+      "payload": {
+        "op": "jog",
+        "frame": "joint",
+        "delta": [
+          0.0,
+          0.005,
+          0.0
+        ]
+      }
+    },
+    {
+      "name": "Jog Y -5 mm",
+      "screen": "Jog",
+      "kind": "program",
+      "payload": {
+        "op": "jog",
+        "frame": "joint",
+        "delta": [
+          0.0,
+          -0.005,
+          0.0
+        ]
+      }
+    },
+    {
+      "name": "Jog Z down 5 mm",
+      "screen": "Jog",
+      "kind": "program",
+      "payload": {
+        "op": "jog",
+        "frame": "joint",
+        "delta": [
+          0.0,
+          0.0,
+          0.005
+        ]
+      }
+    },
+    {
+      "name": "Jog Z up 5 mm",
+      "screen": "Jog",
+      "kind": "program",
+      "payload": {
+        "op": "jog",
+        "frame": "joint",
+        "delta": [
+          0.0,
+          0.0,
+          -0.005
+        ]
+      }
+    },
+    {
+      "name": "Read position",
+      "screen": "Jog",
+      "kind": "command",
+      "payload": {
+        "op": "status"
+      }
+    },
+    {
+      "name": "Teach mode",
+      "screen": "Teach point",
+      "kind": "command",
+      "payload": {
+        "op": "mode",
+        "mode": "teach"
+      }
+    },
+    {
+      "name": "Record approach",
+      "screen": "Teach point",
+      "kind": "command",
+      "payload": {
+        "op": "record",
+        "name": "approach",
+        "frame": "joint",
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "name": "Record dispense",
+      "screen": "Teach point",
+      "kind": "command",
+      "payload": {
+        "op": "record",
+        "name": "dispense",
+        "frame": "joint",
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "name": "Delete approach",
+      "screen": "Teach point",
+      "kind": "command",
+      "payload": {
+        "op": "delete",
+        "name": "approach"
+      }
+    },
+    {
+      "name": "Auto mode",
+      "screen": "Run program",
+      "kind": "command",
+      "payload": {
+        "op": "mode",
+        "mode": "auto"
+      }
+    },
+    {
+      "name": "Run taught cycle",
+      "screen": "Run program",
+      "kind": "program",
+      "payload": [
+        {
+          "op": "wait_di",
+          "channel": 0,
+          "value": true,
+          "timeout": 30
+        },
+        {
+          "op": "move",
+          "point": "approach"
+        },
+        {
+          "op": "move",
+          "point": "dispense",
+          "offset": [
+            0.001,
+            0,
+            0
+          ]
+        },
+        {
+          "op": "set_do",
+          "channel": 1,
+          "value": true
+        },
+        {
+          "op": "move",
+          "point": "approach"
+        },
+        {
+          "op": "set_do",
+          "channel": 1,
+          "value": false
+        }
+      ],
+      "program_file": "examples/taught-cycle.json"
+    },
+    {
+      "name": "Set ready input",
+      "screen": "Run program",
+      "kind": "command",
+      "payload": {
+        "op": "di",
+        "channel": 0,
+        "value": true
+      }
+    },
+    {
+      "name": "Wait for ready",
+      "screen": "Run program",
+      "kind": "program",
+      "payload": {
+        "op": "wait_di",
+        "channel": 0,
+        "value": true,
+        "timeout": 5
+      }
+    },
+    {
+      "name": "Output 1 on",
+      "screen": "Run program",
+      "kind": "program",
+      "payload": {
+        "op": "set_do",
+        "channel": 1,
+        "value": true
+      }
+    },
+    {
+      "name": "Cancel program",
+      "screen": "Run program",
+      "kind": "cancel",
+      "endpoint": "/gantry/pendant/run"
+    },
+    {
+      "name": "Emergency stop",
+      "screen": "Fault recovery",
+      "kind": "service",
+      "endpoint": "/gantry/emergency_stop",
+      "payload": {
+        "data": true
+      }
+    },
+    {
+      "name": "Clear stop input",
+      "screen": "Fault recovery",
+      "kind": "service",
+      "endpoint": "/gantry/emergency_stop",
+      "payload": {
+        "data": false
+      }
+    },
+    {
+      "name": "Reset fault",
+      "screen": "Fault recovery",
+      "kind": "service",
+      "endpoint": "/gantry/reset_fault",
+      "payload": {}
+    }
+  ]
+}

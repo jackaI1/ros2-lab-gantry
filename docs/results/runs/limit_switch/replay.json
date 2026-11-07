@@ -1,0 +1,9 @@
+{
+  "reproduced": true,
+  "expected": [
+    "limit_switch"
+  ],
+  "actual": "limit_switch",
+  "log_path": "b9434dc719314918b2c919b26690e9c2-tracking.csv",
+  "original_manifest": "81fd3072816c4016a81ab5bdb1aad9ff-run.json"
+}

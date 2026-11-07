@@ -1,7 +1,10 @@
 .git
+.venv
+artifacts
+output
 build
 install
 log
-__pycache__
-.pytest_cache
 logs
+**/__pycache__
+**/.pytest_cache

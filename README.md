@@ -2,6 +2,27 @@ I built a simulated lab pipetting robot because I wanted a way to check plate mo
 
 This is a **simulation**, with no hardware connection. Each dispense is a recorded event with a well name and volume; it does not simulate liquid flow or prove dispensing accuracy. The robot lifts before moving sideways, lowers at each well, records the dose, and lifts again. I can also teach named positions by jogging the robot, replay a small program, wait for a simulated sensor, and switch a simulated output. I use this to check a motion sequence around fixed equipment before putting it into a plate routine. I can cancel a run or trigger an emergency stop to check how it stops.
 
+When a plate run stops, I can read its fault report and replay supported injected faults in a separate simulator. The report keeps the exact message and nearby motion measurements, and links to [operator playbooks](docs/playbook/). A separate C++ monitor watches the measured joint travel and speed. I also use generated camera images and depth scans to explore part inspection and alignment, and a small two-axis arm to compare learned control with a conventional controller. These are experiments in simulation, with no claim of physical robot accuracy.
+
+To inspect one of my recorded Gazebo stops without starting ROS or installing anything extra:
+
+```sh
+python3 tools/triage_example.py
+```
+
+That prints the exact emergency-stop message, its fault group and nearby measured joint positions from a CI run. `--fault limit_switch` selects the other recording. Both original runs and their successful replays are [committed with their provenance](docs/results/runs/).
+
+For a small example without ROS or a simulator, I can generate labelled part images and inspect them:
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+pip install './experiments[vision]'
+python -m gantry_lab.inspection --output output/inspection
+```
+
+This writes millimetre measurements, pass/fail checks, robot guidance offsets and the measured error rates. [The experiment guide](docs/experiments.md) explains how to align scans, process depth, train the arm controller and render parts for pose learning. [The pendant design](docs/ui/) shows the jog, teach and run screens in an editable Penpot file. For motion and fault reproduction, I use the full Linux simulation below.
+
 To try it, install Docker with a running Linux container engine, then run:
 
 ```sh
@@ -101,6 +122,19 @@ Points stay in the running server until it stops. Duplicate names are rejected; 
 
 A red fixed tool stand occupies the far corner of the simulated work area. Before moving, I check the entire straight path against an interference zone around that stand, including clearance for the pipette body. Clear endpoints alone are not enough. I must teach a raised approach to go over it. Auto checks the whole program before any output changes, and all motion is checked again against current measured positions. The plate runner uses the same check and the same motion slot, so it cannot run alongside the pendant. See [the pendant reference](docs/pendant.md) for the program format and boundaries.
 
+## Work backwards from a stop
+
+For every plate request, the server saves the original request and initial position in `*-run.json`, plus input changes and latched faults in `*-events.jsonl`. These share the tracking CSV's run identifier. Inside the Linux simulation environment:
+
+```sh
+python3 -m gantry_control.triage /logs/<run-id>-run.json > /logs/report.md
+python3 -m gantry_control.replay /logs/<run-id>-run.json --simulation
+```
+
+The report groups complete known messages and leaves unfamiliar messages in an unknown group. It includes the 12 nearest tracking samples before each event. Replay restores the starting position, runs the original plate request and reapplies recorded emergency-stop or limit-switch inputs through the real services. It checks whether the new run reaches the same fault group. Other failure types require manual reproduction; the tool refuses to invent a matching fault. I only replay in an isolated Gazebo session with no hardware connection. See [the triage guide](docs/triage.md).
+
+Each [playbook page](docs/playbook/) gives symptoms, checks, fixes and a recovery check. CI rejects stale pages whenever the reviewed signature catalog, control code, controller parameters or C++ limit logic changes. The C++ node publishes an advisory stop request and warning from actual joint measurements; the Python server remains responsible for its own latched stops. This is not a certified safety controller.
+
 ## How I arranged the robot
 
 The URDF, an XML description of the robot's parts and joints, defines three sliding axes: X travels 220 mm, Y travels 160 mm, and Z travels 80 mm downward. Gazebo Harmonic runs the model's physics. The `gz_ros2_control` plugin connects its measured joint positions to `ros2_control`, which provides the controller interface. A position-based trajectory controller follows timed moves for all three joints together.
@@ -109,12 +143,29 @@ My protocol server sends each lift, sideways move, lower, and retract as a separ
 
 The server rejects overlapping runs and watches measured positions for six end-of-travel switches. It also latches an emergency stop, an injected limit switch, stale controller feedback, and sustained tracking error. A fault cancels the active trajectory and prevents another protocol until the fault input is clear and I reset it. A wall-clock watchdog still runs when simulation time stops. More detail, including the boundaries of this stop behavior, is in [the design notes](docs/design.md).
 
+## What I measured in the experiments
+
+On 100 generated part images, the inspector passed all 20 good parts and rejected all 80 defective or absent parts. Three generated room scans aligned with recovered pose errors below 0.40 mm in that run. These results are for known synthetic scenes, not real camera or laser-scanner accuracy.
+
+I trained the two-axis arm controller for 200,192 steps and compared it with tuned PD control over 20 shared evaluation seeds. PPO averaged 0.0174 rad tracking error versus 0.0207 rad for PD under nominal physics. I also measured settling time, confidence intervals and the effect of changed mass and friction.
+
+![Measured controller tracking error across 20 seeds](docs/results/tracking.png)
+
+For full part pose, I rendered 1,152 labelled images in Blender and trained two small image models. Wide training variation reduced mean held-out model-point error from 74.2 mm to 31.1 mm. Only 55 of 128 wide-model estimates were below the experiment's 20 mm threshold. This is a useful generalization comparison, but the pose estimates are not accurate enough for robot placement.
+
+![Pose training and held-out errors](docs/results/pose-comparison.png)
+
+[The measured reports](docs/results/) include every seed, failure breakdowns and the producing CI runs. The [experiment guide](docs/experiments.md) gives exact commands and explains each metric.
+
 ## Tests and CI
 
 ```sh
 docker run --rm --name gantry-test lab-gantry /ws/tools/test.sh
 ```
 
-The test suite builds and runs the real Gazebo model. The 58 unit cases check plate geometry, safe move ordering, invalid inputs, all axis limits, frame directions, point offsets, full-path tooling checks, and speed and acceleration limits. Ten launch cases bring up the full system and check a two-well run, measured motion and tracking CSVs, cancellation, overlapping goals, emergency stop, injected and position-derived limit trips, recovery, paused-simulator feedback loss, measured pendant jogging and replay, teach stepping, digital input waits, digital outputs, E-stop in both pendant modes, and rejected unsafe programs.
+The test suite builds and runs the real Gazebo model. The Python control cases check plate geometry, safe move ordering, invalid inputs, all axis limits, frame directions, point offsets, full-path tooling checks, and speed and acceleration limits. Eleven launch cases bring up the full system and check a two-well run, measured motion and tracking CSVs, cancellation, overlapping goals, emergency stop, injected and position-derived limit trips, recovery, paused-simulator feedback loss, measured pendant jogging and replay, teach stepping, digital input waits, digital outputs, E-stop in both pendant modes, and rejected unsafe programs.
 
-GitHub Actions builds the Docker image and runs the same tests on Linux for pull requests and commits to `main`. I keep the container headless so the tests need neither a display nor a GPU. The detailed test count and measured tracking results are recorded in [validation](docs/validation.md).
+GitHub Actions builds the Docker image and runs the same tests on Linux for pull requests and commits to `main`. I keep the container headless so the tests need neither a display nor a GPU. The ROS build runs 66 Python control and transport cases, four GoogleTest cases and eleven Gazebo launch cases. The detailed test count and measured tracking results are recorded in [validation](docs/validation.md).
+
+
+The separate perception and learning workflow runs 80 Python cases for the existing control logic, geometry, inspection and documentation contracts, plus eight learning and pose-math cases. It checks known-transform registration and loop closure, a headless PPO training run with a 20-seed PD comparison, and real Blender rendering followed by two pose-model training runs. It also creates the native Penpot design in a disposable instance, exports and reimports it, tests its clickable flow, and checks all 20 action mappings against the working server. I keep the measured reports and plots in [the experiment results](docs/results/) and the full run evidence in GitHub Actions artifacts. Generated scans and images are labelled as synthetic throughout.

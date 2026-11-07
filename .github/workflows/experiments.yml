@@ -1,0 +1,118 @@
+name: Perception and learning
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  perception:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      OMP_NUM_THREADS: 1
+      OPENBLAS_NUM_THREADS: 1
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install --no-cache-dir './experiments[test,vision,cloud]'
+      - name: Existing local tests, perception geometry and documentation contracts
+        run: |
+          export PYTHONPATH="$PWD/src/gantry_control"
+          pytest -q src/gantry_control/test/test_protocol.py src/gantry_control/test/test_pendant.py src/gantry_control/test/test_motion.py src/gantry_control/test/test_triage.py experiments/tests/test_inspection.py experiments/tests/test_clouds.py experiments/tests/test_depth.py experiments/tests/test_playbooks.py experiments/tests/test_ui.py
+          python tools/check_playbooks.py
+          python tools/ui/check_actions.py
+      - name: Measure synthetic scan, depth and labelled image results
+        run: |
+          python -m gantry_lab.clouds --output artifacts/clouds
+          python -m gantry_lab.depth --output artifacts/depth
+          python -m gantry_lab.inspection --output artifacts/inspection
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: perception-evidence, path: artifacts/}
+  learning:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    env:
+      OMP_NUM_THREADS: 1
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          pip install --no-cache-dir torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+          pip install --no-cache-dir './experiments[test,learning]'
+      - run: pytest -q experiments/tests/test_lamp.py experiments/tests/test_pose.py
+      - name: Train PPO and compare tuned PD over 20 paired seeds
+        run: python -m gantry_lab.lamp --steps 200000 --seeds 20 --output artifacts/lamp
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: learning-evidence, path: artifacts/}
+  synthetic-pose:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    env:
+      OMP_NUM_THREADS: 1
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libxi6 libxrender1 libxkbcommon0 libsm6 libgl1
+          curl -fsSL https://download.blender.org/release/Blender3.6/blender-3.6.18-linux-x64.tar.xz -o "$RUNNER_TEMP/gantry-blender.tar.xz"
+          echo "a5f58d22c2af4f980be11dc403ef98614d8a4c66c2b49eafa1802fd8ad14b208  $RUNNER_TEMP/gantry-blender.tar.xz" | sha256sum -c -
+          mkdir "$RUNNER_TEMP/gantry-blender"
+          tar -xf "$RUNNER_TEMP/gantry-blender.tar.xz" -C "$RUNNER_TEMP/gantry-blender" --strip-components=1
+          echo "$RUNNER_TEMP/gantry-blender" >> "$GITHUB_PATH"
+          pip install --no-cache-dir torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+          pip install --no-cache-dir './experiments[test,learning]'
+      - name: Render seeded narrow, wide and held-out datasets with real Blender
+        run: |
+          mkdir -p artifacts
+          blender --background --python-exit-code 1 --threads 2 --python experiments/gantry_lab/render_parts.py -- --output "$PWD/artifacts/rendered" --train 512 --test 128 > artifacts/render.log 2>&1 || { tail -60 artifacts/render.log; exit 1; }
+          test -s artifacts/rendered/dataset.json
+          tail -4 artifacts/render.log
+      - name: Validate poses and train both image models against the same held-out set
+        run: |
+          pytest -q experiments/tests/test_pose.py
+          python -m gantry_lab.pose_learning artifacts/rendered --output artifacts/pose --epochs 80
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: synthetic-pose-evidence, path: artifacts/}
+      - name: Remove owned Blender runtime
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/gantry-blender" "$RUNNER_TEMP/gantry-blender.tar.xz"
+  pendant-design:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Create disposable CI-only Penpot secret
+        run: |
+          task_secret=$(openssl rand -hex 32)
+          echo "::add-mask::$task_secret"
+          echo "PENPOT_EPHEMERAL_SECRET=$task_secret" >> "$GITHUB_ENV"
+      - run: |
+          pip install --no-cache-dir requests playwright
+          playwright install --with-deps chromium
+          docker compose -p gantry-penpot -f tools/ui/compose.yml up -d
+      - name: Build native design, round-trip import, and exercise prototype
+        run: |
+          python tools/ui/check_actions.py
+          python tools/ui/build_penpot.py --output artifacts/ui
+      - name: Bounded service diagnostics on failure
+        if: failure()
+        run: docker compose -p gantry-penpot -f tools/ui/compose.yml logs --tail 25 penpot-backend penpot-frontend
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: penpot-design, path: artifacts/ui/}
+      - name: Remove all owned services and volumes
+        if: always()
+        run: docker compose -p gantry-penpot -f tools/ui/compose.yml down -v --remove-orphans

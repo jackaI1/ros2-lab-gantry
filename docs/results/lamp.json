@@ -1,0 +1,781 @@
+{
+  "training_seed": 17,
+  "training_steps": 200192,
+  "requested_steps": 200000,
+  "eval_seeds": [
+    2000,
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019
+  ],
+  "pd_gains": {
+    "kp": 1.2,
+    "kd": 0.05
+  },
+  "pd_tuning_seeds": [
+    1000,
+    1001,
+    1002,
+    1003
+  ],
+  "untrained_seed700_rmse_rad": 0.225469325630474,
+  "trained_seed700_rmse_rad": 0.015076330787461073,
+  "domains": {
+    "nominal": {
+      "pd": {
+        "rmse_rad": {
+          "mean": 0.02065043018794021,
+          "ci95": [
+            0.01836439286060309,
+            0.023181911113837054
+          ]
+        },
+        "settling_s": {
+          "mean": 0.13100000000000003,
+          "ci95": [
+            0.12200000000000003,
+            0.14000000000000004
+          ]
+        },
+        "settled_fraction": 1.0,
+        "trials": [
+          {
+            "seed": 2000,
+            "rmse_rad": 0.011880227745931555,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2001,
+            "rmse_rad": 0.017588675712051815,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2002,
+            "rmse_rad": 0.03358334387567587,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2003,
+            "rmse_rad": 0.02421222122576567,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2004,
+            "rmse_rad": 0.015161308261713366,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2005,
+            "rmse_rad": 0.01439693666508682,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2006,
+            "rmse_rad": 0.021589552434894663,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2007,
+            "rmse_rad": 0.015567137252332336,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2008,
+            "rmse_rad": 0.02411116170187439,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2009,
+            "rmse_rad": 0.017387907084723254,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2010,
+            "rmse_rad": 0.015906341369321977,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2011,
+            "rmse_rad": 0.018941192824495506,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2012,
+            "rmse_rad": 0.027721662075081078,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2013,
+            "rmse_rad": 0.0184852476759443,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2014,
+            "rmse_rad": 0.02651524476458937,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2015,
+            "rmse_rad": 0.016249157180717164,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2016,
+            "rmse_rad": 0.028575879418493207,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2017,
+            "rmse_rad": 0.025953112922495677,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2018,
+            "rmse_rad": 0.01858617366185414,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2019,
+            "rmse_rad": 0.02059611990576203,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          }
+        ]
+      },
+      "ppo": {
+        "rmse_rad": {
+          "mean": 0.017382010140717212,
+          "ci95": [
+            0.014672200437563853,
+            0.02030439643057572
+          ]
+        },
+        "settling_s": {
+          "mean": 0.11000000000000003,
+          "ci95": [
+            0.10000000000000002,
+            0.12000000000000002
+          ]
+        },
+        "settled_fraction": 1.0,
+        "trials": [
+          {
+            "seed": 2000,
+            "rmse_rad": 0.006400701431531356,
+            "settling_s": 0.06,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2001,
+            "rmse_rad": 0.01397019767765776,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2002,
+            "rmse_rad": 0.03183436066145782,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2003,
+            "rmse_rad": 0.021056700318690787,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2004,
+            "rmse_rad": 0.0102613558769623,
+            "settling_s": 0.08,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2005,
+            "rmse_rad": 0.009978464119610307,
+            "settling_s": 0.08,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2006,
+            "rmse_rad": 0.019267902992579,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2007,
+            "rmse_rad": 0.012084465439066048,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2008,
+            "rmse_rad": 0.021904906926915456,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2009,
+            "rmse_rad": 0.013816288095284063,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2010,
+            "rmse_rad": 0.011776006505555653,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2011,
+            "rmse_rad": 0.015498942820556956,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2012,
+            "rmse_rad": 0.025204556459384724,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2013,
+            "rmse_rad": 0.014135607576758736,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2014,
+            "rmse_rad": 0.023882058707035365,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2015,
+            "rmse_rad": 0.012681264836922635,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2016,
+            "rmse_rad": 0.026428117715496413,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2017,
+            "rmse_rad": 0.024208696876444526,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2018,
+            "rmse_rad": 0.015381384274715703,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          },
+          {
+            "seed": 2019,
+            "rmse_rad": 0.017868223501718645,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.0,
+            "friction_scale": 1.0
+          }
+        ]
+      },
+      "paired_ppo_minus_pd_rmse_rad": {
+        "mean": -0.0032684200472229965,
+        "ci95": [
+          -0.0037292803718426124,
+          -0.002848785740708008
+        ]
+      }
+    },
+    "randomized": {
+      "pd": {
+        "rmse_rad": {
+          "mean": 0.024062975575579307,
+          "ci95": [
+            0.021503014312231623,
+            0.026548077368694523
+          ]
+        },
+        "settling_s": {
+          "mean": 0.15300000000000005,
+          "ci95": [
+            0.13900000000000004,
+            0.16600000000000004
+          ]
+        },
+        "settled_fraction": 1.0,
+        "trials": [
+          {
+            "seed": 2000,
+            "rmse_rad": 0.013079633811688795,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.4672394128043305,
+            "friction_scale": 1.1151716538824665
+          },
+          {
+            "seed": 2001,
+            "rmse_rad": 0.023877211712074634,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.4987108369784616,
+            "friction_scale": 1.674453467987282
+          },
+          {
+            "seed": 2002,
+            "rmse_rad": 0.03136945488363813,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 0.9264901089255094,
+            "friction_scale": 0.7574411937421546
+          },
+          {
+            "seed": 2003,
+            "rmse_rad": 0.022315159285099195,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 0.8231771948104338,
+            "friction_scale": 0.8573852680425271
+          },
+          {
+            "seed": 2004,
+            "rmse_rad": 0.01822594599434838,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.1432676911740685,
+            "friction_scale": 1.321641342068479
+          },
+          {
+            "seed": 2005,
+            "rmse_rad": 0.019381097291835434,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.081062803272037,
+            "friction_scale": 1.5244542778003631
+          },
+          {
+            "seed": 2006,
+            "rmse_rad": 0.02144019665541251,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 0.7138778680511593,
+            "friction_scale": 1.1142386411503236
+          },
+          {
+            "seed": 2007,
+            "rmse_rad": 0.013907900491733242,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.260577213966032,
+            "friction_scale": 0.6514334597648412
+          },
+          {
+            "seed": 2008,
+            "rmse_rad": 0.032003961520191596,
+            "settling_s": 0.22,
+            "settled": true,
+            "mass_scale": 1.1748997516062691,
+            "friction_scale": 1.9060522420289405
+          },
+          {
+            "seed": 2009,
+            "rmse_rad": 0.017597503911710912,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.2265838489351764,
+            "friction_scale": 0.9427570985379733
+          },
+          {
+            "seed": 2010,
+            "rmse_rad": 0.02318773606488375,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.2886983944788073,
+            "friction_scale": 1.8009589268414077
+          },
+          {
+            "seed": 2011,
+            "rmse_rad": 0.02662204457526886,
+            "settling_s": 0.18,
+            "settled": true,
+            "mass_scale": 1.2400956986119418,
+            "friction_scale": 1.8505619960781767
+          },
+          {
+            "seed": 2012,
+            "rmse_rad": 0.028830547750322986,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 0.9797037137474067,
+            "friction_scale": 1.1480539672221384
+          },
+          {
+            "seed": 2013,
+            "rmse_rad": 0.02738997441809419,
+            "settling_s": 0.18,
+            "settled": true,
+            "mass_scale": 1.1155349035364703,
+            "friction_scale": 1.9324215671346971
+          },
+          {
+            "seed": 2014,
+            "rmse_rad": 0.033003100256112285,
+            "settling_s": 0.2,
+            "settled": true,
+            "mass_scale": 1.2142856553672488,
+            "friction_scale": 1.6488243356805024
+          },
+          {
+            "seed": 2015,
+            "rmse_rad": 0.023163004800649315,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.1952230796857517,
+            "friction_scale": 1.7973369449717376
+          },
+          {
+            "seed": 2016,
+            "rmse_rad": 0.03244381180370305,
+            "settling_s": 0.18,
+            "settled": true,
+            "mass_scale": 1.4282521596659699,
+            "friction_scale": 1.2596851422792832
+          },
+          {
+            "seed": 2017,
+            "rmse_rad": 0.026105905758363877,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.0431754822221302,
+            "friction_scale": 0.9920076840763459
+          },
+          {
+            "seed": 2018,
+            "rmse_rad": 0.022853647629275164,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.461775525848017,
+            "friction_scale": 1.4236258650714997
+          },
+          {
+            "seed": 2019,
+            "rmse_rad": 0.02446167289717988,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.0380267470133557,
+            "friction_scale": 1.4776858693038082
+          }
+        ]
+      },
+      "ppo": {
+        "rmse_rad": {
+          "mean": 0.018629096696615978,
+          "ci95": [
+            0.015854564234311672,
+            0.02142805183625162
+          ]
+        },
+        "settling_s": {
+          "mean": 0.12700000000000003,
+          "ci95": [
+            0.11400000000000003,
+            0.14
+          ]
+        },
+        "settled_fraction": 1.0,
+        "trials": [
+          {
+            "seed": 2000,
+            "rmse_rad": 0.007302416656426252,
+            "settling_s": 0.08,
+            "settled": true,
+            "mass_scale": 1.4672394128043305,
+            "friction_scale": 1.1151716538824665
+          },
+          {
+            "seed": 2001,
+            "rmse_rad": 0.016636495365610623,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.4987108369784616,
+            "friction_scale": 1.674453467987282
+          },
+          {
+            "seed": 2002,
+            "rmse_rad": 0.03040354393905283,
+            "settling_s": 0.18,
+            "settled": true,
+            "mass_scale": 0.9264901089255094,
+            "friction_scale": 0.7574411937421546
+          },
+          {
+            "seed": 2003,
+            "rmse_rad": 0.019664472856271084,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 0.8231771948104338,
+            "friction_scale": 0.8573852680425271
+          },
+          {
+            "seed": 2004,
+            "rmse_rad": 0.011078401177306369,
+            "settling_s": 0.08,
+            "settled": true,
+            "mass_scale": 1.1432676911740685,
+            "friction_scale": 1.321641342068479
+          },
+          {
+            "seed": 2005,
+            "rmse_rad": 0.010830061196118792,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.081062803272037,
+            "friction_scale": 1.5244542778003631
+          },
+          {
+            "seed": 2006,
+            "rmse_rad": 0.018079883334894666,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 0.7138778680511593,
+            "friction_scale": 1.1142386411503236
+          },
+          {
+            "seed": 2007,
+            "rmse_rad": 0.012725798360382524,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.260577213966032,
+            "friction_scale": 0.6514334597648412
+          },
+          {
+            "seed": 2008,
+            "rmse_rad": 0.025363717744449513,
+            "settling_s": 0.18,
+            "settled": true,
+            "mass_scale": 1.1748997516062691,
+            "friction_scale": 1.9060522420289405
+          },
+          {
+            "seed": 2009,
+            "rmse_rad": 0.014501064595228498,
+            "settling_s": 0.1,
+            "settled": true,
+            "mass_scale": 1.2265838489351764,
+            "friction_scale": 0.9427570985379733
+          },
+          {
+            "seed": 2010,
+            "rmse_rad": 0.01388200992945075,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.2886983944788073,
+            "friction_scale": 1.8009589268414077
+          },
+          {
+            "seed": 2011,
+            "rmse_rad": 0.01799868441460482,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.2400956986119418,
+            "friction_scale": 1.8505619960781767
+          },
+          {
+            "seed": 2012,
+            "rmse_rad": 0.025517551211576762,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 0.9797037137474067,
+            "friction_scale": 1.1480539672221384
+          },
+          {
+            "seed": 2013,
+            "rmse_rad": 0.016271547722154084,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.1155349035364703,
+            "friction_scale": 1.9324215671346971
+          },
+          {
+            "seed": 2014,
+            "rmse_rad": 0.026990034042894663,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.2142856553672488,
+            "friction_scale": 1.6488243356805024
+          },
+          {
+            "seed": 2015,
+            "rmse_rad": 0.01461519367956453,
+            "settling_s": 0.12,
+            "settled": true,
+            "mass_scale": 1.1952230796857517,
+            "friction_scale": 1.7973369449717376
+          },
+          {
+            "seed": 2016,
+            "rmse_rad": 0.029561661772844583,
+            "settling_s": 0.16,
+            "settled": true,
+            "mass_scale": 1.4282521596659699,
+            "friction_scale": 1.2596851422792832
+          },
+          {
+            "seed": 2017,
+            "rmse_rad": 0.02441943943914956,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.0431754822221302,
+            "friction_scale": 0.9920076840763459
+          },
+          {
+            "seed": 2018,
+            "rmse_rad": 0.017633270007249843,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.461775525848017,
+            "friction_scale": 1.4236258650714997
+          },
+          {
+            "seed": 2019,
+            "rmse_rad": 0.019106686487088777,
+            "settling_s": 0.14,
+            "settled": true,
+            "mass_scale": 1.0380267470133557,
+            "friction_scale": 1.4776858693038082
+          }
+        ]
+      },
+      "paired_ppo_minus_pd_rmse_rad": {
+        "mean": -0.005433878878963334,
+        "ci95": [
+          -0.006685917676377385,
+          -0.00420255492951094
+        ]
+      }
+    }
+  },
+  "domain_degradation_rad": {
+    "pd": 0.0034125453876390974,
+    "ppo": 0.001247086555898766
+  },
+  "evidence_run": "https://github.com/jackaI1/ros2-lab-gantry/actions/runs/42325728855",
+  "source_commit": "bb152ca"
+}

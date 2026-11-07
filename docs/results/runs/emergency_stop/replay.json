@@ -1,0 +1,9 @@
+{
+  "reproduced": true,
+  "expected": [
+    "emergency_stop"
+  ],
+  "actual": "emergency_stop",
+  "log_path": "dbf633da846843248bc3d21cc544ff83-tracking.csv",
+  "original_manifest": "e701d8a2843e47f594845805cef76983-run.json"
+}
