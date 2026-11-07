@@ -16,3 +16,6 @@ test = ["pytest==8.3.4"]
 include = ["gantry_lab*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.setuptools.package-data]
+gantry_lab = ["models/*.xml"]

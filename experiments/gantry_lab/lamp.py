@@ -6,7 +6,7 @@ import mujoco
 import numpy as np
 from gymnasium import spaces
 
-MODEL=Path(__file__).resolve().parents[1]/'models/lamp.xml'
+MODEL=Path(__file__).resolve().parent/'models/lamp.xml'
 
 
 class LampEnv(gym.Env):

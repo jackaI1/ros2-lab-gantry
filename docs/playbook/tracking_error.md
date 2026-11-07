@@ -16,4 +16,4 @@ Stop other trajectory clients. Restore the standard controller configuration and
 
 Confirm the input is clear, feedback is fresh, the robot is idle and the fault reset succeeds. Run a short safe move and inspect its new tracking CSV. This simulation stop is not a certified hardware safety function.
 
-Contract: 22612f73232f8f2ae6f65c74ab7ecc4941d3e8fcf6dba90e6ad6dd2a69d22419
+Contract: 99c0dcb38bbbe65e1d3392989abe5b9d3e361315f19527a98cfd5e977d87a8db

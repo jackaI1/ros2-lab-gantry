@@ -77,12 +77,18 @@ class ProtocolServer(Node):
     def latch(self, reason):
         with self.lock:
             if not self.fault:
-                if self.recorder:
-                    self.recorder.event("fault", self.sim_time, reason=reason,
-                                        well=self.well, phase=self.phase)
                 self.fault = reason
                 self.pendant.do = [False]*8
+                self.record_event("fault", reason=reason, well=self.well, phase=self.phase)
                 self.get_logger().error(reason)
+
+    def record_event(self, kind, **fields):
+        if self.recorder:
+            try:
+                self.recorder.event(kind, self.sim_time, **fields)
+            except (OSError, ValueError):
+                # A full disk must never prevent a stop from latching.
+                self.get_logger().error('event journal write failed; recording incomplete')
 
     def state(self, msg):
         with self.lock:
@@ -127,9 +133,8 @@ class ProtocolServer(Node):
 
     def set_input(self, key, req, res):
         with self.lock:
-            if self.recorder:
-                self.recorder.event("input", self.sim_time, name=key, value=req.data)
             self.inputs[key] = req.data
+            self.record_event("input", name=key, value=req.data)
             if req.data:
                 self.latch(key)
             res.success = True
@@ -381,8 +386,7 @@ class ProtocolServer(Node):
                     self.log.close()
                 self.log = None
                 if self.recorder:
-                    self.recorder.event("result", self.sim_time, success=result.success,
-                                        message=result.message)
+                    self.record_event("result", success=result.success, message=result.message)
                     self.recorder.close()
                     self.recorder = None
                 self.busy = False
