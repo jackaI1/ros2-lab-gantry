@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "run_id": "81fd3072816c4016a81ab5bdb1aad9ff",
+  "simulated": true,
+  "request": {
+    "wells": [
+      "H12"
+    ],
+    "volume_ul": 50.0
+  },
+  "initial_position": [
+    0.05952026169773543,
+    0.04137222470380451,
+    0.010009253379321586
+  ],
+  "start_sim_time_s": 40.099
+}

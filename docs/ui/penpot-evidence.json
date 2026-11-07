@@ -1,0 +1,28 @@
+{
+  "penpot_version": "2.18.3",
+  "native_export_bytes": 123735,
+  "roundtrip_import": true,
+  "screens": [
+    "Jog",
+    "Teach point",
+    "Run program",
+    "Fault recovery",
+    "Components"
+  ],
+  "components": 2,
+  "mapped_actions": 20,
+  "clickable_flow": [
+    "Jog",
+    "Teach point",
+    "Run program"
+  ],
+  "design_source": "tools/ui/design.json",
+  "screenshots": [
+    "jog.png",
+    "teach.png",
+    "run.png",
+    "fault.png"
+  ],
+  "evidence_run": "https://github.com/jackaI1/ros2-lab-gantry/actions/runs/42327475111",
+  "source_commit": "a18a616"
+}

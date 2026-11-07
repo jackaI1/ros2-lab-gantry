@@ -1,0 +1,3 @@
+{"kind": "input", "sim_time_s": 36.549, "elapsed_s": 0.43489644100000646, "name": "emergency_stop", "value": true}
+{"kind": "fault", "sim_time_s": 36.549, "elapsed_s": 0.4349916900000039, "reason": "emergency_stop", "well": "H12", "phase": "travel"}
+{"kind": "result", "sim_time_s": 36.569, "elapsed_s": 0.45426924699998494, "success": false, "message": "emergency_stop"}

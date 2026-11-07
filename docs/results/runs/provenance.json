@@ -1,0 +1,11 @@
+{
+  "evidence_run": "https://github.com/jackaI1/ros2-lab-gantry/actions/runs/42326801936",
+  "source_commit": "db220fa",
+  "simulator": "Gazebo Harmonic with ros2_control",
+  "capture": "test_11_record_group_and_replay_injected_fault_in_gazebo",
+  "faults": [
+    "emergency_stop",
+    "limit_switch"
+  ],
+  "both_reproduced": true
+}

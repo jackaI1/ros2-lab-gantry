@@ -2,6 +2,12 @@
 
 I keep these small reports so I can inspect a result without installing the simulation. Each JSON report links its producing GitHub Actions run and the source revision. The full images, clouds, trained weights and detailed trajectories stay in that run's artifacts. These are generated scenes and simulated motion, not hardware accuracy measurements.
 
+## Recorded fault reproduction
+
+The [captured runs](runs/) contain actual Gazebo tracking CSVs, input events, manifests and generated reports for emergency-stop and limit-switch failures. Both were actively replayed through the ROS services in [the producing CI run](https://github.com/jackaI1/ros2-lab-gantry/actions/runs/42326801936). Each `replay.json` records `reproduced: true` and points to the new measurement file. I preserve the original and replay run identifiers so they cannot be mistaken for the same run.
+
+From a fresh checkout, `python3 tools/triage_example.py` prints the emergency-stop report using only Python's standard library. `--fault limit_switch` selects the second case. Active reproduction still requires the isolated Gazebo environment.
+
 ## Scan alignment and depth
 
 The three room-scan pairs had fitness between 0.971 and 0.975, where one means every downsampled source point found a nearby match. Matched-distance RMSE was 13.8 to 14.0 mm. After loop-closure optimization, the two moved scan poses were within 0.40 mm and 0.011 degrees of their known poses. These metrics measure different things: sampling and noise affect point-to-surface distance even when the recovered camera pose is close.

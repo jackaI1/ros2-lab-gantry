@@ -4,6 +4,14 @@ This is a **simulation**, with no hardware connection. Each dispense is a record
 
 When a plate run stops, I can read its fault report and replay supported injected faults in a separate simulator. The report keeps the exact message and nearby motion measurements, and links to [operator playbooks](docs/playbook/). A separate C++ monitor watches the measured joint travel and speed. I also use generated camera images and depth scans to explore part inspection and alignment, and a small two-axis arm to compare learned control with a conventional controller. These are experiments in simulation, with no claim of physical robot accuracy.
 
+To inspect one of my recorded Gazebo stops without starting ROS or installing anything extra:
+
+```sh
+python3 tools/triage_example.py
+```
+
+That prints the exact emergency-stop message, its fault group and nearby measured joint positions from a CI run. `--fault limit_switch` selects the other recording. Both original runs and their successful replays are [committed with their provenance](docs/results/runs/).
+
 For a small example without ROS or a simulator, I can generate labelled part images and inspect them:
 
 ```sh
