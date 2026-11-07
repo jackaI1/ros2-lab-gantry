@@ -111,6 +111,8 @@ def experiment(dataset,output,epochs=80):
                 optimizer.zero_grad();loss.backward();optimizer.step()
                 total+=loss.item()*len(image)
             losses.append(total/len(train))
+        if losses[-1] >= .9*losses[0]:
+            raise RuntimeError('Pose training failed to reduce loss by at least 10%')
         torch.save(model.state_dict(),output/f'{split}-pose.pt')
         model.eval();trials=[]
         with torch.no_grad():

@@ -32,7 +32,7 @@ def part():
     return plate
 
 
-def render_dataset(output,train=128,test=64):
+def render_dataset(output,train=512,test=128):
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
     scene=bpy.context.scene;scene.render.engine='CYCLES';scene.cycles.device='CPU';scene.cycles.samples=8
@@ -115,6 +115,6 @@ def render_dataset(output,train=128,test=64):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--output',required=True)
-    parser.add_argument('--train',type=int,default=128);parser.add_argument('--test',type=int,default=64)
+    parser.add_argument('--train',type=int,default=512);parser.add_argument('--test',type=int,default=128)
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:])
     render_dataset(args.output,args.train,args.test)

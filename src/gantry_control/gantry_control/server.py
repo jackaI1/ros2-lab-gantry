@@ -206,6 +206,8 @@ class ProtocolServer(Node):
                 # Confirm the late goal stopped before returning CANCELED.
                 if not self.stop_barrier.wait(3):
                     self.latch('controller stop unconfirmed')
+                elif not self.fault:
+                    raise RuntimeError('canceled by client') from exc
             else:
                 self.latch(str(exc))
             raise
@@ -393,7 +395,10 @@ class ProtocolServer(Node):
                 self.log = None
                 if self.recorder:
                     self.record_event("result", success=result.success, message=result.message)
-                    self.recorder.close()
+                    try:
+                        self.recorder.close()
+                    except OSError:
+                        self.get_logger().error('event journal close failed; recording incomplete')
                     self.recorder = None
                 self.busy = False
         return result

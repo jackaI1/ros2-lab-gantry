@@ -16,4 +16,4 @@ Unpause Gazebo and restore the controller publisher. Wait for fresh healthy feed
 
 Confirm the input is clear, feedback is fresh, the robot is idle and the fault reset succeeds. Run a short safe move and inspect its new tracking CSV. This simulation stop is not a certified hardware safety function.
 
-Contract: 312725e6d8da27db2eaee841da649aa412121a4f3108047c23c3437a23cdcd85
+Contract: 61259b67102a541ef6e202c6550c628898aacd5c55c41d6f1ca450a56b5c8ea7

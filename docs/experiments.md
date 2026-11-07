@@ -62,13 +62,13 @@ On Linux, install Blender, then run:
 
 ```sh
 blender --background --threads 2 --python experiments/gantry_lab/render_parts.py -- \
-  --output "$PWD/output/rendered" --train 128 --test 64
+  --output "$PWD/output/rendered" --train 512 --test 128
 python -m gantry_lab.pose_learning output/rendered --output output/pose --epochs 80
 ```
 
 The headless Blender script builds a thin punched plate with a flange and three unequal holes. It renders randomized object pose, metal appearance, lights and clutter using the real Cycles renderer on CPU. Each image has an object mask and an object-to-camera pose: three rotation axes and three translations. The JSON documents camera intrinsics, units and the camera coordinate convention.
 
-The narrow and wide training sets have disjoint seeds and 128 images each. The shared held-out set has 64 images with wider tilt, lighting and occlusion. A small PyTorch convolutional network regresses translation plus a continuous six-value rotation representation. Gram-Schmidt orthogonalization converts it into a proper rotation matrix. Evaluation computes ADD, the average distance between corresponding model points under estimated and true pose. Errors below 20 mm count as successes for this small learning comparison. The report breaks down failure rates by lighting and occlusion and compares both models on identical held-out images. This threshold is not a robot placement tolerance. A small synthetic dataset can yield poor pose accuracy; I preserve failures instead of calling all outputs successful.
+The narrow and wide training sets have disjoint seeds and 512 images each. The shared held-out set has 128 images with wider tilt, lighting and occlusion. A small PyTorch convolutional network regresses translation plus a continuous six-value rotation representation. Gram-Schmidt orthogonalization converts it into a proper rotation matrix. Evaluation computes ADD, the average distance between corresponding model points under estimated and true pose. Errors below 20 mm count as successes for this small learning comparison. The report breaks down failure rates by lighting and occlusion and compares both models on identical held-out images. This threshold is not a robot placement tolerance. A small synthetic dataset can yield poor pose accuracy; I preserve failures instead of calling all outputs successful.
 
 ## Sources I used
 
@@ -78,4 +78,4 @@ The narrow and wide training sets have disjoint seeds and 128 images each. The s
 
 ## Checks
 
-`pytest experiments/tests` covers known transforms, loop closure, projection, segmentation, calibration, labelled defects, guidance, environment reset, reward bounds, deterministic randomized physics, pose math and dataset validation. CI runs these plus full measurement scripts. It renders 320 images and trains both pose models, and trains PPO for at least 200,000 steps before its 20-seed comparison. Results and honest boundaries are linked from the main README.
+`pytest experiments/tests` covers known transforms, loop closure, projection, segmentation, calibration, labelled defects, guidance, environment reset, reward bounds, deterministic randomized physics, pose math and dataset validation. CI runs these plus full measurement scripts. It renders 1,152 images and trains both pose models, and trains PPO for at least 200,000 steps before its 20-seed comparison. Results and honest boundaries are linked from the main README.

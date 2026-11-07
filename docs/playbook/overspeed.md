@@ -16,4 +16,4 @@ Cancel the active trajectory in the isolated simulator. Remove the competing cli
 
 Confirm all joints are inside travel bounds, measured speed is below the threshold, and /gantry/safety_warning returns OK. This monitor is advisory and not a certified hardware safety function.
 
-Contract: 312725e6d8da27db2eaee841da649aa412121a4f3108047c23c3437a23cdcd85
+Contract: 61259b67102a541ef6e202c6550c628898aacd5c55c41d6f1ca450a56b5c8ea7

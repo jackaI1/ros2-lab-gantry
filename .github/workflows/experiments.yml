@@ -74,7 +74,7 @@ jobs:
       - name: Render seeded narrow, wide and held-out datasets with real Blender
         run: |
           mkdir -p artifacts
-          blender --background --python-exit-code 1 --threads 2 --python experiments/gantry_lab/render_parts.py -- --output "$PWD/artifacts/rendered" --train 128 --test 64 > artifacts/render.log 2>&1 || { tail -60 artifacts/render.log; exit 1; }
+          blender --background --python-exit-code 1 --threads 2 --python experiments/gantry_lab/render_parts.py -- --output "$PWD/artifacts/rendered" --train 512 --test 128 > artifacts/render.log 2>&1 || { tail -60 artifacts/render.log; exit 1; }
           test -s artifacts/rendered/dataset.json
           tail -4 artifacts/render.log
       - name: Validate poses and train both image models against the same held-out set
