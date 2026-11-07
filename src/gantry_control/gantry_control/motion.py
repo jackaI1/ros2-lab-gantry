@@ -31,6 +31,17 @@ class StopBarrier:
             self.pending.add(future)
         future.add_done_callback(self.accepted)
 
+    def wait(self, timeout=3):
+        """Wait outside the executor lock for an acknowledged terminal stop."""
+        deadline = time.monotonic()+timeout
+        while True:
+            with self.lock:
+                if not self.pending:
+                    return True
+            if time.monotonic() >= deadline:
+                return False
+            time.sleep(.01)
+
     def accepted(self, future):
         try:
             child = future.result()

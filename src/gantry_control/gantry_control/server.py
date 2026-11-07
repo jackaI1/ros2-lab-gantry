@@ -159,7 +159,7 @@ class ProtocolServer(Node):
             self.get_logger().warning(str(exc))
             return GoalResponse.REJECT
         with self.lock:
-            if (self.busy or self.fault or self.position is None
+            if (self.busy or self.stop_barrier.pending or self.fault or self.position is None
                     or time.monotonic() - self.last_state > 1.0 or not self.client.server_is_ready()):
                 return GoalResponse.REJECT
             self.busy = True  # Reserve before the execute callback can be scheduled.
@@ -201,7 +201,13 @@ class ProtocolServer(Node):
             child = wait_acceptance(pending, lambda: self.interrupted(handle))
         except RuntimeError as exc:
             self.stop_barrier.arm(pending)
-            self.latch(str(exc))
+            if handle.is_cancel_requested and not self.fault:
+                # A normal cancel can race the controller's acceptance callback.
+                # Confirm the late goal stopped before returning CANCELED.
+                if not self.stop_barrier.wait(3):
+                    self.latch('controller stop unconfirmed')
+            else:
+                self.latch(str(exc))
             raise
         if not child.accepted:
             raise RuntimeError('controller rejected trajectory')
@@ -275,7 +281,7 @@ class ProtocolServer(Node):
 
     def program_goal(self, request):
         with self.lock:
-            if (self.busy or self.fault or self.position is None or
+            if (self.busy or self.stop_barrier.pending or self.fault or self.position is None or
                     time.monotonic()-self.last_state > 1 or not self.client.server_is_ready()):
                 return GoalResponse.REJECT
             try:

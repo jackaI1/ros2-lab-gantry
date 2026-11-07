@@ -78,3 +78,24 @@ def test_failed_transport_keeps_reset_blocked():
     future.set_exception(RuntimeError('connection lost'))
     assert barrier.pending
     assert errors == ['controller late stop unconfirmed']
+
+
+
+def test_wait_confirms_a_terminal_stop_and_retains_unconfirmed_barrier():
+    import threading
+    from types import SimpleNamespace
+    from gantry_control.motion import StopBarrier
+    barrier=StopBarrier(threading.RLock(),lambda _:None,{4,5})
+    future=Future();child=ControllerHandle()
+    barrier.arm(future);future.set_result(child)
+    timer=threading.Timer(.02,lambda:child.result.set_result(SimpleNamespace(status=5)))
+    timer.start()
+    try:
+        assert barrier.wait(.2)
+    finally:
+        timer.join(timeout=.5)
+    unresolved=Future();barrier.arm(unresolved)
+    assert not barrier.wait(.02)
+    assert unresolved in barrier.pending
+    unresolved.set_result(ControllerHandle(False))
+    assert barrier.wait(.02)

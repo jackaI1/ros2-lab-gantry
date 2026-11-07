@@ -38,7 +38,7 @@ def create_shapes(design,file_id,page_id):
             obj['position-data']=[{'x':x,'y':y+font_size,'width':min(w,len(text)*font_size*.55),
                 'height':font_size*1.2,'font-family':'Source Sans Pro','font-size':str(font_size),
                 'font-weight':'400','font-style':'normal','text':text,'fills':obj['fills']}]
-            obj.pop('size',None);obj['grow-type']='fixed' 
+            obj.pop('size',None);obj['grow-type']='fixed'
         changes.append({'type':'add-obj','id':identifier,'obj':obj,'page-id':page_id,
                         'frame-id':frame,'parent-id':parent or frame})
         return identifier
