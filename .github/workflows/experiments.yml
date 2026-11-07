@@ -84,7 +84,10 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
       - name: Create disposable CI-only Penpot secret
-        run: echo "PENPOT_EPHEMERAL_SECRET=$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+        run: |
+          task_secret=$(openssl rand -hex 32)
+          echo "::add-mask::$task_secret"
+          echo "PENPOT_EPHEMERAL_SECRET=$task_secret" >> "$GITHUB_ENV"
       - run: |
           pip install --no-cache-dir requests playwright
           playwright install --with-deps chromium

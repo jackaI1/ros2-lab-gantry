@@ -107,7 +107,7 @@ def run(output):
             if response.status_code in (200,401):break
         except requests.RequestException:pass
         time.sleep(2)
-    password=secrets.token_urlsafe(24);email='pendant-ci@example.invalid'
+    password=secrets.token_urlsafe(24)+'Aa1!';email='pendant-ci@example.invalid'
     token=rpc('prepare-register-profile',{'fullname':'Pendant CI','email':email,'password':password})['token']
     rpc('register-profile',{'token':token})
     rpc('login-with-password',{'email':email,'password':password})
@@ -146,7 +146,7 @@ def run(output):
         context.add_cookies([{'name':c.name,'value':c.value,'url':BASE} for c in session.cookies])
         page=context.new_page()
         try:
-            page.goto(f'{BASE}/#/view/{file_id}?page-id={page_id}&index=0&section=interactions')
+            page.goto(f'{BASE}/#/view?file-id={file_id}&page-id={page_id}&frame-id={frames["Jog"]}&section=interactions&zoom=fit')
             page.get_by_text('Jog',exact=True).first.wait_for(timeout=90000)
             page.screenshot(path=str(output/'jog.png'))
             # Native prototype links should switch the displayed board.
