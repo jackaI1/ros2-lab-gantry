@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from gantry_lab.lamp import LampEnv
+from gantry_lab.lamp import LampEnv, rollout, pd
 
 
 def test_reset_shape_reward_bounds_and_episode_limit():
@@ -27,3 +27,11 @@ def test_fixed_seed_domain_randomization_is_deterministic():
     for expected in trajectory:
         np.testing.assert_allclose(env.step([.1,-.2])[0],expected,atol=1e-7)
     assert env.reset(seed=43)[1]!=domain
+
+
+def test_joint_range_is_radians_and_pd_can_reach_a_target():
+    env=LampEnv()
+    np.testing.assert_allclose(env.model.jnt_range,[[-1.2,1.2],[-1.2,1.2]])
+    trial=rollout(env,pd(1.2,.1),2001)
+    assert trial['rmse_rad']<.1
+    assert trial['settled']

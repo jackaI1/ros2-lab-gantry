@@ -44,7 +44,7 @@ jobs:
           pip install --no-cache-dir './experiments[test,learning]'
       - run: pytest -q experiments/tests/test_lamp.py experiments/tests/test_pose.py
       - name: Train PPO and compare tuned PD over 20 paired seeds
-        run: python -m gantry_lab.lamp --steps 60000 --seeds 20 --output artifacts/lamp
+        run: python -m gantry_lab.lamp --steps 200000 --seeds 20 --output artifacts/lamp
       - uses: actions/upload-artifact@v4
         if: always()
         with: {name: learning-evidence, path: artifacts/}

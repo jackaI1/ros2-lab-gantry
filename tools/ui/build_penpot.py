@@ -7,7 +7,7 @@ import secrets
 import time
 import uuid
 from pathlib import Path
-import requests
+import re
 
 ROOT=Path(__file__).resolve().parents[2]
 ZERO='00000000-0000-0000-0000-000000000000'
@@ -91,7 +91,30 @@ def create_shapes(design,file_id,page_id):
         'params':{'id':flow,'name':'Jog, teach, run','starting-frame':frames['Jog']}}],frames,buttons
 
 
+def decode_keys(value):
+    # Penpot's JSON formatter uses camelCase on output and kebab-case internally.
+    if isinstance(value, dict):
+        return {re.sub(r'(?<!^)(?=[A-Z])', '-', k).lower():decode_keys(v) for k,v in value.items()}
+    if isinstance(value, list):
+        return [decode_keys(v) for v in value]
+    return value
+
+
+def export_url(value):
+    # SSE payloads use verbose Transit even when normal RPC uses JSON.
+    if isinstance(value, dict):
+        value=next(iter(value.values())) if len(value)==1 else value.get('result')
+    if isinstance(value, list) and len(value)==2:
+        value=value[1]
+    if isinstance(value,str) and value.startswith('~r'):
+        value=value[2:]
+    if not isinstance(value,str) or not value.startswith(BASE+'/assets/'):
+        raise ValueError('Export URL must belong to the disposable Penpot instance')
+    return value
+
+
 def run(output):
+    import requests
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     session=requests.Session()
     def rpc(command,payload=None,raw=False):
@@ -100,7 +123,7 @@ def run(output):
         if not result.ok:
             # Validation errors contain no session secrets for these design commands.
             raise RuntimeError(f'{command}: HTTP {result.status_code}: {result.text[:2500]}')
-        return result if raw else result.json()
+        return result if raw else decode_keys(result.json())
     for _ in range(90):
         try:
             response=session.get(BASE+'/api/rpc/command/get-profile',timeout=2)
@@ -127,7 +150,7 @@ def run(output):
     for block in exported.text.split('\n\n'):
         if 'event: end' in block:
             data=next(line[5:].strip() for line in block.splitlines() if line.startswith('data:'))
-            value=json.loads(data);url=value if isinstance(value,str) else value.get('result')
+            url=export_url(json.loads(data))
     if not url:raise RuntimeError('Penpot export did not return an archive URL: '+exported.text[:1000])
     archive=session.get(url,timeout=60);archive.raise_for_status()
     (output/'pendant.penpot').write_bytes(archive.content)

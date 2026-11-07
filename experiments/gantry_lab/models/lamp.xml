@@ -1,4 +1,5 @@
 <mujoco model="pan tilt tracking lamp">
+  <compiler angle="radian"/>
   <option timestep="0.005" gravity="0 0 0" integrator="RK4"/>
   <default><joint damping="0.04" frictionloss="0.008" limited="true" range="-1.2 1.2"/>
     <geom density="500" contype="0" conaffinity="0"/></default>

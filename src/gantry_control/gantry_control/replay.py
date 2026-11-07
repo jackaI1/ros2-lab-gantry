@@ -15,6 +15,8 @@ def replay(node, manifest_path, *, simulation=False, timeout=90):
     from gantry_interfaces.action import RunProtocol
     from std_srvs.srv import SetBool, Trigger
     from control_msgs.action import FollowJointTrajectory
+    from control_msgs.msg import JointTrajectoryControllerState
+    from gantry_control.pendant import check_path
     from trajectory_msgs.msg import JointTrajectoryPoint
     from builtin_interfaces.msg import Duration
     from action_msgs.msg import GoalStatus
@@ -25,6 +27,16 @@ def replay(node, manifest_path, *, simulation=False, timeout=90):
     if limit_fault(manifest['initial_position']):
         raise ValueError('Unsafe initial position')
     clients = []
+    measured = []
+    def state(msg):
+        from gantry_control.protocol import JOINTS
+        try:
+            position = tuple(msg.feedback.positions[msg.joint_names.index(j)] for j in JOINTS)
+        except (ValueError, IndexError):
+            return
+        measured[:] = [position, time.monotonic()]
+    subscription = node.create_subscription(JointTrajectoryControllerState,
+        '/gantry_controller/controller_state', state, 10)
 
     def wait(future, seconds=timeout):
         rclpy.spin_until_future_complete(node, future, timeout_sec=seconds)
@@ -55,6 +67,12 @@ def replay(node, manifest_path, *, simulation=False, timeout=90):
         service('reset_fault')
         if not motion.wait_for_server(timeout_sec=10) or not action.wait_for_server(timeout_sec=10):
             raise RuntimeError('Simulation action servers unavailable')
+        deadline = time.monotonic()+5
+        while not measured and time.monotonic()<deadline:
+            rclpy.spin_once(node,timeout_sec=.05)
+        if not measured or time.monotonic()-measured[1]>.5:
+            raise RuntimeError('Fresh measured position required for replay restoration')
+        check_path(measured[0], manifest['initial_position'])
         move = FollowJointTrajectory.Goal()
         move.trajectory.joint_names = JOINTS
         move.trajectory.points = [JointTrajectoryPoint(positions=manifest['initial_position'],
@@ -78,7 +96,10 @@ def replay(node, manifest_path, *, simulation=False, timeout=90):
                 'expected': expected, 'actual': actual, 'log_path': result.result.log_path}
     finally:
         if active and active.accepted:
-            wait(active.cancel_goal_async(), 5)
+            try:
+                wait(active.cancel_goal_async(), 5)
+            except (RuntimeError, TimeoutError):
+                node.get_logger().error('Replay cancellation unconfirmed')
         for key in ('emergency_stop', 'limit_switch'):
             try:
                 service(key, False)
@@ -86,6 +107,7 @@ def replay(node, manifest_path, *, simulation=False, timeout=90):
                 pass
         for client in clients:
             node.destroy_client(client)
+        node.destroy_subscription(subscription)
         action.destroy()
         motion.destroy()
 
