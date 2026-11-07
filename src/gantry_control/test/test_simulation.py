@@ -408,3 +408,20 @@ class TestSimulation(unittest.TestCase):
                 self.assertTrue(replayed['reproduced'], json.dumps(replayed))
                 self.assertEqual(replayed['actual'], fault)
                 self.assertTrue(self.service('reset_fault').success)
+
+                # Retain real injected recordings and the freshly measured replay in CI.
+                import os
+                import shutil
+                destination=os.environ.get('GANTRY_EVIDENCE_DIR')
+                if destination:
+                    destination=Path(destination)/fault
+                    destination.mkdir(parents=True,exist_ok=True)
+                    for source in (manifest,Path(replayed['log_path'].replace('-tracking.csv','-run.json'))):
+                        run_id=source.name.removesuffix('-run.json')
+                        for recording in source.parent.glob(run_id+'-*'):
+                            shutil.copyfile(recording,destination/recording.name)
+                    (destination/'report.md').write_text(report(manifest))
+                    evidence=dict(replayed)
+                    evidence['log_path']=Path(evidence['log_path']).name
+                    evidence['original_manifest']=manifest.name
+                    (destination/'replay.json').write_text(json.dumps(evidence,indent=2)+'\n')

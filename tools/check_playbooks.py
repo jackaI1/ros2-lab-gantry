@@ -10,8 +10,11 @@ from gantry_control.triage import SIGNATURES
 SOURCES = ['src/gantry_control/gantry_control/server.py',
            'src/gantry_control/gantry_control/protocol.py',
            'src/gantry_control/gantry_control/trajectory.py',
+           'src/gantry_control/gantry_control/motion.py',
+           'src/gantry_description/urdf/gantry.urdf.xacro',
            'src/gantry_description/config/controllers.yaml',
-           'src/gantry_monitor/include/gantry_monitor/limits.hpp']
+           'src/gantry_monitor/include/gantry_monitor/limits.hpp',
+           'src/gantry_monitor/src/monitor.cpp']
 
 
 def contract(root=ROOT):

@@ -23,7 +23,7 @@ def test_native_boards_components_and_api_encoding():
     native=importlib.util.module_from_spec(spec);spec.loader.exec_module(native)
     design=json.loads((ROOT/'tools/ui/design.json').read_text())
     changes,frames,buttons=native.create_shapes(design,native.uid('file'),native.uid('page'))
-    assert len(buttons)==14 and len(frames)==5
+    assert len(buttons)==19 and len(frames)==5
     assert len([c for c in changes if c['type']=='add-component'])==2
     objects=[c['obj'] for c in changes if c['type']=='add-obj']
     ids={o['id'] for o in objects}

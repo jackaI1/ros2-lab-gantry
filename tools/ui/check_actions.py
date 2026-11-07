@@ -51,5 +51,5 @@ def check(design=None):
 
 
 if __name__=='__main__':
-    errors=check();print('\n'.join(errors) if errors else 'All 14 design actions map to the working server')
+    errors=check();print('\n'.join(errors) if errors else 'All 19 design actions map to the working server')
     raise SystemExit(bool(errors))

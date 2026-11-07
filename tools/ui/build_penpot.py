@@ -47,6 +47,11 @@ def create_shapes(design,file_id,page_id):
         add('rect',name+' header',x,0,480,100,frame,fill=palette['ink'])
         text(name+' title',name,x+24,20,420,frame,28,palette['white'])
         text(name+' subtitle','Lab gantry / simulation',x+24,63,420,frame,16,palette['white'])
+        if name != 'Components':
+            add('rect',name+' persistent stop',x+368,24,96,44,frame,fill=palette['stop'],rx=6,ry=6,
+                interactions=[{'event-type':'click','action-type':'navigate',
+                               'destination':frames['Fault recovery'],'preserve-scroll':False}])
+            text(name+' persistent stop label','Stop',x+388,30,72,frame,22,palette['white'])
         if name=='Components':
             text('library title','Controls I reuse',x+24,120,420,frame,24)
             for n,(label,colour) in enumerate([('Action button',palette['control']),('Stop button',palette['stop'])]):
@@ -181,7 +186,7 @@ def run(output):
         finally:
             page.close();context.close();browser.close()
     evidence={'penpot_version':'2.18.3','native_export_bytes':len(archive.content),
-              'roundtrip_import':True,'screens':list(frames),'components':2,'mapped_actions':len(buttons),
+              'roundtrip_import':True,'screens':list(frames),'components':2,'mapped_actions':len(design['actions']),
               'clickable_flow':['Jog','Teach point','Run program'],
               'design_source':'tools/ui/design.json','screenshots':['jog.png','teach.png','run.png']}
     (output/'penpot-evidence.json').write_text(json.dumps(evidence,indent=2)+'\n')
