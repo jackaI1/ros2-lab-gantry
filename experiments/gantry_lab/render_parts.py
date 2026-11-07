@@ -38,12 +38,17 @@ def render_dataset(output,train=128,test=64):
     scene=bpy.context.scene;scene.render.engine='CYCLES';scene.cycles.device='CPU';scene.cycles.samples=8
     scene.render.resolution_x=96;scene.render.resolution_y=96;scene.render.resolution_percentage=100
     scene.render.image_settings.file_format='PNG';scene.render.film_transparent=False
-    scene.world.color=(.15,.15,.15)
+    scene.world.use_nodes=True
+    background=scene.world.node_tree.nodes.get('Background')
+    background.inputs['Color'].default_value=(.08,.08,.08,1)
+    background.inputs['Strength'].default_value=.3
     scene.view_settings.view_transform='Standard'
     bpy.ops.object.camera_add(location=(0,0,.65));camera=bpy.context.object
     camera.rotation_euler=(0,0,0);camera.data.type='PERSP';camera.data.lens=65;camera.data.sensor_width=36
     scene.camera=camera
     board=box('work surface',(0,0,-.045),(1,1,.01))
+    floor_material=bpy.data.materials.new('matte work surface');floor_material.diffuse_color=(.06,.1,.15,1)
+    board.data.materials.append(floor_material)
     material=bpy.data.materials.new('steel');material.use_nodes=True
     steel=material.node_tree.nodes.get('Principled BSDF')
     object_part=part();object_part.data.materials.append(material)
@@ -70,7 +75,7 @@ def render_dataset(output,train=128,test=64):
             object_part.location=(float(rng.uniform(-.025,.025)),float(rng.uniform(-.025,.025)),float(rng.uniform(-.008,.008)))
             object_part.rotation_euler=(float(rng.uniform(-bound,bound)),float(rng.uniform(-bound,bound)),float(rng.uniform(-math.pi,math.pi)))
             lighting='dark' if i%2==0 else 'bright'
-            light.data.energy=float(rng.uniform(15,60) if wide and lighting=='dark' else rng.uniform(250,900) if wide else 300)
+            light.data.energy=float(rng.uniform(.15,.6) if wide and lighting=='dark' else rng.uniform(2.5,9) if wide else 3)
             light.location=(float(rng.uniform(-.25,.25)) if wide else .1,-.1,.4)
             steel.inputs['Base Color'].default_value=(*([float(rng.uniform(.15,.7))]*3),1)
             steel.inputs['Metallic'].default_value=float(rng.uniform(.2,.95) if wide else .7)

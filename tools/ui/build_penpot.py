@@ -34,7 +34,11 @@ def create_shapes(design,file_id,page_id):
             obj['content']={'type':'root','children':[{'type':'paragraph-set','children':[
                 {'type':'paragraph','children':[{'text':text,'font-id':'sourcesanspro','font-family':'Source Sans Pro',
                     'font-size':str(extra.pop('size',18)),'font-weight':'400','fills':obj['fills']}]}]}]}
-            obj.pop('size',None);obj['grow-type']='fixed'
+            font_size=int(obj['content']['children'][0]['children'][0]['children'][0]['font-size'])
+            obj['position-data']=[{'x':x,'y':y+font_size,'width':min(w,len(text)*font_size*.55),
+                'height':font_size*1.2,'font-family':'Source Sans Pro','font-size':str(font_size),
+                'font-weight':'400','font-style':'normal','text':text,'fills':obj['fills']}]
+            obj.pop('size',None);obj['grow-type']='fixed' 
         changes.append({'type':'add-obj','id':identifier,'obj':obj,'page-id':page_id,
                         'frame-id':frame,'parent-id':parent or frame})
         return identifier
@@ -82,7 +86,7 @@ def create_shapes(design,file_id,page_id):
                 **{'shape-ref':uid(label+' surface')},rx=6,ry=6)
             text(action['name']+' label',action['name'],x+40,y+10,400,frame,20,palette['white'],parent=group)
             buttons.append({'action':action['name'],'shape_id':group,'payload':action})
-        text(name+' prototype note','Design preview. Controls map to ROS; this file sends no motion.',x+24,650,432,frame,14)
+        text(name+' prototype note','Design preview. Controls do not send motion.',x+24,650,432,frame,14)
         for n,destination in enumerate(design['screens'][:3]):
             add('rect',name+' nav '+destination,x+16+n*152,694,144,34,frame,
                 fill=palette['white'],interactions=[{'event-type':'click','action-type':'navigate',
@@ -183,6 +187,11 @@ def run(output):
                 page.get_by_text(name,exact=True).last.click()
                 page.wait_for_timeout(1200)
                 page.screenshot(path=str(output/filename))
+        except Exception:
+            page.screenshot(path=str(output/'failure.png'))
+            print('Prototype visible text:',page.locator('body').inner_text()[:1200])
+            print('Prototype surfaces:',page.locator('canvas, svg').count())
+            raise
         finally:
             page.close();context.close();browser.close()
     evidence={'penpot_version':'2.18.3','native_export_bytes':len(archive.content),
