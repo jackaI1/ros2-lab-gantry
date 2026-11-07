@@ -1,0 +1,57 @@
+# Disposable, isolated Penpot used only on Linux runners. No Mac containers.
+x-env: &env
+  PENPOT_PUBLIC_URI: http://localhost:9001
+  PENPOT_FLAGS: enable-registration enable-login-with-password disable-email-verification disable-secure-session-cookies
+  PENPOT_SECRET_KEY: ${PENPOT_EPHEMERAL_SECRET:?set a random per-run secret}
+  PENPOT_DATABASE_URI: postgresql://penpot-postgres/penpot
+  PENPOT_DATABASE_USERNAME: penpot
+  PENPOT_DATABASE_PASSWORD: ${PENPOT_EPHEMERAL_SECRET}
+  PENPOT_REDIS_URI: redis://penpot-valkey/0
+  PENPOT_TELEMETRY_ENABLED: "false"
+services:
+  penpot-postgres:
+    image: postgres:15.10
+    environment:
+      POSTGRES_DB: penpot
+      POSTGRES_USER: penpot
+      POSTGRES_PASSWORD: ${PENPOT_EPHEMERAL_SECRET}
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U penpot"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+  penpot-valkey:
+    image: valkey/valkey:8.1.0
+  penpot-backend:
+    image: penpotapp/backend:2.18.3
+    environment:
+      <<: *env
+      JAVA_TOOL_OPTIONS: -Xmx1200m
+      PENPOT_OBJECTS_STORAGE_BACKEND: fs
+      PENPOT_OBJECTS_STORAGE_FS_DIRECTORY: /opt/data/assets
+    volumes: [assets:/opt/data/assets]
+    depends_on:
+      penpot-postgres: {condition: service_healthy}
+  penpot-exporter:
+    image: penpotapp/exporter:2.18.3
+    environment:
+      <<: *env
+      PENPOT_INTERNAL_URI: http://penpot-frontend:8080
+    depends_on: [penpot-backend]
+  penpot-admin-console:
+    image: penpotapp/admin-console:2.18.3
+    environment:
+      <<: *env
+      PENPOT_INTERNAL_URI: http://penpot-frontend:8080
+  penpot-mcp:
+    image: penpotapp/mcp:2.18.3
+  penpot-frontend:
+    image: penpotapp/frontend:2.18.3
+    ports: ["127.0.0.1:9001:8080"]
+    environment:
+      <<: *env
+      PENPOT_ADMIN_CONSOLE_URI: http://penpot-admin-console:3000
+    volumes: [assets:/opt/data/assets]
+    depends_on: [penpot-backend, penpot-exporter, penpot-admin-console, penpot-mcp]
+volumes:
+  assets:

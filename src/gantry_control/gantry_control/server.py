@@ -25,6 +25,7 @@ from gantry_control.protocol import JOINTS, limit_fault, validate, waypoints
 from gantry_control.pendant import Pendant, channel, check_path
 from gantry_control.trajectory import trapezoid
 from gantry_control.motion import StopBarrier, wait_acceptance
+from gantry_control.triage import RunRecorder
 
 
 class ProtocolServer(Node):
@@ -44,6 +45,8 @@ class ProtocolServer(Node):
         self.last_state = 0.0
         self.bad_tracking_since = None
         self.log = None
+        self.recorder = None
+        self.sim_time = 0.0
         self.writer = None
         self.well = ''
         self.phase = ''
@@ -74,6 +77,9 @@ class ProtocolServer(Node):
     def latch(self, reason):
         with self.lock:
             if not self.fault:
+                if self.recorder:
+                    self.recorder.event("fault", self.sim_time, reason=reason,
+                                        well=self.well, phase=self.phase)
                 self.fault = reason
                 self.pendant.do = [False]*8
                 self.get_logger().error(reason)
@@ -87,6 +93,7 @@ class ProtocolServer(Node):
             except (ValueError, IndexError):
                 self.latch('invalid controller feedback')
                 return
+            self.sim_time = msg.header.stamp.sec + msg.header.stamp.nanosec / 1e9
             self.last_state = time.monotonic()
             self.position = position
             reason = limit_fault(position)
@@ -120,6 +127,8 @@ class ProtocolServer(Node):
 
     def set_input(self, key, req, res):
         with self.lock:
+            if self.recorder:
+                self.recorder.event("input", self.sim_time, name=key, value=req.data)
             self.inputs[key] = req.data
             if req.data:
                 self.latch(key)
@@ -328,6 +337,9 @@ class ProtocolServer(Node):
         result.log_path = str(path)
         try:
             with self.lock:
+                self.recorder = RunRecorder(self.log_dir, run_id,
+                    {'wells': list(handle.request.wells), 'volume_ul': handle.request.volume_ul},
+                    self.position, self.sim_time)
                 self.log = path.open('w', newline='')
                 self.writer = csv.writer(self.log)
                 self.writer.writerow(['sim_time_s', 'well', 'phase', 'joint',
@@ -368,6 +380,11 @@ class ProtocolServer(Node):
                 if self.log:
                     self.log.close()
                 self.log = None
+                if self.recorder:
+                    self.recorder.event("result", self.sim_time, success=result.success,
+                                        message=result.message)
+                    self.recorder.close()
+                    self.recorder = None
                 self.busy = False
         return result
 

@@ -25,6 +25,7 @@ def generate_launch_description():
              arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock']),
         Node(package='controller_manager', executable='spawner',
              arguments=['joint_state_broadcaster', 'gantry_controller', '--controller-manager-timeout', '90']),
+        Node(package='gantry_monitor', executable='trajectory_safety_monitor', output='screen'),
         Node(package='gantry_control', executable='protocol_server',
              parameters=[{'log_dir': LaunchConfiguration('log_dir')}], output='screen'),
     ])

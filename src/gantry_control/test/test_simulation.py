@@ -41,6 +41,10 @@ class TestSimulation(unittest.TestCase):
         cls.node = rclpy.create_node('simulation_test')
         cls.action = ActionClient(cls.node, RunProtocol, '/gantry/run_protocol')
         cls.motion = ActionClient(cls.node, FollowJointTrajectory, '/gantry_controller/follow_joint_trajectory')
+        from std_msgs.msg import String
+        cls.warnings = []
+        cls.node.create_subscription(String, '/gantry/safety_warning',
+            lambda msg: cls.warnings.append(msg.data) if len(cls.warnings) < 2000 else None, 10)
         cls.position = None
         cls.node.create_subscription(JointTrajectoryControllerState,
             '/gantry_controller/controller_state', cls.state, 10)
@@ -160,6 +164,7 @@ class TestSimulation(unittest.TestCase):
         goal = FollowJointTrajectory.Goal()
         goal.trajectory.joint_names = ['x_joint', 'y_joint', 'z_joint']
         target = list(self.position)
+        self.warnings.clear()
         target[0] = .22
         goal.trajectory.points = [JointTrajectoryPoint(positions=target,
             velocities=[0.0]*3, time_from_start=Duration(sec=5))]
@@ -169,6 +174,7 @@ class TestSimulation(unittest.TestCase):
         self.pump(.5)
         self.assertFalse(self.send().accepted)
         self.assertFalse(self.service('reset_fault').success)
+        self.assertIn('x_joint limit switch', self.warnings)
         target[0] = .04
         goal.trajectory.points[0].positions = target
         child = self.wait(self.motion.send_goal_async(goal))
@@ -377,3 +383,26 @@ class TestSimulation(unittest.TestCase):
                             os.killpg(process.pid, signal.SIGKILL)
                             process.wait(timeout=5)
                     self.assertIsNotNone(process.returncode)
+
+    def test_11_record_group_and_replay_injected_fault_in_gazebo(self):
+        import json
+        from gantry_control.triage import load_run, report, group_events
+        from gantry_control.replay import replay
+        self.pendant({'op':'mode', 'mode':'auto'})
+        self.assertTrue(self.service('reset_fault').success)
+        goal = self.send(('H12',))
+        self.assertTrue(goal.accepted)
+        self.pump(.35)
+        self.service('emergency_stop', True)
+        result = self.wait(goal.get_result_async())
+        manifest = Path(result.result.log_path.replace('-tracking.csv', '-run.json'))
+        _, events, rows = load_run(manifest)
+        self.assertTrue(rows)
+        self.assertEqual(len(group_events([e for e in events if e['kind']=='fault'])['emergency_stop']), 1)
+        self.assertIn('preceding_tracking', report(manifest))
+        self.service('emergency_stop', False)
+        self.assertTrue(self.service('reset_fault').success)
+        replayed = replay(self.node, manifest, simulation=True)
+        self.assertTrue(replayed['reproduced'], json.dumps(replayed))
+        self.assertEqual(replayed['actual'], 'emergency_stop')
+        self.assertTrue(self.service('reset_fault').success)

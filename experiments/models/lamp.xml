@@ -1,0 +1,23 @@
+<mujoco model="pan tilt tracking lamp">
+  <option timestep="0.005" gravity="0 0 0" integrator="RK4"/>
+  <default><joint damping="0.04" frictionloss="0.008" limited="true" range="-1.2 1.2"/>
+    <geom density="500" contype="0" conaffinity="0"/></default>
+  <worldbody>
+    <body name="pan" pos="0 0 0.1">
+      <joint name="pan" axis="0 0 1"/>
+      <geom type="cylinder" size="0.04 0.025"/>
+      <body name="tilt" pos="0 0 0.05">
+        <joint name="tilt" axis="0 1 0"/>
+        <geom type="capsule" fromto="0 0 0 0.16 0 0" size="0.015"/>
+        <body name="lamp" pos="0.16 0 0">
+          <geom type="box" size="0.035 0.025 0.02"/>
+          <site name="beam" pos="0.04 0 0"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <motor joint="pan" ctrllimited="true" ctrlrange="-0.2 0.2"/>
+    <motor joint="tilt" ctrllimited="true" ctrlrange="-0.2 0.2"/>
+  </actuator>
+</mujoco>
