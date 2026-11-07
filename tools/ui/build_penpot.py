@@ -32,11 +32,11 @@ def create_shapes(design,file_id,page_id):
         if kind in ('frame','group'):obj['shapes']=[]
         if text is not None:
             obj['content']={'type':'root','children':[{'type':'paragraph-set','children':[
-                {'type':'paragraph','children':[{'text':text,'font-id':'sourcesanspro','font-family':'Source Sans Pro',
-                    'font-size':str(extra.pop('size',18)),'font-weight':'400','fills':obj['fills']}]}]}]}
+                {'type':'paragraph','children':[{'text':text,'font-id':'sourcesanspro','font-family':'sourcesanspro',
+                    'font-size':str(extra.pop('size',18)),'font-weight':'400','font-variant-id':'regular','font-style':'normal','fills':obj['fills']}]}]}]}
             font_size=int(obj['content']['children'][0]['children'][0]['children'][0]['font-size'])
             obj['position-data']=[{'x':x,'y':y+font_size,'width':min(w,len(text)*font_size*.55),
-                'height':font_size*1.2,'font-family':'Source Sans Pro','font-size':str(font_size),
+                'height':font_size*1.2,'font-family':'sourcesanspro','font-size':str(font_size),
                 'font-weight':'400','font-style':'normal','text':text,'fills':obj['fills']}]
             obj.pop('size',None);obj['grow-type']='fixed'
         changes.append({'type':'add-obj','id':identifier,'obj':obj,'page-id':page_id,
@@ -56,6 +56,8 @@ def create_shapes(design,file_id,page_id):
                 interactions=[{'event-type':'click','action-type':'navigate',
                                'destination':frames['Fault recovery'],'preserve-scroll':False}])
             text(name+' persistent stop label','Stop',x+388,30,72,frame,22,palette['white'])
+            changes[-1]['obj']['interactions']=[{'event-type':'click','action-type':'navigate',
+                'destination':frames['Fault recovery'],'preserve-scroll':False}]
         if name=='Components':
             text('library title','Controls I reuse',x+24,120,420,frame,24)
             for n,(label,colour) in enumerate([('Action button',palette['control']),('Stop button',palette['stop'])]):
@@ -92,6 +94,8 @@ def create_shapes(design,file_id,page_id):
                 fill=palette['white'],interactions=[{'event-type':'click','action-type':'navigate',
                                                     'destination':frames[destination],'preserve-scroll':False}])
             text(name+' navlabel '+destination,destination,x+24+n*152,699,134,frame,16)
+            changes[-1]['obj']['interactions']=[{'event-type':'click','action-type':'navigate',
+                'destination':frames[destination],'preserve-scroll':False}]
     # Component definitions must be applied before instances are validated.
     library_objects=[c for c in changes if c.get('obj',{}).get('frame-id')==frames['Components'] or c['id']==frames['Components'] or c['type']=='add-component']
     remaining=[c for c in changes if c not in library_objects]
@@ -180,13 +184,19 @@ def run(output):
         page=context.new_page()
         try:
             page.goto(f'{BASE}/#/view?file-id={file_id}&page-id={page_id}&frame-id={frames["Jog"]}&section=interactions&zoom=fit')
-            page.get_by_text('Jog',exact=True).first.wait_for(timeout=90000)
+            page.locator('#shape-'+uid('Jog title')+':visible').first.wait_for(timeout=60000)
+            page.evaluate('document.fonts.ready')
             page.screenshot(path=str(output/'jog.png'))
             # Native prototype links should switch the displayed board.
+            current='Jog'
             for name,filename in [('Teach point','teach.png'),('Run program','run.png')]:
-                page.get_by_text(name,exact=True).last.click()
-                page.wait_for_timeout(1200)
+                page.locator('#shape-'+uid(current+' navlabel '+name)+':visible').first.click()
+                page.locator('#shape-'+uid(name+' title')+':visible').first.wait_for(timeout=15000)
                 page.screenshot(path=str(output/filename))
+                current=name
+            page.locator('#shape-'+uid(current+' persistent stop label')+':visible').first.click()
+            page.locator('#shape-'+uid('Fault recovery title')+':visible').first.wait_for(timeout=15000)
+            page.screenshot(path=str(output/'fault.png'))
         except Exception:
             page.screenshot(path=str(output/'failure.png'))
             print('Prototype visible text:',page.locator('body').inner_text()[:1200])
@@ -197,7 +207,7 @@ def run(output):
     evidence={'penpot_version':'2.18.3','native_export_bytes':len(archive.content),
               'roundtrip_import':True,'screens':list(frames),'components':2,'mapped_actions':len(design['actions']),
               'clickable_flow':['Jog','Teach point','Run program'],
-              'design_source':'tools/ui/design.json','screenshots':['jog.png','teach.png','run.png']}
+              'design_source':'tools/ui/design.json','screenshots':['jog.png','teach.png','run.png','fault.png']}
     (output/'penpot-evidence.json').write_text(json.dumps(evidence,indent=2)+'\n')
     print(json.dumps(evidence,indent=2))
 
