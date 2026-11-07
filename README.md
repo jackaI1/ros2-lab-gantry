@@ -135,15 +135,29 @@ My protocol server sends each lift, sideways move, lower, and retract as a separ
 
 The server rejects overlapping runs and watches measured positions for six end-of-travel switches. It also latches an emergency stop, an injected limit switch, stale controller feedback, and sustained tracking error. A fault cancels the active trajectory and prevents another protocol until the fault input is clear and I reset it. A wall-clock watchdog still runs when simulation time stops. More detail, including the boundaries of this stop behavior, is in [the design notes](docs/design.md).
 
+## What I measured in the experiments
+
+On 100 generated part images, the inspector passed all 20 good parts and rejected all 80 defective or absent parts. Three generated room scans aligned with recovered pose errors below 0.40 mm in that run. These results are for known synthetic scenes, not real camera or laser-scanner accuracy.
+
+I trained the two-axis arm controller for 200,192 steps and compared it with tuned PD control over 20 shared evaluation seeds. PPO averaged 0.0174 rad tracking error versus 0.0207 rad for PD under nominal physics. I also measured settling time, confidence intervals and the effect of changed mass and friction.
+
+![Measured controller tracking error across 20 seeds](docs/results/tracking.png)
+
+For full part pose, I rendered 1,152 labelled images in Blender and trained two small image models. Wide training variation reduced mean held-out model-point error from 74.2 mm to 31.1 mm. Only 55 of 128 wide-model estimates were below the experiment's 20 mm threshold. This is a useful generalization comparison, but the pose estimates are not accurate enough for robot placement.
+
+![Pose training and held-out errors](docs/results/pose-comparison.png)
+
+[The measured reports](docs/results/) include every seed, failure breakdowns and the producing CI runs. The [experiment guide](docs/experiments.md) gives exact commands and explains each metric.
+
 ## Tests and CI
 
 ```sh
 docker run --rm --name gantry-test lab-gantry /ws/tools/test.sh
 ```
 
-The test suite builds and runs the real Gazebo model. The original unit cases check plate geometry, safe move ordering, invalid inputs, all axis limits, frame directions, point offsets, full-path tooling checks, and speed and acceleration limits. Eleven launch cases bring up the full system and check a two-well run, measured motion and tracking CSVs, cancellation, overlapping goals, emergency stop, injected and position-derived limit trips, recovery, paused-simulator feedback loss, measured pendant jogging and replay, teach stepping, digital input waits, digital outputs, E-stop in both pendant modes, and rejected unsafe programs.
+The test suite builds and runs the real Gazebo model. The Python control cases check plate geometry, safe move ordering, invalid inputs, all axis limits, frame directions, point offsets, full-path tooling checks, and speed and acceleration limits. Eleven launch cases bring up the full system and check a two-well run, measured motion and tracking CSVs, cancellation, overlapping goals, emergency stop, injected and position-derived limit trips, recovery, paused-simulator feedback loss, measured pendant jogging and replay, teach stepping, digital input waits, digital outputs, E-stop in both pendant modes, and rejected unsafe programs.
 
-GitHub Actions builds the Docker image and runs the same tests on Linux for pull requests and commits to `main`. I keep the container headless so the tests need neither a display nor a GPU. The detailed test count and measured tracking results are recorded in [validation](docs/validation.md).
+GitHub Actions builds the Docker image and runs the same tests on Linux for pull requests and commits to `main`. I keep the container headless so the tests need neither a display nor a GPU. The ROS build runs 66 Python control and transport cases, four GoogleTest cases and eleven Gazebo launch cases. The detailed test count and measured tracking results are recorded in [validation](docs/validation.md).
 
 
-The separate perception and learning workflow runs geometry and inspection tests, known-transform registration and loop closure, a headless PPO training run with a 20-seed PD comparison, and real Blender rendering followed by two pose-model training runs. It also creates the native Penpot design in a disposable instance, exports and reimports it, tests its clickable flow, and checks all 20 action mappings against the working server. I keep the measured reports and plots in [the experiment results](docs/results/) and the full run evidence in GitHub Actions artifacts. Generated scans and images are labelled as synthetic throughout.
+The separate perception and learning workflow runs 80 Python cases for the existing control logic, geometry, inspection and documentation contracts, plus eight learning and pose-math cases. It checks known-transform registration and loop closure, a headless PPO training run with a 20-seed PD comparison, and real Blender rendering followed by two pose-model training runs. It also creates the native Penpot design in a disposable instance, exports and reimports it, tests its clickable flow, and checks all 20 action mappings against the working server. I keep the measured reports and plots in [the experiment results](docs/results/) and the full run evidence in GitHub Actions artifacts. Generated scans and images are labelled as synthetic throughout.

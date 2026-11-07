@@ -1,6 +1,6 @@
 # Validation
 
-The command is `docker run --rm lab-gantry /ws/tools/test.sh`. It runs 58 unit cases and ten launch cases against the real Gazebo Harmonic model and position trajectory controller. Colcon also counts CTest wrappers separately from the individual cases. There is no mock-hardware substitute in the launch tests.
+The command is `docker run --rm lab-gantry /ws/tools/test.sh`. It now runs 66 Python control and transport cases, four C++ GoogleTest cases and eleven launch cases against the real Gazebo Harmonic model and position trajectory controller. Colcon also counts CTest wrappers separately from the individual cases. There is no mock-hardware substitute in the launch tests.
 
 The [pendant Docker run](https://github.com/jackaI1/ros2-lab-gantry/actions/runs/42134428069) built all three packages and passed 68 behavioral cases: 58 unit/transport cases and ten real Gazebo cases. Colcon reported 72 entries including four wrappers, with zero errors, failures or skips. The original two-well tracking test recorded 2,673 joint samples, with 0.440 mm peak absolute error and 0.174 mm root-mean-square error. The separate documented demo completed all three wells. These are simulation measurements, not hardware accuracy claims.
 
@@ -18,6 +18,7 @@ The launch cases verify:
 8. E-stop during taught motion in both modes, blocked restart, stationary hold, outputs cleared, input timeout, E-stop during a wait and cancellation of a wait.
 9. Full-program rejection before output changes when a target enters tooling, plus malformed commands and oversized numeric inputs without losing the server.
 10. The installed pendant CLI receiving Ctrl-C during a real ROS input wait, confirming cancellation before exit, and leaving the server idle without a fault.
+11. Recording emergency-stop and limit-switch injections, generating a grouped report, restoring each starting pose, and actively replaying both faults through the real controller services with a second set of measurements.
 
 The numerical cases also check straight paths crossing or touching the tooling box with clear endpoints, frame-specific offsets, triangular and trapezoidal profiles, velocity continuity and acceleration limits. Controller-transport tests cover interruption before acceptance, bounded timeout, late cancellation, and reset remaining blocked until a terminal result confirms the stop. These transport tests control only the acknowledgement boundary; the launch tests use real Gazebo motion.
 
@@ -26,3 +27,8 @@ The workflow also runs the exact documented three-well demo separately and uploa
 All 58 local numerical and controller-transport cases passed on macOS. The original local Docker build was stopped after the host ran out of disk space, so full-system validation uses GitHub's Linux runners. That dedicated local VM was stopped and removed, with its processes and forwarding port verified gone.
 
 For the pendant extension, the local Docker daemon was unavailable, so full-system execution runs on GitHub Actions while the numerical and transport cases also run locally.
+
+
+The new standalone pipeline job has 80 Python cases, including the repeated control cases, camera calibration and defects, known scan transforms, loop closure, depth projection, plane removal, playbook drift and all 20 design-action mappings. Eight learning/pose cases check reset, bounded rewards, fixed-seed dynamics, reachable radian travel, rotation math, dataset validation and actual weight updates. Three ROS-boundary cases additionally inject journal failure and delayed controller acceptance. The delayed-cancel regression confirms the terminal stop before returning normal cancellation, and a pending stop blocks both protocol and program goals.
+
+The [measured experiment reports](results/) retain actual output with source revisions. The [native Penpot evidence](ui/penpot-evidence.json) records its export/reimport and prototype navigation, and the simulation artifacts retain both original and replay fault recordings. All simulator, container and headless browser resources belong to their Linux CI jobs and are stopped by scoped teardown. No desktop application is needed on the development Mac.

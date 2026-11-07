@@ -39,3 +39,26 @@ PPO's nominal mean error was 15.8% lower than PD's in this run. The paired PPO-m
 ![Measured tracking error across 20 seeded rollouts](tracking.png)
 
 [The learning report](lamp.json) records the gains, seeds, confidence intervals and each trial. This small arm has gravity disabled, a simple target family and limited parameter variation. The comparison supports this experiment only; it does not show that reinforcement learning is generally better than conventional control.
+
+## Full-pose learning
+
+I rendered 512 narrow-variation training images, 512 wide-variation training images and 128 separate held-out images with Blender Cycles. Both PyTorch networks trained for 80 epochs from the same initialization seed. The images are only 96 by 96 pixels, keeping this a small CPU experiment.
+
+![One of the actual bright training renders](render-sample.png)
+
+ADD is the average distance between corresponding model points under the predicted and true pose. Lower is better. I used the same held-out images for both networks.
+
+| Training set | Mean held-out ADD | Estimates below 20 mm |
+| --- | ---: | ---: |
+| Narrow variation | 74.2 mm | 8/128 |
+| Wide variation | 31.1 mm | 55/128 |
+
+Wider variation lowered the mean error by 58.1% in this run. It did not solve occlusion. For the wide model, failure rates were 48.4% under bright lighting, 65.6% under dark lighting, 74.4% with high occlusion and 48.2% without occlusion. Those groups overlap, so I do not add their counts together. Narrow training overfit: its final training loss was lower than the wide model's, but its held-out errors were larger.
+
+![Training loss and held-out pose errors](pose-comparison.png)
+
+[The pose report](pose.json) includes every held-out seed, both loss curves, the ADD metric and condition breakdowns. The 20 mm cutoff is a learning-study threshold, not a placement tolerance. I would need substantially better accuracy and real-camera validation before using these estimates for robot motion.
+
+## Pendant design
+
+The [native Penpot design](../ui/) contains jog, teach-point, run-program and fault-recovery screens, plus an editable component library. Its evidence records the actual export/reimport result and screenshots from the running Penpot prototype. The source action map is checked against the existing server and runnable cycle in CI. The prototype itself sends no robot commands.
