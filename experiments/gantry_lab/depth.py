@@ -58,7 +58,11 @@ def segment(depth, seed=4):
     if abs(plane[2])<.9:
         raise ValueError('Dominant plane is not the expected bin floor')
     objects=points.select_by_index(indices,invert=True)
-    labels=np.asarray(objects.cluster_dbscan(eps=.009,min_points=12))
+    # Group in the bin plane: stepped top surfaces are disconnected in Z in
+    # a single overhead view, but belong to one contiguous part footprint.
+    xyz=np.asarray(objects.points)
+    footprint=cloud(np.column_stack((xyz[:,:2],np.zeros(len(xyz)))))
+    labels=np.asarray(footprint.cluster_dbscan(eps=.009,min_points=12))
     clusters=[objects.select_by_index(np.flatnonzero(labels==label)) for label in sorted(set(labels)-{-1})]
     return clusters,plane
 

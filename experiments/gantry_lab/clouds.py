@@ -29,6 +29,8 @@ def pose(xyz=(0,0,0), angles=(0,0,0)):
 def prepare(points, voxel):
     result = points.voxel_down_sample(voxel)
     result, _ = result.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.5)
+    if len(result.points) < 20:
+        raise ValueError('Registration needs at least 20 downsampled points')
     result.estimate_normals(o3d.geometry.KDTreeSearchParamHybrid(radius=voxel*3, max_nn=40))
     # Centroid-facing normals give each scan a consistent descriptor convention.
     result.orient_normals_towards_camera_location(result.get_center())

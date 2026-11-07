@@ -30,7 +30,7 @@ I generate a small room model with unequal walls, a pillar and shelves, then sim
 python -m gantry_lab.depth --output output/depth
 ```
 
-A CPU ray caster renders axial depth images of a stepped asymmetric part above a bin floor. Camera intrinsics, the focal lengths and image centre, turn each valid pixel into a 3D point. RANSAC removes the dominant floor plane and DBSCAN groups nearby remaining points. Each cluster is registered against the part's visible reference cloud with the same FPFH, RANSAC and ICP pipeline. The reference comes from the same procedural model rather than a downloaded CAD file.
+A CPU ray caster renders axial depth images of a stepped asymmetric part above a bin floor. Camera intrinsics, the focal lengths and image centre, turn each valid pixel into a 3D point. RANSAC removes the dominant floor plane and DBSCAN groups remaining points by their footprint in the bin plane, keeping the measured heights for registration. This links the disconnected top surfaces of a stepped part in an overhead view; touching footprints can merge. Each cluster is registered against the part's visible reference cloud with the same FPFH, RANSAC and ICP pipeline. The reference comes from the same procedural model rather than a downloaded CAD file.
 
 I evaluate clean images, 1 mm noise, 20% missing depth and a contiguous occlusion stripe, with five seeds per condition. `depth.json` reports estimated pose and translation/rotation error for each trial. Success requires under 15 mm and 15 degrees. Candidates are selected by measured fitness and RMSE, not by ground truth. Partial views can remain ambiguous. This is one part in a bin, not a demonstrated multi-part picking system.
 
