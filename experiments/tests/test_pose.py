@@ -15,10 +15,14 @@ def test_pose_geometry_and_continuous_rotation():
     r=rotation6d(torch.tensor([.5,.2,.3,-.2,.7,.1])).numpy()
     np.testing.assert_allclose(r.T@r,np.eye(3),atol=1e-6)
     assert np.linalg.det(r)==pytest.approx(1,abs=1e-6)
+    fallback=rotation6d(torch.zeros(6)).numpy()
+    np.testing.assert_allclose(fallback.T@fallback,np.eye(3))
+    assert np.linalg.det(fallback)==pytest.approx(1)
 
 
 def test_dataset_rejects_bad_rotation_and_leaked_seed(tmp_path):
-    Image.new('RGB',(96,96),(128,128,128)).save(tmp_path/'rgb.png')
+    image=Image.new('RGB',(96,96),(30,30,30))
+    image.paste((200,200,200),(20,20,70,70));image.save(tmp_path/'rgb.png')
     Image.new('L',(96,96),255).save(tmp_path/'mask.png')
     record={'seed':1,'image':'rgb.png','mask':'mask.png','rotation':np.eye(3).tolist(),
             'translation_m':[0,0,.65],'split':'narrow'}
@@ -44,3 +48,14 @@ def test_network_training_changes_weights():
     loss.backward();optimizer.step()
     assert not torch.equal(before,model.layers[-1].weight)
     assert torch.isfinite(loss)
+
+
+
+def test_blank_render_is_rejected_before_training(tmp_path):
+    Image.new('RGB',(96,96),(0,0,0)).save(tmp_path/'rgb.png')
+    Image.new('L',(96,96),255).save(tmp_path/'mask.png')
+    record={'seed':1,'image':'rgb.png','mask':'mask.png','rotation':np.eye(3).tolist(),
+            'translation_m':[0,0,.65],'split':'narrow'}
+    (tmp_path/'dataset.json').write_text(json.dumps({'version':1,'records':[record]}))
+    with pytest.raises(ValueError,match='contrast'):
+        validate_dataset(tmp_path)

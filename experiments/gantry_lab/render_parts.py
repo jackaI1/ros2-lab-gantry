@@ -22,7 +22,7 @@ def part():
         bpy.ops.mesh.primitive_cylinder_add(vertices=24,radius=r,depth=.02,location=(x,y,0))
         tool=bpy.context.object
         bpy.context.view_layer.objects.active=plate
-        mod=plate.modifiers.new('punched hole','BOOLEAN');mod.operation='DIFFERENCE';mod.object=tool
+        mod=plate.modifiers.new('punched hole','BOOLEAN');mod.operation='DIFFERENCE';mod.solver='FAST';mod.object=tool
         bpy.ops.object.modifier_apply(modifier=mod.name);bpy.data.objects.remove(tool,do_unlink=True)
     flange=box('bent flange',(-.0585,0,.012),(.003,.08,.025))
     plate.select_set(True);flange.select_set(True)
@@ -87,6 +87,12 @@ def render_dataset(output,train=128,test=64):
             scene.render.filepath=str(folder/image)
             save.base_path=str(folder);save.file_slots[0].path=f'{i:04d}-mask-'
             bpy.ops.render.render(write_still=True)
+            if i == 0:
+                check=bpy.data.images.load(str(folder/image),check_existing=False)
+                pixels=np.array(check.pixels[:]).reshape(-1,4)[:,:3]
+                bpy.data.images.remove(check)
+                if np.std(pixels)<.015:
+                    raise RuntimeError('Rendered RGB lacks visible geometry; check lights and colour configuration')
             generated=folder/f'{i:04d}-mask-0001.png'
             generated.rename(folder/mask_name)
             # Reference coordinates use object local mesh vertices, including the flange.

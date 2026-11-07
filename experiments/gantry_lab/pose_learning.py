@@ -10,8 +10,15 @@ from torch.utils.data import Dataset, DataLoader
 
 def rotation6d(value):
     a=value[...,:3];b=value[...,3:6]
-    x=torch.nn.functional.normalize(a,dim=-1,eps=1e-6)
-    y=torch.nn.functional.normalize(b-(x*b).sum(-1,keepdim=True)*x,dim=-1,eps=1e-6)
+    fallback_x=torch.zeros_like(a);fallback_x[...,0]=1
+    x=torch.where(torch.linalg.vector_norm(a,dim=-1,keepdim=True)>1e-6,
+                  torch.nn.functional.normalize(a,dim=-1,eps=1e-6),fallback_x)
+    projected=b-(x*b).sum(-1,keepdim=True)*x
+    basis=torch.nn.functional.one_hot(x.abs().argmin(dim=-1),3).to(x.dtype)
+    fallback_y=basis-(basis*x).sum(-1,keepdim=True)*x
+    projected=torch.where(torch.linalg.vector_norm(projected,dim=-1,keepdim=True)>1e-6,
+                          projected,fallback_y)
+    y=torch.nn.functional.normalize(projected,dim=-1,eps=1e-6)
     z=torch.linalg.cross(x,y,dim=-1)
     return torch.stack((x,y,z),dim=-1)
 
@@ -27,6 +34,8 @@ def validate_dataset(root):
     if metadata.get('version')!=1 or not metadata.get('records'):
         raise ValueError('Missing version 1 pose records')
     seeds=set()
+    image_fingerprints=set()
+    import hashlib
     for record in metadata['records']:
         if record['seed'] in seeds:
             raise ValueError('Dataset splits must have disjoint seeds')
@@ -43,9 +52,16 @@ def validate_dataset(root):
             with Image.open(path) as image:
                 if image.size!=(96,96):
                     raise ValueError('Expected 96x96 render and mask')
+        with Image.open(root/record['image']) as image:
+            pixels=np.asarray(image.convert('RGB'))
+            if float(pixels.std())<4:
+                raise ValueError('RGB image lacks visible part contrast')
+            image_fingerprints.add(hashlib.sha256(pixels.tobytes()).digest())
         with Image.open(root/record['mask']) as mask:
             if np.asarray(mask).max()==0:
                 raise ValueError('Part mask is empty')
+    if len(metadata['records'])>1 and len(image_fingerprints)==1:
+        raise ValueError('All rendered RGB images are identical')
     return metadata
 
 

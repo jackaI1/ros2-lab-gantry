@@ -47,7 +47,7 @@ The generated conveyor images include good parts, oversize parts, missing holes,
 ## Learn a tracking controller
 
 ```sh
-python -m gantry_lab.lamp --steps 60000 --seeds 20 --output output/lamp
+python -m gantry_lab.lamp --steps 200000 --seeds 20 --output output/lamp
 ```
 
 The MuJoCo model is a two-axis pan-tilt lamp arm. It tracks a step target for two seconds and then a moving sinusoidal target. The model has inertia, joint damping, friction, travel limits and bounded motor torque. Gravity is disabled to isolate tracking. One action advances four 5 ms physics steps. The observation includes angles, angular velocities, target error and target velocity; actions are normalized motor torque.
@@ -78,4 +78,4 @@ The narrow and wide training sets have disjoint seeds and 128 images each. The s
 
 ## Checks
 
-`pytest experiments/tests` covers known transforms, loop closure, projection, segmentation, calibration, labelled defects, guidance, environment reset, reward bounds, deterministic randomized physics, pose math and dataset validation. CI runs these plus full measurement scripts. It renders 320 images and trains both pose models, and trains PPO for at least 60,000 steps before its 20-seed comparison. Results and honest boundaries are linked from the main README.
+`pytest experiments/tests` covers known transforms, loop closure, projection, segmentation, calibration, labelled defects, guidance, environment reset, reward bounds, deterministic randomized physics, pose math and dataset validation. CI runs these plus full measurement scripts. It renders 320 images and trains both pose models, and trains PPO for at least 200,000 steps before its 20-seed comparison. Results and honest boundaries are linked from the main README.

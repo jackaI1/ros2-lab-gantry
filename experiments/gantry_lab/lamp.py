@@ -98,7 +98,7 @@ def interval(values, seed=3):
     return {'mean':float(values.mean()),'ci95':[float(x) for x in np.quantile(means,[.025,.975])]}
 
 
-def train_and_evaluate(output, steps=60000, seeds=20):
+def train_and_evaluate(output, steps=200000, seeds=20):
     import torch
     from stable_baselines3 import PPO
     torch.set_num_threads(1)
@@ -152,7 +152,7 @@ def train_and_evaluate(output, steps=60000, seeds=20):
 if __name__=='__main__':
     import argparse
     parser=argparse.ArgumentParser();parser.add_argument('--output',default='output/lamp')
-    parser.add_argument('--steps',type=int,default=60000);parser.add_argument('--seeds',type=int,default=20)
+    parser.add_argument('--steps',type=int,default=200000);parser.add_argument('--seeds',type=int,default=20)
     args=parser.parse_args()
     result=train_and_evaluate(args.output,args.steps,args.seeds)
     print(json.dumps({k:v for k,v in result.items() if k!='domains'},indent=2))

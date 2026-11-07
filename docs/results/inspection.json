@@ -1,0 +1,3251 @@
+{
+  "dataset": "seeded synthetic planar conveyor images; fixed camera and work height",
+  "count": 100,
+  "calibration_rms_px": 0.3521524379161633,
+  "false_pass_rate": 0.0,
+  "false_fail_rate": 0.0,
+  "results": [
+    {
+      "label": {
+        "seed": 0,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          41.36961687321454,
+          22.697867137638703
+        ],
+        "angle_deg": -7.344423617020885,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.51116180419922,
+          20.384910583496094
+        ],
+        "guidance": {
+          "x_mm": 1.6082382202148438,
+          "y_mm": -2.0265560150146484,
+          "angle_deg": -7.129386901855469,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 1,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          40.118216247002565,
+          29.50463696325935
+        ],
+        "angle_deg": -5.69344619648586,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.23573303222656,
+          20.430038452148438
+        ],
+        "guidance": {
+          "x_mm": 0.3404426574707031,
+          "y_mm": 4.675348281860352,
+          "angle_deg": -5.8741607666015625,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 2,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          37.616121342493166,
+          22.98491143414123
+        ],
+        "angle_deg": 5.027611849508485,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.420263290405273,
+          20.410192489624023
+        ],
+        "guidance": {
+          "x_mm": -2.2647628784179688,
+          "y_mm": -1.8279762268066406,
+          "angle_deg": 5.081583023071289,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 3,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          35.856491671436245,
+          22.368105065960997
+        ],
+        "angle_deg": -22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.459426879882812,
+          20.44908905029297
+        ],
+        "guidance": {
+          "x_mm": -3.9474525451660156,
+          "y_mm": -2.458585739135742,
+          "angle_deg": -22.247329711914062,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 4,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          44.43056105572367,
+          25.113275528143618
+        ],
+        "angle_deg": 7.619899291323266,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 5,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          43.0500292374538,
+          28.079407897364938
+        ],
+        "angle_deg": 0.245208976674272,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          29.999818801879883,
+          20.005502700805664
+        ],
+        "guidance": {
+          "x_mm": 3.174633026123047,
+          "y_mm": 3.1757946014404297,
+          "angle_deg": -0.00168609619140625,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 6,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          40.38164351471943,
+          23.432708698133386
+        ],
+        "angle_deg": -2.094924163273948,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.392669677734375,
+          20.335628509521484
+        ],
+        "guidance": {
+          "x_mm": 0.508514404296875,
+          "y_mm": -1.4931373596191406,
+          "angle_deg": -2.1195602416992188,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 7,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          41.25095466604667,
+          28.972138009695755
+        ],
+        "angle_deg": 4.410971043923096,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.34307289123535,
+          20.355018615722656
+        ],
+        "guidance": {
+          "x_mm": 1.428680419921875,
+          "y_mm": 4.039222717285156,
+          "angle_deg": 4.408791542053223,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 8,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          38.26972276605561,
+          29.872768433379257
+        ],
+        "angle_deg": -22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.333293914794922,
+          20.429241180419922
+        ],
+        "guidance": {
+          "x_mm": -1.5398406982421875,
+          "y_mm": 5.063539505004883,
+          "angle_deg": -21.812416076660156,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 9,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          43.70249203970084,
+          22.868172090875554
+        ],
+        "angle_deg": 1.6503704008249898,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 10,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          44.560017096289755,
+          22.07681810079147
+        ],
+        "angle_deg": 5.255118164392492,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.418479919433594,
+          20.41082000732422
+        ],
+        "guidance": {
+          "x_mm": 4.736213684082031,
+          "y_mm": -2.8281784057617188,
+          "angle_deg": 5.0831990242004395,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 11,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          36.285702027692,
+          24.99277862440115
+        ],
+        "angle_deg": 1.6239737219737194,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.34702682495117,
+          20.279800415039062
+        ],
+        "guidance": {
+          "x_mm": -3.4945144653320312,
+          "y_mm": 0.09725570678710938,
+          "angle_deg": 1.9137297868728638,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 12,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          37.50824458108446,
+          29.467529428594247
+        ],
+        "angle_deg": -4.970873847363819,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.42369270324707,
+          20.349260330200195
+        ],
+        "guidance": {
+          "x_mm": -2.332195281982422,
+          "y_mm": 4.593479156494141,
+          "angle_deg": -4.759735107421875,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 13,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          43.647975870165865,
+          28.55302514932059
+        ],
+        "angle_deg": -22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.331689834594727,
+          20.430435180664062
+        ],
+        "guidance": {
+          "x_mm": 3.7939834594726562,
+          "y_mm": 3.7301502227783203,
+          "angle_deg": -21.81494140625,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 14,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          43.30983318889112,
+          23.609466668342566
+        ],
+        "angle_deg": 3.243828889312878,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 15,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          41.92743367965152,
+          28.158171113360574
+        ],
+        "angle_deg": -2.489491875314293,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.27252769470215,
+          20.28597068786621
+        ],
+        "guidance": {
+          "x_mm": 2.0770263671875,
+          "y_mm": 3.2055892944335938,
+          "angle_deg": -2.5432968139648438,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 16,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          40.66916838879365,
+          24.307441454901856
+        ],
+        "angle_deg": -6.494818792615607,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.258033752441406,
+          20.462451934814453
+        ],
+        "guidance": {
+          "x_mm": 0.84228515625,
+          "y_mm": -0.49225425720214844,
+          "angle_deg": -6.4565277099609375,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 17,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          43.450747927979016,
+          21.60973091169107
+        ],
+        "angle_deg": 0.923912757851074,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.337404251098633,
+          20.331457138061523
+        ],
+        "guidance": {
+          "x_mm": 3.6761627197265625,
+          "y_mm": -3.1599159240722656,
+          "angle_deg": 1.275848388671875,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 18,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          38.993057692175725,
+          27.174146792882162
+        ],
+        "angle_deg": 22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.442989349365234,
+          20.141094207763672
+        ],
+        "guidance": {
+          "x_mm": -0.89599609375,
+          "y_mm": 2.3270111083984375,
+          "angle_deg": 22.257429122924805,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 19,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          39.203787957292604,
+          29.258693448167037
+        ],
+        "angle_deg": -3.6180801936274865,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 20,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          37.80075962630159,
+          24.611467098029422
+        ],
+        "angle_deg": -6.05248491877693,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.477279663085938,
+          20.39629554748535
+        ],
+        "guidance": {
+          "x_mm": -2.0477676391601562,
+          "y_mm": -0.17105865478515625,
+          "angle_deg": -6.34210205078125,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 21,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          42.81117588817471,
+          26.058470295709682
+        ],
+        "angle_deg": 3.3568190465348025,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.459922790527344,
+          20.344348907470703
+        ],
+        "guidance": {
+          "x_mm": 3.009918212890625,
+          "y_mm": 1.1663055419921875,
+          "angle_deg": 3.177934408187866,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 22,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          38.66346915432076,
+          21.99295379375083
+        ],
+        "angle_deg": -6.583066027819537,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.213478088378906,
+          20.46092414855957
+        ],
+        "guidance": {
+          "x_mm": -1.157745361328125,
+          "y_mm": -2.8259201049804688,
+          "angle_deg": -6.482215881347656,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 23,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          41.93933080657364,
+          26.414582208782306
+        ],
+        "angle_deg": -22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.4545841217041,
+          20.304513931274414
+        ],
+        "guidance": {
+          "x_mm": 2.1396713256835938,
+          "y_mm": 1.589202880859375,
+          "angle_deg": -21.80413055419922,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 24,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          38.302688366693154,
+          24.051773156391437
+        ],
+        "angle_deg": 1.1958051092350725,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 25,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          36.60721233232008,
+          20.003120351710038
+        ],
+        "angle_deg": -4.534424568594929,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.34316635131836,
+          20.053913116455078
+        ],
+        "guidance": {
+          "x_mm": -3.2626419067382812,
+          "y_mm": -4.822650909423828,
+          "angle_deg": -4.513481140136719,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 26,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          39.915989176049045,
+          22.343995239479163
+        ],
+        "angle_deg": -6.918275868922782,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.266048431396484,
+          20.129497528076172
+        ],
+        "guidance": {
+          "x_mm": 0.17508697509765625,
+          "y_mm": -2.4926834106445312,
+          "angle_deg": -6.952613830566406,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 27,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          41.977362164767854,
+          23.138142722224316
+        ],
+        "angle_deg": -6.060846418213963,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.48029899597168,
+          20.366785049438477
+        ],
+        "guidance": {
+          "x_mm": 2.1751708984375,
+          "y_mm": -1.6599674224853516,
+          "angle_deg": -5.714958190917969,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 28,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          43.51833935982158,
+          28.848929540768633
+        ],
+        "angle_deg": 22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.45189666748047,
+          20.304534912109375
+        ],
+        "guidance": {
+          "x_mm": 3.806835174560547,
+          "y_mm": 4.094333648681641,
+          "angle_deg": 21.8073787689209,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 29,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          35.50046970354069,
+          25.063222985714493
+        ],
+        "angle_deg": 0.30774447407538474,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 30,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          37.35798804812533,
+          24.291069986658112
+        ],
+        "angle_deg": -6.523631735147326,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.213666915893555,
+          20.46099090576172
+        ],
+        "guidance": {
+          "x_mm": -2.4910430908203125,
+          "y_mm": -0.4922637939453125,
+          "angle_deg": -6.481803894042969,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 31,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          44.031718109148606,
+          20.676782623616333
+        ],
+        "angle_deg": 2.7636930256058267,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.36756134033203,
+          20.32568359375
+        ],
+        "guidance": {
+          "x_mm": 4.296215057373047,
+          "y_mm": -4.161540985107422,
+          "angle_deg": 3.176107406616211,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 32,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          36.60242830374768,
+          25.722294954720837
+        ],
+        "angle_deg": -1.9658311366164796,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.349531173706055,
+          20.33582878112793
+        ],
+        "guidance": {
+          "x_mm": -3.1579055786132812,
+          "y_mm": 1.0135917663574219,
+          "angle_deg": -1.9097900390625,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 33,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          39.43642236962667,
+          25.684911919245565
+        ],
+        "angle_deg": 22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.458629608154297,
+          20.433530807495117
+        ],
+        "guidance": {
+          "x_mm": -0.36548614501953125,
+          "y_mm": 0.8690013885498047,
+          "angle_deg": 22.249635696411133,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 34,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          35.04028243493043,
+          28.721769142705423
+        ],
+        "angle_deg": -4.116121798329372,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 35,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          38.379495588837244,
+          24.584955561033528
+        ],
+        "angle_deg": 6.9601096135970035,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.20246696472168,
+          20.431289672851562
+        ],
+        "guidance": {
+          "x_mm": -1.4914169311523438,
+          "y_mm": -0.22968292236328125,
+          "angle_deg": 6.72011137008667,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 36,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          36.80633091224169,
+          23.982367607356686
+        ],
+        "angle_deg": 6.301318457118047,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.517112731933594,
+          20.432353973388672
+        ],
+        "guidance": {
+          "x_mm": -3.0465164184570312,
+          "y_mm": -0.8314170837402344,
+          "angle_deg": 6.343289375305176,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 37,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          42.04153031613569,
+          26.616687208024743
+        ],
+        "angle_deg": -6.8961082202876405,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.20208740234375,
+          20.429908752441406
+        ],
+        "guidance": {
+          "x_mm": 2.1773300170898438,
+          "y_mm": 1.7729911804199219,
+          "angle_deg": -6.708885192871094,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 38,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          39.85761044837868,
+          22.497358590650776
+        ],
+        "angle_deg": -22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.444183349609375,
+          20.140260696411133
+        ],
+        "guidance": {
+          "x_mm": 0.103912353515625,
+          "y_mm": -2.311656951904297,
+          "angle_deg": -22.25574493408203,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 39,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          40.01711957151408,
+          25.393354062064887
+        ],
+        "angle_deg": -5.826012768715385,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 40,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          42.298984952647174,
+          26.934149568018803
+        ],
+        "angle_deg": 7.0707362757533225,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.305450439453125,
+          20.385099411010742
+        ],
+        "guidance": {
+          "x_mm": 2.5068511962890625,
+          "y_mm": 2.0294876098632812,
+          "angle_deg": 7.130719184875488,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 41,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          44.54151102962005,
+          27.679320906355994
+        ],
+        "angle_deg": -5.984468051388767,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.235252380371094,
+          20.399600982666016
+        ],
+        "guidance": {
+          "x_mm": 4.673103332519531,
+          "y_mm": 2.993490219116211,
+          "angle_deg": -5.879295349121094,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 42,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          42.739560485559636,
+          24.388784397520524
+        ],
+        "angle_deg": 5.737566718582119,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.479732513427734,
+          20.402896881103516
+        ],
+        "guidance": {
+          "x_mm": 2.844341278076172,
+          "y_mm": -0.3419647216796875,
+          "angle_deg": 5.711405277252197,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 43,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          41.5229926270091,
+          20.437753236389966
+        ],
+        "angle_deg": 22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.329641342163086,
+          20.429729461669922
+        ],
+        "guidance": {
+          "x_mm": 1.7942962646484375,
+          "y_mm": -4.381174087524414,
+          "angle_deg": 21.813800811767578,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 44,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          36.22565509673871,
+          22.58113074772773
+        ],
+        "angle_deg": -1.5076683548619023,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 45,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          40.73130656947506,
+          25.28491145170203
+        ],
+        "angle_deg": 4.2184038368308165,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.34503746032715,
+          20.32849884033203
+        ],
+        "guidance": {
+          "x_mm": 0.9433517456054688,
+          "y_mm": 0.37328338623046875,
+          "angle_deg": 4.405945777893066,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 46,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          44.05604276690312,
+          20.77226793211743
+        ],
+        "angle_deg": -3.638883905301796,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.40962219238281,
+          20.375547409057617
+        ],
+        "guidance": {
+          "x_mm": 4.175895690917969,
+          "y_mm": -3.9911270141601562,
+          "angle_deg": -3.7193984985351562,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 47,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          42.4180199464256,
+          27.53668817119608
+        ],
+        "angle_deg": -0.5571113883282646,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.32360076904297,
+          20.33099937438965
+        ],
+        "guidance": {
+          "x_mm": 2.672576904296875,
+          "y_mm": 2.678619384765625,
+          "angle_deg": -1.2450790405273438,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 48,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          38.876998722855944,
+          25.9577349002934
+        ],
+        "angle_deg": 22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.457561492919922,
+          20.45061492919922
+        ],
+        "guidance": {
+          "x_mm": -0.9468765258789062,
+          "y_mm": 1.1419792175292969,
+          "angle_deg": 22.243064880371094,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 49,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          38.628541922761364,
+          25.932172601697324
+        ],
+        "angle_deg": -1.728796608573008,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 50,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          42.874226918866235,
+          28.336693345835826
+        ],
+        "angle_deg": 0.7664713629476001,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.338132858276367,
+          20.332199096679688
+        ],
+        "guidance": {
+          "x_mm": 3.00946044921875,
+          "y_mm": 3.508056640625,
+          "angle_deg": 1.2777522802352905,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 51,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          44.42441196270417,
+          23.0713836078874
+        ],
+        "angle_deg": -3.9214938493702736,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.406494140625,
+          20.334352493286133
+        ],
+        "guidance": {
+          "x_mm": 4.5168914794921875,
+          "y_mm": -1.7046737670898438,
+          "angle_deg": -3.81640625,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 52,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          41.15762954802433,
+          25.742262956352917
+        ],
+        "angle_deg": 0.3126972670388568,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.332246780395508,
+          20.004642486572266
+        ],
+        "guidance": {
+          "x_mm": 1.3420066833496094,
+          "y_mm": 0.8405418395996094,
+          "angle_deg": 0.002761267125606537,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 53,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          35.11126994564266,
+          27.18910653767701
+        ],
+        "angle_deg": 22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.331684112548828,
+          20.42920684814453
+        ],
+        "guidance": {
+          "x_mm": -4.777862548828125,
+          "y_mm": 2.3967037200927734,
+          "angle_deg": 21.817626953125,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 54,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          37.224515446718954,
+          25.185799708829535
+        ],
+        "angle_deg": -6.725536448857445,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 55,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          43.322521834549505,
+          28.706456117163413
+        ],
+        "angle_deg": -4.506209618518033,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.3664493560791,
+          20.321001052856445
+        ],
+        "guidance": {
+          "x_mm": 3.3637771606445312,
+          "y_mm": 3.937671661376953,
+          "angle_deg": -4.762199401855469,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 56,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          42.2612604996354,
+          20.16902814478643
+        ],
+        "angle_deg": 7.6928170843084125,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.347835540771484,
+          20.173988342285156
+        ],
+        "guidance": {
+          "x_mm": 2.3420562744140625,
+          "y_mm": -4.659574508666992,
+          "angle_deg": 7.4667277336120605,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 57,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          41.84166703155542,
+          24.683119682175686
+        ],
+        "angle_deg": 5.459738716030053,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.267898559570312,
+          20.43245506286621
+        ],
+        "guidance": {
+          "x_mm": 2.0086402893066406,
+          "y_mm": -0.15911865234375,
+          "angle_deg": 5.190225124359131,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 58,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          38.09011800566245,
+          28.798336092307707
+        ],
+        "angle_deg": 22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.45468521118164,
+          20.3073787689209
+        ],
+        "guidance": {
+          "x_mm": -1.7868499755859375,
+          "y_mm": 3.9208755493164062,
+          "angle_deg": 21.818450927734375,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 59,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          40.877471586663646,
+          28.260661681988353
+        ],
+        "angle_deg": -6.128899516044001,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 60,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          38.24283812701277,
+          20.271463918950047
+        ],
+        "angle_deg": -7.124465800924426,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.51068878173828,
+          20.386444091796875
+        ],
+        "guidance": {
+          "x_mm": -1.5898056030273438,
+          "y_mm": -4.624490737915039,
+          "angle_deg": -7.136497497558594,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 61,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          38.74374282877641,
+          27.719356181922663
+        ],
+        "angle_deg": 2.7382896560090373,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.42256546020508,
+          20.355388641357422
+        ],
+        "guidance": {
+          "x_mm": -0.9921379089355469,
+          "y_mm": 3.005809783935547,
+          "angle_deg": 2.6441617012023926,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 62,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          41.09320166857832,
+          27.47773304015179
+        ],
+        "angle_deg": 4.491158149407557,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.37009048461914,
+          20.384119033813477
+        ],
+        "guidance": {
+          "x_mm": 1.2771377563476562,
+          "y_mm": 2.673276901245117,
+          "angle_deg": 4.487208843231201,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 63,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          40.60079371895568,
+          29.922588688596235
+        ],
+        "angle_deg": 22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.451860427856445,
+          20.30508804321289
+        ],
+        "guidance": {
+          "x_mm": 0.8071746826171875,
+          "y_mm": 5.0944366455078125,
+          "angle_deg": 21.805866241455078,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 64,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          44.43493452740404,
+          25.233396291407427
+        ],
+        "angle_deg": -6.948625001135296,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 65,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          35.473914854634714,
+          25.182221775395867
+        ],
+        "angle_deg": -2.002262986059293,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.349998474121094,
+          20.335535049438477
+        ],
+        "guidance": {
+          "x_mm": -4.491283416748047,
+          "y_mm": 0.346710205078125,
+          "angle_deg": -1.909271240234375,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 66,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          44.23733877935931,
+          26.928181311243268
+        ],
+        "angle_deg": -6.833043580331481,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.23938751220703,
+          20.43006706237793
+        ],
+        "guidance": {
+          "x_mm": 4.508171081542969,
+          "y_mm": 2.0867843627929688,
+          "angle_deg": -6.710166931152344,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 67,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          39.14331499902252,
+          21.269383022000756
+        ],
+        "angle_deg": 0.22376057298724383,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.331687927246094,
+          20.00383949279785
+        ],
+        "guidance": {
+          "x_mm": -0.6577911376953125,
+          "y_mm": -3.4935455322265625,
+          "angle_deg": 0.0014061604160815477,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 68,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          39.843667248465664,
+          28.48326274553086
+        ],
+        "angle_deg": -22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.146894454956055,
+          20.305065155029297
+        ],
+        "guidance": {
+          "x_mm": -0.003498077392578125,
+          "y_mm": 3.6475982666015625,
+          "angle_deg": -21.800491333007812,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 69,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          40.80372375215675,
+          25.268520358194458
+        ],
+        "angle_deg": 5.839386540591461,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 70,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          38.80734845215143,
+          27.238058509120044
+        ],
+        "angle_deg": -2.844970780064342,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.361778259277344,
+          20.3103084564209
+        ],
+        "guidance": {
+          "x_mm": -0.9952468872070312,
+          "y_mm": 2.4335479736328125,
+          "angle_deg": -2.861572265625,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 71,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          37.534136774373025,
+          25.27538835646426
+        ],
+        "angle_deg": 4.175784940006997,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.38053512573242,
+          20.391963958740234
+        ],
+        "guidance": {
+          "x_mm": -2.2267723083496094,
+          "y_mm": 0.5152778625488281,
+          "angle_deg": 4.235565662384033,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 72,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          43.378367344738,
+          20.066751226784092
+        ],
+        "angle_deg": -4.29682791088454,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.34313201904297,
+          20.328889846801758
+        ],
+        "guidance": {
+          "x_mm": 3.6101341247558594,
+          "y_mm": -4.691623687744141,
+          "angle_deg": -4.409423828125,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 73,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          39.92636189288193,
+          23.0336753786143
+        ],
+        "angle_deg": -22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.458660125732422,
+          20.449542999267578
+        ],
+        "guidance": {
+          "x_mm": 0.052562713623046875,
+          "y_mm": -1.7920951843261719,
+          "angle_deg": -22.247589111328125,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 74,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          43.94378268438907,
+          25.207209501819197
+        ],
+        "angle_deg": 2.8224662314127666,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 75,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          37.13291681526198,
+          21.531290468299527
+        ],
+        "angle_deg": 2.6280072403860313,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.361135482788086,
+          20.294052124023438
+        ],
+        "guidance": {
+          "x_mm": -2.6536178588867188,
+          "y_mm": -3.2423133850097656,
+          "angle_deg": 2.861377000808716,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 76,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          43.06331509157495,
+          29.855233061759254
+        ],
+        "angle_deg": 2.918395863491371,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.4213981628418,
+          20.356348037719727
+        ],
+        "guidance": {
+          "x_mm": 3.3416366577148438,
+          "y_mm": 5.006357192993164,
+          "angle_deg": 2.646461248397827,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 77,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          42.85932308542493,
+          25.51171955800315
+        ],
+        "angle_deg": -4.0977888487449885,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.342803955078125,
+          20.38750457763672
+        ],
+        "guidance": {
+          "x_mm": 3.0579833984375,
+          "y_mm": 0.678802490234375,
+          "angle_deg": -4.510108947753906,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 78,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          39.18863087830322,
+          29.151353037895024
+        ],
+        "angle_deg": -22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.456199645996094,
+          20.305145263671875
+        ],
+        "guidance": {
+          "x_mm": -0.5278549194335938,
+          "y_mm": 4.256433486938477,
+          "angle_deg": -21.804115295410156,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 79,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          44.19602387376855,
+          20.716226068065144
+        ],
+        "angle_deg": 6.769301664035018,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 80,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          42.36491331343454,
+          20.184187968264045
+        ],
+        "angle_deg": -7.413860649975254,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.52747917175293,
+          20.158781051635742
+        ],
+        "guidance": {
+          "x_mm": 2.5527000427246094,
+          "y_mm": -4.666286468505859,
+          "angle_deg": -7.5947723388671875,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 81,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          39.34113291105632,
+          22.116283229645298
+        ],
+        "angle_deg": 6.592597107028942,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.23866653442383,
+          20.42982292175293
+        ],
+        "guidance": {
+          "x_mm": -0.491455078125,
+          "y_mm": -2.739990234375,
+          "angle_deg": 6.703985691070557,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 82,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          44.97638752385265,
+          28.547879489264975
+        ],
+        "angle_deg": -4.517017610624968,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.343496322631836,
+          20.388492584228516
+        ],
+        "guidance": {
+          "x_mm": 5.057929992675781,
+          "y_mm": 3.679323196411133,
+          "angle_deg": -4.508331298828125,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 83,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          38.16414319851002,
+          20.446048596762452
+        ],
+        "angle_deg": -22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.143756866455078,
+          20.3046875
+        ],
+        "guidance": {
+          "x_mm": -1.669158935546875,
+          "y_mm": -4.354154586791992,
+          "angle_deg": -21.800575256347656,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 84,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          42.32098238927915,
+          29.002036627318347
+        ],
+        "angle_deg": 3.9886232709116403,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 85,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          35.44322991210999,
+          24.717689954978972
+        ],
+        "angle_deg": -0.5935121792966029,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.32548713684082,
+          20.330156326293945
+        ],
+        "guidance": {
+          "x_mm": -4.327877044677734,
+          "y_mm": 0.011455535888671875,
+          "angle_deg": -1.2424163818359375,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 86,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          41.15462318285784,
+          21.753542435319034
+        ],
+        "angle_deg": 1.8493552474046862,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.20525360107422,
+          20.33839988708496
+        ],
+        "guidance": {
+          "x_mm": 1.2726974487304688,
+          "y_mm": -2.9953250885009766,
+          "angle_deg": 1.5934879779815674,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 87,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          40.7075643041532,
+          27.835393098692364
+        ],
+        "angle_deg": -5.2417281098667665,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.391002655029297,
+          20.08000946044922
+        ],
+        "guidance": {
+          "x_mm": 0.9481430053710938,
+          "y_mm": 3.0069580078125,
+          "angle_deg": -5.084144592285156,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 88,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          37.062453097898505,
+          27.03187554594811
+        ],
+        "angle_deg": 22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.45947265625,
+          20.43418312072754
+        ],
+        "guidance": {
+          "x_mm": -2.6993789672851562,
+          "y_mm": 2.202159881591797,
+          "angle_deg": 22.248537063598633,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 89,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          40.75777141810033,
+          27.699388396579856
+        ],
+        "angle_deg": 3.6979073994298837,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 90,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          38.72332779843247,
+          26.818971075342127
+        ],
+        "angle_deg": 0.2964274891844294,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.000396728515625,
+          20.3353271484375
+        ],
+        "guidance": {
+          "x_mm": -1.1575813293457031,
+          "y_mm": 2.008068084716797,
+          "angle_deg": 0.006354008335620165,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 91,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          37.83083057667836,
+          29.102509732720694
+        ],
+        "angle_deg": 5.10903869981081,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.45875930786133,
+          20.37895965576172
+        ],
+        "guidance": {
+          "x_mm": -1.9899215698242188,
+          "y_mm": 4.326118469238281,
+          "angle_deg": 4.773439407348633,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 92,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          41.00864296185095,
+          20.758518597483633
+        ],
+        "angle_deg": -2.3948675562056128,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          30.471471786499023,
+          20.337894439697266
+        ],
+        "guidance": {
+          "x_mm": 1.1757431030273438,
+          "y_mm": -4.159385681152344,
+          "angle_deg": -2.5508346557617188,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 93,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          44.85490376352255,
+          25.431781445223187
+        ],
+        "angle_deg": -22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.454084396362305,
+          20.304241180419922
+        ],
+        "guidance": {
+          "x_mm": 5.140037536621094,
+          "y_mm": 0.5890464782714844,
+          "angle_deg": -21.80425262451172,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 94,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          37.39670925551203,
+          27.886930447941374
+        ],
+        "angle_deg": 3.5527128142444884,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    },
+    {
+      "label": {
+        "seed": 95,
+        "defect": "good",
+        "acceptable": true,
+        "centre_mm": [
+          40.41456507390793,
+          29.133074665576334
+        ],
+        "angle_deg": -4.381431246227672,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": true,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.36814308166504,
+          20.384502410888672
+        ],
+        "guidance": {
+          "x_mm": 0.6109161376953125,
+          "y_mm": 4.343605041503906,
+          "angle_deg": -4.48492431640625,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": true
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 96,
+        "defect": "oversize",
+        "acceptable": false,
+        "centre_mm": [
+          42.29169022251627,
+          27.338896032454386
+        ],
+        "angle_deg": 0.7727371052045005,
+        "width_mm": 36.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": false,
+          "orientation": true,
+          "hole": true
+        },
+        "dimensions_mm": [
+          36.337432861328125,
+          20.33370590209961
+        ],
+        "guidance": {
+          "x_mm": 2.34259033203125,
+          "y_mm": 2.504690170288086,
+          "angle_deg": 1.0650180578231812,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 97,
+        "defect": "missing_hole",
+        "acceptable": false,
+        "centre_mm": [
+          41.74273405721834,
+          24.323112443308638
+        ],
+        "angle_deg": 0.3117117046159379,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": true,
+          "hole": false
+        },
+        "dimensions_mm": [
+          29.998964309692383,
+          20.00458526611328
+        ],
+        "guidance": {
+          "x_mm": 1.8416519165039062,
+          "y_mm": -0.4917755126953125,
+          "angle_deg": -0.00251007080078125,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 98,
+        "defect": "rotated",
+        "acceptable": false,
+        "centre_mm": [
+          44.43655541011795,
+          28.513309172670294
+        ],
+        "angle_deg": 22.0,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": true,
+          "dimension": true,
+          "orientation": false,
+          "hole": true
+        },
+        "dimensions_mm": [
+          30.444669723510742,
+          20.125192642211914
+        ],
+        "guidance": {
+          "x_mm": 4.5829925537109375,
+          "y_mm": 3.6820640563964844,
+          "angle_deg": 22.251359939575195,
+          "frame": "checkerboard plane, X right, Y down, angle clockwise",
+          "valid": false
+        }
+      }
+    },
+    {
+      "label": {
+        "seed": 99,
+        "defect": "absent",
+        "acceptable": false,
+        "centre_mm": [
+          40.06030674548394,
+          25.65091631784488
+        ],
+        "angle_deg": 0.19065535507282938,
+        "width_mm": 30.0,
+        "height_mm": 20.0
+      },
+      "inspection": {
+        "schema": 1,
+        "pass": false,
+        "checks": {
+          "presence": false
+        },
+        "guidance": null
+      }
+    }
+  ],
+  "evidence_run": "https://github.com/jackaI1/ros2-lab-gantry/actions/runs/42325322425",
+  "source_commit": "fa14e37"
+}

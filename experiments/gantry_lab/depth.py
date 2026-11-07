@@ -108,4 +108,28 @@ def demo(output):
 if __name__=='__main__':
     import argparse
     parser=argparse.ArgumentParser();parser.add_argument('--output',default='output/depth')
-    print(json.dumps(demo(parser.parse_args().output),indent=2))
+    parser.add_argument('--depth',help='Optional .npy or .npz axial depth image in metres')
+    parser.add_argument('--model',help='Optional reference part .ply in model coordinates')
+    args=parser.parse_args()
+    if args.depth:
+        loaded=np.load(args.depth)
+        if isinstance(loaded,np.lib.npyio.NpzFile):
+            with loaded:
+                if 'intrinsics' in loaded and not np.allclose(loaded['intrinsics'],INTRINSICS):
+                    raise ValueError('This fixed-camera experiment requires the documented intrinsics')
+                depth=loaded['depth_m'].copy()
+        else:
+            depth=loaded
+        model=o3d.io.read_point_cloud(args.model) if args.model else cloud(
+            project(render(pose((0,0,.92)),include_plane=False))-[0,0,.92])
+        clusters,plane=segment(depth)
+        parts=[]
+        for index,candidate in enumerate(clusters):
+            matrix,metrics=register(model,candidate,voxel=.004,seed=index)
+            parts.append({'cluster':index,'model_to_camera':matrix.tolist(),**metrics})
+        result={'source':args.depth,'bin_plane':None if plane is None else list(plane),'parts':parts}
+        output=Path(args.output);output.mkdir(parents=True,exist_ok=True)
+        (output/'processed-depth.json').write_text(json.dumps(result,indent=2)+'\n')
+    else:
+        result=demo(args.output)
+    print(json.dumps(result,indent=2))

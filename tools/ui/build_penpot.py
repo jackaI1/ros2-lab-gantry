@@ -156,10 +156,11 @@ def run(output):
     (output/'pendant.penpot').write_bytes(archive.content)
     # Re-import the actual export to prove it is a usable Penpot file.
     imported=session.post(BASE+'/api/rpc/command/import-binfile',data={
-        'name':'Round-trip pendant','project-id':project_id,'version':'3'},
+        'name':'Round-trip pendant','project-id':project_id},
         files={'file':('pendant.penpot',archive.content,'application/zip')},
         headers={'Accept':'text/event-stream'},timeout=180)
-    imported.raise_for_status()
+    if not imported.ok:
+        raise RuntimeError(f'Penpot import HTTP {imported.status_code}: {imported.text[:3000]}')
     if 'event: error' in imported.text or 'event: end' not in imported.text:
         raise RuntimeError('Penpot round-trip import failed: '+imported.text[:1500])
     from playwright.sync_api import sync_playwright
