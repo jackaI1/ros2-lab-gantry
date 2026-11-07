@@ -138,6 +138,21 @@
       }
     },
     {
+      "name": "Record dispense",
+      "screen": "Teach point",
+      "kind": "command",
+      "payload": {
+        "op": "record",
+        "name": "dispense",
+        "frame": "joint",
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
       "name": "Delete approach",
       "screen": "Teach point",
       "kind": "command",
@@ -156,13 +171,45 @@
       }
     },
     {
-      "name": "Move to approach",
+      "name": "Run taught cycle",
       "screen": "Run program",
       "kind": "program",
-      "payload": {
-        "op": "move",
-        "point": "approach"
-      }
+      "payload": [
+        {
+          "op": "wait_di",
+          "channel": 0,
+          "value": true,
+          "timeout": 30
+        },
+        {
+          "op": "move",
+          "point": "approach"
+        },
+        {
+          "op": "move",
+          "point": "dispense",
+          "offset": [
+            0.001,
+            0,
+            0
+          ]
+        },
+        {
+          "op": "set_do",
+          "channel": 1,
+          "value": true
+        },
+        {
+          "op": "move",
+          "point": "approach"
+        },
+        {
+          "op": "set_do",
+          "channel": 1,
+          "value": false
+        }
+      ],
+      "program_file": "examples/taught-cycle.json"
     },
     {
       "name": "Set ready input",

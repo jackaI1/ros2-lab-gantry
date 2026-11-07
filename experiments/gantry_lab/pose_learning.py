@@ -54,7 +54,7 @@ def validate_dataset(root):
                     raise ValueError('Expected 96x96 render and mask')
         with Image.open(root/record['image']) as image:
             pixels=np.asarray(image.convert('RGB'))
-            if float(pixels.std())<4:
+            if float(pixels.mean(axis=2).std())<.5:
                 raise ValueError('RGB image lacks visible part contrast')
             image_fingerprints.add(hashlib.sha256(pixels.tobytes()).digest())
         with Image.open(root/record['mask']) as mask:

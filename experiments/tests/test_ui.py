@@ -23,7 +23,7 @@ def test_native_boards_components_and_api_encoding():
     native=importlib.util.module_from_spec(spec);spec.loader.exec_module(native)
     design=json.loads((ROOT/'tools/ui/design.json').read_text())
     changes,frames,buttons=native.create_shapes(design,native.uid('file'),native.uid('page'))
-    assert len(buttons)==19 and len(frames)==5
+    assert len(buttons)==20 and len(frames)==5
     assert len([c for c in changes if c['type']=='add-component'])==2
     objects=[c['obj'] for c in changes if c['type']=='add-obj']
     ids={o['id'] for o in objects}
@@ -32,3 +32,11 @@ def test_native_boards_components_and_api_encoding():
     assert any(o.get('interactions') for o in objects)
     assert native.decode_keys({'defaultTeamId':'id'})=={'default-team-id':'id'}
     assert native.export_url({"~#'":'~rhttp://localhost:9001/assets/by-id/abc'}).endswith('/abc')
+
+
+
+def test_program_design_cannot_drift_from_the_runnable_cycle():
+    design=json.loads((ROOT/'tools/ui/design.json').read_text())
+    action=next(a for a in design['actions'] if a['name']=='Run taught cycle')
+    action['payload'][0]['timeout']=20
+    assert any('differs from the working example' in error for error in module.check(design))

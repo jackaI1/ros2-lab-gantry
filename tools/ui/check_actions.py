@@ -34,11 +34,16 @@ def check(design=None):
         if kind=='command' and payload.get('op') not in commands:
             errors.append(action['name']+': no server command')
         elif kind=='program':
-            if payload.get('op') not in program_ops:
+            instructions=payload if isinstance(payload,list) else [payload]
+            if any(not isinstance(item,dict) or item.get('op') not in program_ops for item in instructions):
                 errors.append(action['name']+': no program instruction')
             else:
+                if action.get('program_file') and instructions!=json.loads((ROOT/action['program_file']).read_text()):
+                    errors.append(action['name']+': design differs from the working example')
                 pendant=Pendant();pendant.record('approach',(.04,.04,.01),'joint',[0,0,0])
-                try:pendant.prepare([payload],(.04,.04,.01),0)
+                pendant.record('dispense',(.04,.04,.03),'joint',[0,0,0])
+                if isinstance(payload,list):pendant.mode='auto'
+                try:pendant.prepare(instructions,(.04,.04,.01),0)
                 except ValueError as exc:errors.append(action['name']+': '+str(exc))
         elif kind=='service':
             endpoint=action['endpoint']
@@ -51,5 +56,5 @@ def check(design=None):
 
 
 if __name__=='__main__':
-    errors=check();print('\n'.join(errors) if errors else 'All 19 design actions map to the working server')
+    errors=check();print('\n'.join(errors) if errors else 'All 20 design actions map to the working server')
     raise SystemExit(bool(errors))

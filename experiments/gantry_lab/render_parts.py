@@ -96,7 +96,7 @@ def render_dataset(output,train=512,test=128):
                 check=bpy.data.images.load(str(folder/image),check_existing=False)
                 pixels=np.array(check.pixels[:]).reshape(-1,4)[:,:3]
                 bpy.data.images.remove(check)
-                if np.std(pixels)<.015:
+                if pixels.mean(axis=1).std()<.015:
                     raise RuntimeError('Rendered RGB lacks visible geometry; check lights and colour configuration')
             generated=folder/f'{i:04d}-mask-0001.png'
             generated.rename(folder/mask_name)

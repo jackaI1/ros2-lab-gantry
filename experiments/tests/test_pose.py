@@ -51,8 +51,9 @@ def test_network_training_changes_weights():
 
 
 
-def test_blank_render_is_rejected_before_training(tmp_path):
-    Image.new('RGB',(96,96),(0,0,0)).save(tmp_path/'rgb.png')
+@pytest.mark.parametrize('colour',[(0,0,0),(30,100,150)])
+def test_blank_render_is_rejected_before_training(tmp_path,colour):
+    Image.new('RGB',(96,96),colour).save(tmp_path/'rgb.png')
     Image.new('L',(96,96),255).save(tmp_path/'mask.png')
     record={'seed':1,'image':'rgb.png','mask':'mask.png','rotation':np.eye(3).tolist(),
             'translation_m':[0,0,.65],'split':'narrow'}
