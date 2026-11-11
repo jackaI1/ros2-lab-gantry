@@ -1,0 +1,3 @@
+#!/usr/bin/env python3
+from gantry_control.plate_guide import main
+main()

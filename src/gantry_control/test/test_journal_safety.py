@@ -58,6 +58,6 @@ def test_unconfirmed_stop_blocks_new_protocol_and_program():
     from rclpy.action import GoalResponse
     state=SimpleNamespace(lock=threading.RLock(),busy=False,fault='',position=(.04,.04,.01),
         last_state=time.monotonic(),stop_barrier=SimpleNamespace(pending={object()}))
-    request=SimpleNamespace(wells=['A1'],volume_ul=20.)
+    request=SimpleNamespace(wells=['A1'],volume_ul=20.,offset_x_m=0.,offset_y_m=0.,yaw_rad=0.)
     assert ProtocolServer.goal(state,request)==GoalResponse.REJECT
     assert ProtocolServer.program_goal(state,SimpleNamespace())==GoalResponse.REJECT

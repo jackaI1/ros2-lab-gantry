@@ -23,7 +23,9 @@ def replay(node, manifest_path, *, simulation=False, timeout=90):
     from gantry_control.protocol import JOINTS, limit_fault, validate
     manifest, events, _ = load_run(manifest_path)
     schedule = replay_schedule(events)
-    validate(**dict(wells=manifest['request']['wells'], volume=manifest['request']['volume_ul']))
+    request = manifest['request']
+    validate(request['wells'], request['volume_ul'], request.get('offset_x_m', 0.0),
+             request.get('offset_y_m', 0.0), request.get('yaw_rad', 0.0))
     if limit_fault(manifest['initial_position']):
         raise ValueError('Unsafe initial position')
     clients = []

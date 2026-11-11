@@ -154,7 +154,7 @@ class ProtocolServer(Node):
 
     def goal(self, request):
         try:
-            validate(request.wells, request.volume_ul)
+            validate(request.wells, request.volume_ul, request.offset_x_m, request.offset_y_m, request.yaw_rad)
         except ValueError as exc:
             self.get_logger().warning(str(exc))
             return GoalResponse.REJECT
@@ -351,7 +351,9 @@ class ProtocolServer(Node):
         try:
             with self.lock:
                 self.recorder = RunRecorder(self.log_dir, run_id,
-                    {'wells': list(handle.request.wells), 'volume_ul': handle.request.volume_ul},
+                    {'wells': list(handle.request.wells), 'volume_ul': handle.request.volume_ul,
+                     'offset_x_m': handle.request.offset_x_m, 'offset_y_m': handle.request.offset_y_m,
+                     'yaw_rad': handle.request.yaw_rad},
                     self.position, self.sim_time)
                 self.log = path.open('w', newline='')
                 self.writer = csv.writer(self.log)
@@ -363,7 +365,8 @@ class ProtocolServer(Node):
                 for well in handle.request.wells:
                     with self.lock:
                         current = self.position
-                    for phase, target in waypoints(well, current):
+                    pose = (handle.request.offset_x_m, handle.request.offset_y_m, handle.request.yaw_rad)
+                    for phase, target in waypoints(well, current, pose):
                         reason = self.interrupted(handle)
                         if reason:
                             raise RuntimeError(reason)

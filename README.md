@@ -157,6 +157,56 @@ For full part pose, I rendered 1,152 labelled images in Blender and trained two 
 
 [The measured reports](docs/results/) include every seed, failure breakdowns and the producing CI runs. The [experiment guide](docs/experiments.md) gives exact commands and explains each metric.
 
+## Find the plate with the camera
+
+Fixed well coordinates break as soon as a plate sits a few millimetres away from where I taught it. So I added a simulated camera above the work area. It looks straight down at the plate and sends an image every fifth of a second.
+
+A small neural network reads each image and estimates how far the plate has moved sideways and how far it has turned. The network is a PyTorch model, which means it learns the mapping from examples instead of from rules I wrote by hand. I train it on 1,500 new synthetic camera frames per epoch, each with different lighting, plate position, a slight tilt, and sometimes a missing or half-covered plate.
+
+The protocol then visits the wells at the corrected position. When the camera is unsure, the run uses the taught position instead and the printed message says why. The camera has to agree with itself over five frames before I trust it, so one bad frame does not move the robot.
+
+Start the simulator with the camera world:
+
+```sh
+docker run -d --rm --name gantry-vision -v "$PWD/logs:/logs" lab-gantry \
+  ros2 launch gantry_control simulation.launch.py vision:=true log_dir:=/logs
+```
+
+Wait about a minute for it to start. Then ask the camera where the plate is, without moving the robot:
+
+```sh
+docker exec gantry-vision /ws/tools/entrypoint.sh \
+  ros2 run gantry_control plate_guide --once --wells A1 H12
+```
+
+It prints one line such as `plate pose from camera: x=0.41 mm y=-0.22 mm yaw=0.03 deg (frames agree)`, or `plate pose from taught: ...` with the reason. To run a protocol at the position the camera sees, leave out `--once` and give the wells and volume:
+
+```sh
+docker exec gantry-vision /ws/tools/entrypoint.sh \
+  ros2 run gantry_control plate_guide --wells A1 B2 --volume 50
+docker stop gantry-vision
+```
+
+To train the detector yourself, or to see its measured accuracy, use the separate `vision` folder. It renders the scenes, trains, scores 300 held-out scenes that are different from the training scenes and that move the plate about 40% further, and writes an ONNX file, which is a standard format that any runtime can load:
+
+```sh
+python -m venv .venv && . .venv/bin/activate
+pip install './vision[learning]'
+python -m gantry_vision.train --output output/vision --epochs 20 --samples 1500
+```
+
+The last full CI training run used 20 epochs of fresh frames. It scored 300 held-out scenes, 229 of them with a clearly visible plate, that moved the plate further than training did:
+
+- Plate position error averaged 1.0 mm, with 2.2 mm at the 95th percentile.
+- Turn error averaged 0.8 degrees.
+- Error across all 96 well centres averaged 1.2 mm, with 2.9 mm at the 95th percentile and 6.0 mm at worst.
+- All 229 visible plates passed the 80% confidence check, and none of the 71 scenes without a clear plate passed.
+- The exported ONNX file gives the same outputs as the PyTorch model to within 0.000003.
+
+In the Gazebo simulator, with the plate in its taught position, the live camera reported x = -0.37 mm, y = 0.38 mm and a turn of 0.24 degrees. These numbers are from synthetic images only.
+
+The training images come from a renderer that uses the same camera pose and lens as the Gazebo camera, not from Gazebo's own renderer. Gazebo is too slow for thousands of lighting and plate-position changes in a CI job, so I render the training frames separately and check the live camera in the simulator. [The design notes](docs/vision.md) describe the decision rules, the labels and the limits. The detector has only seen synthetic images, so it has not been tested on a real camera.
+
 ## Tests and CI
 
 ```sh
@@ -165,7 +215,9 @@ docker run --rm --name gantry-test lab-gantry /ws/tools/test.sh
 
 The test suite builds and runs the real Gazebo model. The Python control cases check plate geometry, safe move ordering, invalid inputs, all axis limits, frame directions, point offsets, full-path tooling checks, and speed and acceleration limits. Eleven launch cases bring up the full system and check a two-well run, measured motion and tracking CSVs, cancellation, overlapping goals, emergency stop, injected and position-derived limit trips, recovery, paused-simulator feedback loss, measured pendant jogging and replay, teach stepping, digital input waits, digital outputs, E-stop in both pendant modes, and rejected unsafe programs.
 
-GitHub Actions builds the Docker image and runs the same tests on Linux for pull requests and commits to `main`. I keep the container headless so the tests need neither a display nor a GPU. The ROS build runs 66 Python control and transport cases, four GoogleTest cases and eleven Gazebo launch cases. The detailed test count and measured tracking results are recorded in [validation](docs/validation.md).
+GitHub Actions builds the Docker image and runs the same tests on Linux for pull requests and commits to `main`. The camera world is built there too, and the image trains the detector during the build. I keep the container headless so the tests need neither a display nor a GPU. The ROS build runs 66 Python control and transport cases, four GoogleTest cases and eleven Gazebo launch cases. The detailed test count and measured tracking results are recorded in [validation](docs/validation.md).
 
+
+The well-plate workflow runs 16 camera, renderer, dataset, decoding and training cases and 43 guide and protocol cases, then the full training run and its held-out scoring. The Gazebo job also checks the live overhead camera. In the most recent run, the ROS test suite reported 110 cases with no failures.
 
 The separate perception and learning workflow runs 80 Python cases for the existing control logic, geometry, inspection and documentation contracts, plus eight learning and pose-math cases. It checks known-transform registration and loop closure, a headless PPO training run with a 20-seed PD comparison, and real Blender rendering followed by two pose-model training runs. It also creates the native Penpot design in a disposable instance, exports and reimports it, tests its clickable flow, and checks all 20 action mappings against the working server. I keep the measured reports and plots in [the experiment results](docs/results/) and the full run evidence in GitHub Actions artifacts. Generated scans and images are labelled as synthetic throughout.

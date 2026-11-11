@@ -8,7 +8,7 @@ permissions:
 jobs:
   gazebo:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - name: Build ROS packages in Docker
@@ -20,6 +20,14 @@ jobs:
           mkdir -p logs
           docker run --name gantry-demo --rm -v "$PWD/logs:/logs" lab-gantry \
             /ws/tools/demo.sh --wells A1 A2 B2 --volume 50
+      - name: Find the well plate in the simulated overhead camera
+        run: |
+          docker run -d --name gantry-vision --rm -v "$PWD/logs:/logs" lab-gantry \
+            ros2 launch gantry_control simulation.launch.py vision:=true log_dir:=/logs
+          docker exec gantry-vision /ws/tools/entrypoint.sh bash -c \
+            'for i in $(seq 1 60); do ros2 topic list | grep -qx /overhead/image && break; sleep 2; done; ros2 run gantry_control plate_guide --once --wells A1 --timeout 90' \
+            | tee logs/plate-guide.txt
+          grep -q "plate pose from camera" logs/plate-guide.txt
       - name: Save tracking measurements and test reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -28,6 +36,6 @@ jobs:
           path: |
             logs/
             test-results/
-      - name: Clean up owned container on failure
+      - name: Clean up owned containers
         if: always()
-        run: docker rm -f gantry-ci gantry-demo 2>/dev/null || true
+        run: docker rm -f gantry-ci gantry-demo gantry-vision 2>/dev/null || true
