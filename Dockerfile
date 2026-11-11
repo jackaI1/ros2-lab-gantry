@@ -1,9 +1,10 @@
 # Stage 1 trains the well-plate detector on CPU and exports ONNX. Linux only; GitHub Actions builds it.
 FROM python:3.11-slim-bookworm AS trainer
 COPY vision /vision
+COPY src/gantry_description/worlds/lab_vision.sdf /world/lab_vision.sdf
 RUN pip install --no-cache-dir torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu && \
     pip install --no-cache-dir '/vision[learning]' && \
-    python -m gantry_vision.train --output /models --epochs 12 --samples 1200
+    python -m gantry_vision.train --output /models --epochs 12 --samples 1200 --world /world/lab_vision.sdf
 
 FROM ros:jazzy-ros-base
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]

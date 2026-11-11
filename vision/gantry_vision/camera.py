@@ -30,9 +30,12 @@ def rpy_matrix(roll, pitch, yaw):
     return rz @ ry @ rx
 
 
-def load_camera(world=WORLD):
-    """Read the overhead camera's pose, field of view and image size from the SDF world."""
-    root = ET.parse(world).getroot()
+def load_camera(world=None):
+    """Read the overhead camera's pose, field of view and image size from the SDF world.
+
+    Defaults to the lab_vision.sdf in this repository. Installed copies must pass their world file.
+    """
+    root = ET.parse(Path(world) if world else WORLD).getroot()
     model = next(m for m in root.iter('model') if m.get('name') == 'overhead_camera')
     pose = np.array([float(v) for v in model.findtext('pose').split()])
     sensor = next(s for s in model.iter('sensor') if s.get('type') == 'camera')

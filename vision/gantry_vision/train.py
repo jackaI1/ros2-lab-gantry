@@ -69,13 +69,13 @@ def score(raw, samples):
     }
 
 
-def train(output, epochs=20, samples=1500, seed=0, held_out=300, verbose=True):
+def train(output, epochs=20, samples=1500, seed=0, held_out=300, verbose=True, world=None):
     import torch
     from gantry_vision.model import PlateNet
     torch.manual_seed(seed)
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
-    camera = load_camera()
+    camera = load_camera(world)
     model = PlateNet()
     optimiser = torch.optim.AdamW(model.parameters(), lr=2e-3, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.OneCycleLR(optimiser, max_lr=2e-3, total_steps=epochs * ((samples + 31) // 32))
@@ -137,8 +137,9 @@ def main():
     parser.add_argument('--output', default='artifacts/vision')
     parser.add_argument('--epochs', type=int, default=20)
     parser.add_argument('--samples', type=int, default=1500)
+    parser.add_argument('--world', default=None, help='lab_vision.sdf; defaults to this repository copy')
     args = parser.parse_args()
-    metrics = train(args.output, epochs=args.epochs, samples=args.samples)
+    metrics = train(args.output, epochs=args.epochs, samples=args.samples, world=args.world)
     print(json.dumps({k: v for k, v in metrics.items() if k != 'train_loss_history'}, indent=2))
 
 

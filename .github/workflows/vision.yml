@@ -29,7 +29,7 @@ jobs:
           python tools/make_vision_world.py
           git diff --exit-code -- src/gantry_description/worlds/lab_vision.sdf
       - name: Train on rendered scenes, score held-out scenes and export ONNX
-        run: python -m gantry_vision.train --output artifacts/vision --epochs 20 --samples 1500
+        run: python -m gantry_vision.train --output artifacts/vision --epochs 20 --samples 1500 --world src/gantry_description/worlds/lab_vision.sdf
       - uses: actions/upload-artifact@v4
         if: always()
         with: {name: vision-evidence, path: artifacts/vision/}
