@@ -157,6 +157,48 @@ For full part pose, I rendered 1,152 labelled images in Blender and trained two 
 
 [The measured reports](docs/results/) include every seed, failure breakdowns and the producing CI runs. The [experiment guide](docs/experiments.md) gives exact commands and explains each metric.
 
+## Find the plate with the camera
+
+Fixed well coordinates break as soon as a plate sits a few millimetres away from where I taught it. So I added a simulated camera above the work area. It looks straight down at the plate and sends an image every fifth of a second.
+
+A small neural network reads each image and estimates how far the plate has moved sideways and how far it has turned. The network is a PyTorch model, which means it learns the mapping from examples instead of from rules I wrote by hand. I trained it on about 1,200 synthetic camera frames per epoch, each with different lighting, plate position, a slight tilt, and sometimes a missing or half-covered plate.
+
+The protocol then visits the wells at the corrected position. When the camera is unsure, the run uses the taught position instead and the printed message says why. The camera has to agree with itself over five frames before I trust it, so one bad frame does not move the robot.
+
+Start the simulator with the camera world:
+
+```sh
+docker run -d --rm --name gantry-vision -v "$PWD/logs:/logs" lab-gantry \
+  ros2 launch gantry_control simulation.launch.py vision:=true log_dir:=/logs
+```
+
+Wait about a minute for it to start. Then ask the camera where the plate is, without moving the robot:
+
+```sh
+docker exec gantry-vision /ws/tools/entrypoint.sh \
+  ros2 run gantry_control plate_guide --once --wells A1 H12
+```
+
+It prints one line such as `plate pose from camera: x=0.41 mm y=-0.22 mm yaw=0.03 deg (frames agree)`, or `plate pose from taught: ...` with the reason. To run a protocol at the position the camera sees, leave out `--once` and give the wells and volume:
+
+```sh
+docker exec gantry-vision /ws/tools/entrypoint.sh \
+  ros2 run gantry_control plate_guide --wells A1 B2 --volume 50
+docker stop gantry-vision
+```
+
+To train the detector yourself, or to see its measured accuracy, use the separate `vision` folder. It renders the scenes, trains, scores 300 held-out scenes that are different from the training scenes and that move the plate about 40% further, and writes an ONNX file, which is a standard format that any runtime can load:
+
+```sh
+python -m venv .venv && . .venv/bin/activate
+pip install './vision[learning]'
+python -m gantry_vision.train --output output/vision --epochs 20 --samples 1500
+```
+
+METRICS_PLACEHOLDER
+
+The training images come from a renderer that uses the same camera pose and lens as the Gazebo camera, not from Gazebo's own renderer. Gazebo is too slow for thousands of lighting and plate-position changes in a CI job, so I render the training frames separately and check the live camera in the simulator. [The design notes](docs/vision.md) describe the decision rules, the labels and the limits. The detector has only seen synthetic images, so it has not been tested on a real camera.
+
 ## Tests and CI
 
 ```sh

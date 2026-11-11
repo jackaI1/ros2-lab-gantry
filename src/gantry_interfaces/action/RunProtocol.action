@@ -1,6 +1,11 @@
 # A dispense-only protocol on a 96-well plate. Liquid is an event, not fluid physics.
+# The optional plate pose moves the whole plate from its taught position: metres in X and Y,
+# then a turn in radians about the plate centre. Zero means the plate is where it was taught.
 string[] wells
 float64 volume_ul
+float64 offset_x_m 0.0
+float64 offset_y_m 0.0
+float64 yaw_rad 0.0
 ---
 bool success
 uint32 completed_wells
